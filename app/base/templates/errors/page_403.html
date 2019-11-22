@@ -1,0 +1,34 @@
+{% extends "base_site_auth.html" %}
+
+{% block title %} Error 404 {% endblock title %}
+
+{% block content %}
+
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-7">
+          <div class="card bg-secondary shadow border-0">
+            <div class="card-header bg-transparent pb-5">
+
+              <div class="text-muted text-center mt-2 mb-3">
+
+                <h3>Error 403 - Access Denied</h3>
+                <p>Full authentication is required to access this resource.</p>
+
+              </div>
+              
+            </div>
+            <div class="card-body text-center px-lg-5 py-lg-5">
+
+                <a href="/">Home</a>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

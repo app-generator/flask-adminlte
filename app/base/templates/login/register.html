@@ -1,0 +1,102 @@
+{% extends "base_site_auth.html" %}
+
+{% block title %} Register {% endblock title %}
+
+{% block pageclass %} register-page {% endblock %}
+
+{% block content %}
+
+<div class="register-box">
+
+    <div class="register-logo">
+        <a href="/"><b>Admin</b>LTE</a>
+    </div>
+
+    <div class="register-box-body">
+
+        {% if success %}
+            
+            <div class="text-center">
+
+                <span class="text-success">{{ success | safe }}</span>
+                
+            </div>
+
+        {% else %}
+
+            <p class="login-box-msg">
+                {% if msg %}
+                    <span class="text-danger">{{ msg | safe }}</span>
+                {% else %}
+                    Register a new membership
+                {% endif %}
+            </p>
+
+            <form role="form" method="post" action="">
+
+                {{ form.hidden_tag() }}
+
+                <div class="form-group has-feedback">
+                    {{ form.username(placeholder="Username", class="form-control") }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+
+                <div class="form-group has-feedback">
+                    {{ form.email(placeholder="Email", class="form-control") }}
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+
+                <div class="form-group has-feedback">
+                    {{ form.password(placeholder="Password", class="form-control", type="password") }}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                        <input type="checkbox"> I agree to the <a href="#">terms</a>
+                        </label>
+                    </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" name="register" class="btn btn-primary btn-block btn-flat">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+
+            <div class="social-auth-links text-center">
+            <p>- OR -</p>
+            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using
+                Facebook</a>
+            <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
+                Google+</a>
+            </div>
+
+            <div class="text-center">
+                Have an account? <a href={{ url_for('base_blueprint.login') }} class="text-center">Login</a>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock content %}
+
+{% block javascripts %}
+
+    <script>
+        $(function () {
+            $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' /* optional */
+            });
+        });
+    </script>
+
+{% endblock %}
