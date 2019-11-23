@@ -1,6 +1,6 @@
 {% extends "base_site.html" %}
 
-{% block title %} WIP {% endblock title %}
+{% block title %} Pace Page {% endblock title %}
 
 {% block stylesheets %}
 <!-- Specific CSS goes HERE -->
@@ -11,12 +11,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        @WIP
+        Pace page
+        <small>Loading example</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Examples</a></li>
-        <li class="active">Blank page</li>
+        <li class="active">Pace page</li>
       </ol>
     </section>
 
@@ -37,7 +38,18 @@
           </div>
         </div>
         <div class="box-body">
-          Start creating your amazing application!
+          Pace loading works automatically on page. You can still implement it with ajax requests by adding this js:
+          <br/><code>$(document).ajaxStart(function() { Pace.restart(); });</code>
+          <br/>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <button type="button" class="btn btn-default btn-lrg ajax" title="Ajax Request">
+                <i class="fa fa-spin fa-refresh"></i>&nbsp; Get External Content
+              </button>
+            </div>
+          </div>
+          <div class="ajax-content">
+          </div>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
@@ -53,5 +65,23 @@
 {% endblock content %}
   
 {% block javascripts %}
-<!-- Specific JS goes HERE -->
+
+  <!-- AdminLTE for demo purposes -->
+  <script src="/static/assets/js/demo.js"></script>
+  <script src="/static/assets/js/pace.min.js"></script>
+
+  <script type="text/javascript">
+    // To make Pace works on Ajax calls
+    $(document).ajaxStart(function () {
+      Pace.restart()
+    })
+    $('.ajax').click(function () {
+      $.ajax({
+        url: '#', success: function (result) {
+          $('.ajax-content').html('<hr>Ajax Request Completed !')
+        }
+      })
+    })
+  </script>
+
 {% endblock %}
