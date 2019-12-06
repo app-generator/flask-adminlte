@@ -93,7 +93,7 @@ Visit `http://localhost:5000` in your browser. The app should be up & running.
 
 ## Support
 
-24/7 Live [support](appseed.us/support) via [Discord](https://discord.gg/fZC6hup) and eMail **< support@appseed.us >**
+24/7 Live [support](https://appseed.us/support) via [Discord](https://discord.gg/fZC6hup) and eMail **< support@appseed.us >**
 
 <br />
 
