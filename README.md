@@ -116,4 +116,4 @@ Visit `http://localhost:5000` in your browser. The app should be up & running.
 <br />
 
 ---
-[Flask Dashboard Argon](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - provided by **AppSeed**
+[Flask Dashboard AdminLTE](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - provided by **AppSeed**
