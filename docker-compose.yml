@@ -5,7 +5,7 @@ services:
     env_file: .env
     build: .
     ports:
-      - "5000:5000"
+      - "5005:5005"
     networks:
       - db_network
       - web_network
@@ -13,7 +13,7 @@ services:
     restart: always
     image: "nginx:latest"
     ports:
-      - "80:80"
+      - "85:85"
     volumes:
       - ./nginx:/etc/nginx/conf.d
     networks:
