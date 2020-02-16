@@ -8,7 +8,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="/"><b>Admin</b>LTE</a>
+        <a href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte">Flask <b>Admin</b>LTE</a>
     </div>
 
     <!-- /.login-logo -->
@@ -19,13 +19,14 @@
                 {{ msg | safe }}
             {% else %}
             <span>
-                Use default credentials: test / pass
+                Use default credentials: <strong>test / pass</strong>
                 <br />
                 OR <a href={{ url_for('base_blueprint.create_user') }} >create your own user</a>
             </span>
             {% endif %}
         </p>
 
+        <br />
         <form method="post" action="">
 
             {{ form.hidden_tag() }}
@@ -60,17 +61,11 @@
 
         </form>
 
-        <div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
-                Facebook</a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-                Google+</a>
-        </div>
-        <!-- /.social-auth-links -->
-
         <div class="text-center">
             Not a member? <a href={{ url_for('base_blueprint.create_user') }} class="text-center">Register</a>
+            <br />
+            <br />
+            <a href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte">Flask <b>Admin</b>LTE</a> - coded by AppSeed.
         </div>
 
     </div>

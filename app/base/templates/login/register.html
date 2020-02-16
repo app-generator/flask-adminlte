@@ -9,7 +9,7 @@
 <div class="register-box">
 
     <div class="register-logo">
-        <a href="/"><b>Admin</b>LTE</a>
+        <a href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte">Flask <b>Admin</b>LTE</a>
     </div>
 
     <div class="register-box-body">
@@ -28,10 +28,15 @@
                 {% if msg %}
                     <span class="text-danger">{{ msg | safe }}</span>
                 {% else %}
-                    Register a new membership
+                <span>
+                    Add your credentials
+                    <br />
+                    OR <a href={{ url_for('base_blueprint.login') }} >authenticate</a> using an existing account
+                </span>
                 {% endif %}
             </p>
 
+            <br />
             <form role="form" method="post" action="">
 
                 {{ form.hidden_tag() }}
@@ -67,16 +72,12 @@
                 </div>
             </form>
 
-            <div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using
-                Facebook</a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using
-                Google+</a>
-            </div>
-
+            <br />
             <div class="text-center">
                 Have an account? <a href={{ url_for('base_blueprint.login') }} class="text-center">Login</a>
+                <br />
+                <br />
+                <a href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte">Flask <b>Admin</b>LTE</a> - coded by AppSeed.
             </div>
 
         {% endif %}
