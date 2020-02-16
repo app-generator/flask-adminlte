@@ -16,6 +16,13 @@
 
 <br />
 
+## Dashboard Links
+
+- [Flask Dashboard AdminLTE](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - the product page
+- [Flask Dashboard AdminLTE](https://flask-dashboard-adminlte.appseed.us/login) - LIVE Demo
+
+<br />
+
 ## Want more? Go PRO!
 
 PRO versions include **Premium UI Kits**, Lifetime updates and **24/7 LIVE Support** (via [Discord](https://discord.gg/fZC6hup))
