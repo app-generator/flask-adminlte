@@ -157,6 +157,60 @@ Visit `http://localhost:8001` in your browser. The app should be up & running.
 
 <br />
 
+## Configuration on Apache using MOD WSGI
+
+Clone the repository to your www directory and go to the repository so that your present working directory would look something like this
+
+```
+/var/www/flask-dashboard-adminlte
+```
+
+Create *wsgi* file named **run.wsgi** in that directory and paste the below code
+
+```python
+# SWAMI KARUPPASWAMI THUNNAI
+
+import sys
+
+sys.path.insert(0, "/var/www/flask-dashboard-adminlte")
+
+from run import app as application
+```
+
+Once you have created the wsgi file it's time to add the virtual host in httpd.conf which is generally present in /etc/httpd/conf/httpd.conf
+
+```
+<VirtualHost *:80>
+                ServerName yourwebsite.com
+                ServerAdmin mail@email.com
+                WSGIScriptAlias / /var/www/flask-dashboard-adminlte/run.wsgi
+                WSGIDaemonProcess flask_admin threads=2 inactivity-timeout=60
+                WSGIProcessGroup flask_admin
+                <Directory /var/www/flask-dashboard-adminlte/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static/ /var/www/flask-dashboard-adminlte/app/base/static/
+                <Directory /var/www/flask-dashboard-adminltei/app/base/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                LogLevel warn
+</VirtualHost>
+```
+
+Provide necessary permissions to create the database by using
+```
+chmod -R 777 /var/www/flask-dashboard-adminlte/
+```
+
+Finally restart the httpd service
+
+```
+service httpd restart
+```
+
+
 ## Credits & Links
 
 <br />
