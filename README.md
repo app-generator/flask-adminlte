@@ -16,8 +16,8 @@
 > Links
 
 - [Flask Dashboard - AdminLTE Design](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - Product page
-- [Flask Dashboard AdminLTE Docs](https://docs.appseed.us/admin-dashboards/flask-dashboard-adminlte) - Documentation
 - [Flask Dashboard AdminLTE Demo](https://flask-dashboard-adminlte.appseed.us/login.html) - LIVE App
+- [Flask Dashboard Boilerplate Docs](https://docs.appseed.us/boilerplate-code/flask-dashboard/) - Referrence Documentation
 - More [Flask Dashboards](https://appseed.us/admin-dashboards/flask) - index hosted by **AppSeed**
 - More [Admin Dashboards](https://appseed.us/admin-dashboards) - index hosted by **AppSeed**
 
