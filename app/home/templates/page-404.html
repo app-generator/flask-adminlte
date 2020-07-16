@@ -1,58 +1,67 @@
-{% extends "base_site.html" %}
+{% extends "layouts/base-fullscreen.html" %}
 
-{% block title %} 404 Page {% endblock title %}
+{% block title %} Error 404 {% endblock %} 
 
+<!-- Element injected in the BODY element -->
+{% block body_class %} login-page {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
-<!-- Specific CSS goes HERE -->
-{% endblock %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="/static/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
 
 {% block content %}
 
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        404 Error Page
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">404 error</li>
-      </ol>
-    </section>
+  <div class="login-box">
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="error-page">
-        <h2 class="headline text-yellow"> 404</h2>
+    <div class="login-logo">
+        <a target="_blank" rel="noopener noreferrer" 
+           href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte">Flask <b>Admin</b>LTE</a>
+    </div>
 
-        <div class="error-content">
-          <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
+    <!-- /.login-logo -->
+    <div class="card">
 
-          <p>
-            We could not find the page you were looking for.
-            Meanwhile, you may <a href="../../index.html">return to dashboard</a> or try using the search form.
-          </p>
+      <div class="card-body login-card-body">
 
-          <form class="search-form">
-            <div class="input-group">
-              <input type="text" name="search" class="form-control" placeholder="Search">
+        <h5 class="login-box-msg">
+          Error 404 - Page not found
+        </h5>
+        <p class="login-box-msg">
+          Please contact support - <a href="/" class="text-center">Home</a>
+        </p>
 
-              <div class="input-group-btn">
-                <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.input-group -->
-          </form>
+        <br />
+        <div class="text-center">
+            &copy; ColorLib 
+            <a target="_blank" rel="noopener noreferrer"
+               href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte"><b>Admin</b>LTE</a> 
+            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>.
         </div>
-        <!-- /.error-content -->
+
       </div>
-      <!-- /.error-page -->
-    </section>
-    <!-- /.content -->
+      <!-- /.login-card-body -->
+    </div>
+
+  </div>
 
 {% endblock content %}
-  
+
+<!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
-<!-- Specific JS goes HERE -->
-{% endblock %}
+
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+{% endblock javascripts %}

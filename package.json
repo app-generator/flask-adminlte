@@ -1,29 +1,22 @@
 {
   "name": "flask-dashboard-adminlte",
-  "version": "1.0.0",
-  "description": "An open-source Flask boilerplate suitable for admin panels.",
-  "scripts": {
-    "lint": "eslint ."
+  "mastertemplate": "boilerplate-code-flask-dashboard",
+  "version": "1.0.1",
+  "description": "Template project - Flask Boilerplate Code",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/app-generator/flask-dashboard-adminlte"
   },
+  "bugs": {
+      "url": "https://github.com/app-generator/flask-dashboard-adminlte/issues",
+      "email": "support@appseed.us"
+  },
+  "author": "AppSeed App Generator <support@appseed.us> (https://appseed.us)",
   "engines": {
-    "node": "8.11.3"
+      "node": ">=10.0.0"
+  },
+  "dependencies": {
   },
   "devDependencies": {
-    "eslint": "5.0.0",
-    "eslint-config-google": "0.9.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/app-generator/flask-dashboard-adminlte"
-  },
-  "keywords": [
-    "flask",
-    "admin-dashboard",
-    "adminlte"
-  ],
-  "author": "AppSeed.us",
-  "contributors": [
-    "AppSeed Support <support@appseed.us>"
-  ],
-  "license": "MIT"
+  }
 }

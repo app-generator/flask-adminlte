@@ -8,6 +8,7 @@ __pycache__/
 
 # database & logs
 *.db
+*.sqlite3
 *.log
 
 # venv
@@ -24,3 +25,4 @@ _templates
 
 # javascript
 package-lock.json
+.vscode/symbols.json

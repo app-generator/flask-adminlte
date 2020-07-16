@@ -1,24 +1,31 @@
 # -*- encoding: utf-8 -*-
 """
-License: MIT
 Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_migrate import Migrate
 from os import environ
 from sys import exit
+from decouple import config
 
 from config import config_dict
 from app import create_app, db
 
-get_config_mode = environ.get('APPSEED_CONFIG_MODE', 'Debug')
+# WARNING: Don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=True)
+
+# The configuration
+get_config_mode = 'Debug' if DEBUG else 'Production'
 
 try:
-    config_mode = config_dict[get_config_mode.capitalize()]
-except KeyError:
-    exit('Error: Invalid APPSEED_CONFIG_MODE environment variable entry.')
+    
+    # Load the configuration using the default values 
+    app_config = config_dict[get_config_mode.capitalize()]
 
-app = create_app(config_mode) 
+except KeyError:
+    exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
+
+app = create_app( app_config ) 
 Migrate(app, db)
 
 if __name__ == "__main__":
