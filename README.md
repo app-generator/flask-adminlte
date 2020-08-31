@@ -2,7 +2,7 @@
 
 > **Open-Source Admin Dashboard** coded in **Flask Framework** by **AppSeed** [Web App Generator](https://appseed.us/app-generator) - Features:
 
-- UI Kit: **AdminLTE** provided by **ColorLib**
+- UI Kit: **[AdminLTE](https://appseed.us/adminlte)** provided by **ColorLib**
 - SQLite, PostgreSQL, SQLAlchemy ORM
 - Alembic (DB schema migrations)
 - Modular design with **Blueprints**
@@ -18,8 +18,7 @@
 - [Flask Dashboard - AdminLTE Design](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - Product page
 - [Flask Dashboard AdminLTE Demo](https://flask-dashboard-adminlte.appseed.us/) - LIVE App
 - [Flask Dashboard Boilerplate Docs](https://docs.appseed.us/boilerplate-code/flask-dashboard/) - Referrence Documentation
-- More [Flask Dashboards](https://appseed.us/admin-dashboards/flask) - index hosted by **AppSeed**
-- More [Admin Dashboards](https://appseed.us/admin-dashboards) - index hosted by **AppSeed**
+- More [AdminLTE](https://appseed.us/adminlte) starters provided by AppSeed
 
 <br />
 
