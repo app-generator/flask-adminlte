@@ -45,7 +45,7 @@
           {{ form.hidden_tag() }}
 
           <div class="input-group mb-3">
-            <input class="form-control" placeholder="Username" type="text" name="username" value="test">
+            {{ form.username(placeholder="Username", class="form-control") }}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -53,7 +53,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input class="form-control" placeholder="Password" type="password" name="password" value="pass">
+            {{ form.password(placeholder="Password", class="form-control", type="password") }}
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
