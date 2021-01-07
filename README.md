@@ -21,7 +21,7 @@ One of the best open-source admin dashboard & control panel theme. Built on top 
 
 - [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte?ref=gh) - product page
 - [AdminLTE Flask Demo](https://flask-dashboard-adminlte.appseed.us/) - LIVE App Deployment
-- More [Flask Dashboards](https://appseed.us/admin-dashboards/flask?ref=gh) provided by AppSeed  
+- [Flask Tutorial](https://github.com/app-generator/tutorial-flask) - Getting started with Flask
 
 <br />
 
