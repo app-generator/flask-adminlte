@@ -1,0 +1,20 @@
+{
+    "name": "flask-dashboard-adminlte",
+    "mastertemplate": "boilerplate-code-flask-dashboard",
+    "version": "1.0.2",
+    "description": "Template project - Flask Boilerplate Code",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/app-generator/flask-dashboard-adminlte"
+    },
+    "bugs": {
+        "url": "https://github.com/app-generator/flask-dashboard-adminlte/issues",
+        "email": "support@appseed.us"
+    },
+    "author": "AppSeed App Generator <support@appseed.us> (https://appseed.us)",
+    "engines": {
+        "node": ">=10.0.0"
+    },
+    "dependencies": {},
+    "devDependencies": {}
+}
