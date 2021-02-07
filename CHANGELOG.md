@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.2] 2020-02-07
+## [1.0.2] 2021-02-07
 ### Improvements 
 
 - Bump UI: [Jinja AdminLTE](https://github.com/app-generator/jinja-adminlte/releases) v1.0.1
