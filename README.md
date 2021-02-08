@@ -13,7 +13,7 @@ One of the best open-source admin dashboard & control panel theme. Built on top 
 - Modular design with **Blueprints**, simple codebase
 - Session-Based authentication (via **flask_login**), Forms validation
 - Deployment scripts: Docker, Gunicorn / Nginx, Heroku
-- Support via **Github** and [Discord](https://discord.gg/fZC6hup).
+- [EULA License](https://github.com/app-generator/license-eula): Free, Basic, Company
 
 <br />
 
