@@ -1,6 +1,6 @@
 # Change Log
 
-## [1.0.3] 2020-02-08
+## [1.0.3] 2021-02-08
 ### Update License
 
 - [EULA License](https://github.com/app-generator/license-eula): Free, Basic, Company
