@@ -11,7 +11,6 @@
 - Modular design with **Blueprints**, simple codebase
 - Session-Based authentication (via **flask_login**), Forms validation
 - Deployment scripts: Docker, Gunicorn / Nginx, Heroku
-- [EULA License](https://github.com/app-generator/license-eula): Free, Basic, Company
 
 <br />
 
