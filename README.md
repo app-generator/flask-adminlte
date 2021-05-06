@@ -19,7 +19,6 @@
 - [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - product page
 - [AdminLTE Flask](https://adminlte-flask.appseed-srv1.com/) - LIVE Deployment
 - [AdminLTE Flask](https://docs.appseed.us/products/flask-dashboards/adminlte) - product documentation
-- [Flask Tutorial](https://github.com/app-generator/tutorial-flask) - Getting started with Flask
 
 <br />
 
