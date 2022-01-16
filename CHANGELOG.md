@@ -1,5 +1,17 @@
 # Change Log
 
+## [1.0.7] 2022-01-16
+### Improvements
+
+- Bump Flask Codebase to [v2stable.0.1](https://github.com/app-generator/boilerplate-code-flask-dashboard/releases)
+- Dependencies update (all packages) 
+  - Flask==2.0.2 (latest stable version)
+  - flask_wtf==1.0.0
+  - jinja2==3.0.3
+  - flask-restx==0.5.1
+- Forms Update:
+  - Replace `TextField` (deprecated) with `StringField`
+
 ## [1.0.6] 2021-11-08
 ### Improvements
 

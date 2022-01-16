@@ -6,39 +6,36 @@ Open-source **[Flask Dashboard](https://appseed.us/admin-dashboards/flask)** gen
 
 > Features
 
-- Up-to-date [dependencies](./requirements.txt): **Flask 2.0.1**
-- [SCSS compilation](#recompile-css) via **Gulp**
-- DBMS: SQLite, PostgreSQL (production) 
-- DB Tools: SQLAlchemy ORM, Flask-Migrate (schema migrations)
-- Modular design with **Blueprints**, simple codebase
+- `Up-to-date dependencies`
+- `DBMS`: SQLite, PostgreSQL (production) 
+- `DB Tools`: SQLAlchemy ORM, Flask-Migrate (schema migrations)
 - Session-Based authentication (via **flask_login**), Forms validation
-- Deployment scripts: Docker, Gunicorn / Nginx, Heroku
+- `Deployment`: **Docker**, Gunicorn / Nginx, HEROKU
+- Support via **Github** (issues tracker) and [Discord](https://discord.gg/fZC6hup).
 
 <br />
 
 > Links
 
-- [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - product page
-- [AdminLTE Flask](https://adminlte-flask.appseed-srv1.com/) - LIVE Deployment
-- [AdminLTE Flask](https://docs.appseed.us/products/flask-dashboards/adminlte) - product documentation
+- 👉 [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte) - product page
+- 👉 [AdminLTE Flask](https://adminlte-flask.appseed-srv1.com/) - LIVE Deployment
+- 👉 [AdminLTE Flask](https://docs.appseed.us/products/flask-dashboards/adminlte) - product documentation
 
 <br />
 
-## Quick Start in [Docker](https://www.docker.com/)
+## ✨ Quick Start in `Docker`
 
 > Get the code
 
 ```bash
-$ git clone https://github.com/app-generator/flask-dashboard-adminlte.git
-$ cd flask-dashboard-adminlte
+$ git clone https://github.com/app-generator/flask-adminlte.git
+$ cd flask-adminlte
 ```
 
 > Start the app in Docker
 
 ```bash
-$ docker-compose pull   # download dependencies 
-$ docker-compose build  # local set up
-$ docker-compose up -d  # start the app 
+$ docker-compose up --build 
 ```
 
 Visit `http://localhost:85` in your browser. The app should be up & running.
@@ -49,12 +46,12 @@ Visit `http://localhost:85` in your browser. The app should be up & running.
 
 <br />
 
-## How to use it
+## ✨ How to use it
 
 ```bash
 $ # Get the code
-$ git clone https://github.com/app-generator/flask-dashboard-adminlte.git
-$ cd flask-dashboard-adminlte
+$ git clone https://github.com/app-generator/flask-adminlte.git
+$ cd flask-adminlte
 $
 $ # Virtualenv modules installation (Unix based systems)
 $ virtualenv env
@@ -92,7 +89,7 @@ $ # Access the dashboard in browser: http://127.0.0.1:5000/
 
 <br />
 
-## Code-base structure
+## ✨ Code-base structure
 
 The project is coded using blueprints, app factory pattern, dual configuration profile (development and production) and an intuitive structure presented bellow:
 
@@ -165,7 +162,7 @@ The project is coded using blueprints, app factory pattern, dual configuration p
 
 <br />
 
-## Recompile CSS
+## ✨ Recompile CSS
 
 To recompile SCSS files, follow this setup:
 
@@ -226,8 +223,8 @@ Steps to deploy on **Heroku**
 
 ```bash
 $ # Clone the source code:
-$ git clone https://github.com/app-generator/flask-dashboard-adminlte.git
-$ cd flask-dashboard-adminlte
+$ git clone https://github.com/app-generator/flask-adminlte.git
+$ cd flask-adminlte
 $
 $ # Check Heroku CLI is installed
 $ heroku -v
@@ -291,7 +288,7 @@ Visit `http://localhost:8001` in your browser. The app should be up & running.
 
 <br />
 
-## Credits & Links
+## ✨ Credits & Links
 
 - [Flask Framework](https://www.palletsprojects.com/p/flask/) - The offcial website
 - [Boilerplate Code](https://appseed.us/boilerplate-code) - Index provided by **AppSeed**

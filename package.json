@@ -1,7 +1,7 @@
 {
     "name": "flask-dashboard-adminlte",
     "mastertemplate": "boilerplate-code-flask-dashboard",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Template project - Flask Boilerplate Code",
     "repository": {
         "type": "git",
