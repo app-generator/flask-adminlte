@@ -7,6 +7,7 @@ Open-source **[Flask Dashboard](https://appseed.us/admin-dashboards/flask)** gen
 > Features
 
 - `Up-to-date dependencies`
+- [SCSS compilation](#recompile-css) via **Gulp**
 - `DBMS`: SQLite, PostgreSQL (production) 
 - `DB Tools`: SQLAlchemy ORM, Flask-Migrate (schema migrations)
 - Session-Based authentication (via **flask_login**), Forms validation
