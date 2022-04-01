@@ -10,3 +10,4 @@ python-decouple==3.5
 gunicorn==20.1.0
 jinja2==3.0.3
 flask-restx==0.5.1
+Werkzeug==2.0.3
