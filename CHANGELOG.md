@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.8] 2022-05-30
+### Improvements
+
+- Built with [AdminLTE Generator](https://appseed.us/generator/adminlte/)
+  - Timestamp: `2022-05-30 20:53`
+
 ## [1.0.7] 2022-01-16
 ### Improvements
 
