@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.10] 2022-11-17
+### Improvements
+
+- Document the usage of [LIVE Deployer](https://appseed.us/go-live/) 
+  - Added a video presentation on README
+
 ## [1.0.9] 2022-11-17
 ### Improvements
 
