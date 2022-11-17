@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.9] 2022-11-17
+### Improvements
+
+- Compatible with [LIVE Deployer](https://appseed.us/go-live/)
+  - `Drag & Drop` deployment service
+
 ## [1.0.8] 2022-05-30
 ### Improvements
 
