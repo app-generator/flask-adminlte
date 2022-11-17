@@ -142,6 +142,14 @@ By default, the app redirects guest users to authenticate. In order to access th
 
 <br />
 
+## `Go LIVE` via [LIVE Deployer]
+
+> This video explains `how to deploy` the product LIVE using a `Drag & Drop` gesture.
+
+https://user-images.githubusercontent.com/51070104/202413982-788482ed-6707-4438-913c-e9a769f429cf.mp4
+
+<br />
+
 ## ✨ Code-base structure
 
 The project is coded using blueprints, app factory pattern, dual configuration profile (development and production) and an intuitive structure presented bellow:
