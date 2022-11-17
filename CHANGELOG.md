@@ -3,8 +3,8 @@
 ## [1.0.9] 2022-11-17
 ### Improvements
 
-- Compatible with [LIVE Deployer](https://appseed.us/go-live/)
-  - `Drag & Drop` deployment service
+- ✅ Compatible with [LIVE Deployer](https://appseed.us/go-live/)
+  - [Deploy Flask MKit with Drag & Drop](https://www.youtube.com/watch?v=oz0iyptxf8k) - `video material`
 
 ## [1.0.8] 2022-05-30
 ### Improvements
