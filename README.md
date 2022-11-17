@@ -142,7 +142,7 @@ By default, the app redirects guest users to authenticate. In order to access th
 
 <br />
 
-## ✨ `Go LIVE` via [LIVE Deployer]
+## ✨ `Go LIVE` via [LIVE Deployer](https://appseed.us/go-live/)
 
 > This video explains `how to deploy` the product LIVE using a `Drag & Drop` gesture.
 
