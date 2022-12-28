@@ -6,8 +6,8 @@
 - Deployment-ready for Render (CI/CD)
   - `render.yaml`
   - `build.sh`
-- DB Mamagement Improvement
-  - Silent fallback to SQLite  
+- `DB Management` Improvement
+  - `Silent fallback` to **SQLite**
 
 ## [1.0.10] 2022-11-17
 ### Improvements
