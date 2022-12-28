@@ -14,3 +14,4 @@ python-dotenv==0.19.2
 Flask-Minify==0.37
 
 # flask_mysqldb
+# psycopg2-binary
