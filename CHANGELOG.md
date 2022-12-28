@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.12] 2022-12-28
+### Changes
+
+- `DOCS Update` (readme)
+  - [Flask AdminLTE - Go LIVE](https://www.youtube.com/watch?v=evTV3MrpY8E) (`video presentation`)
+
 ## [1.0.11] 2022-12-28
 ### Changes
 
