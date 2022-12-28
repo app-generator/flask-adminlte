@@ -34,7 +34,7 @@
 
             <p class="login-box-msg">
             {% if msg %}
-                {{ msg | safe }}
+              <span class="text-danger">{{ msg | safe }}</span>
             {% else %}
                 Add your credentials
             {% endif %}
