@@ -194,7 +194,7 @@ The project is coded using blueprints, app factory pattern, dual configuration p
 
 > For more components, pages and priority on support, feel free to take a look at this amazing starter:
 
-Soft UI Dashboard is a premium Bootstrap 5 Design now available for download in Flask. Made of hundred of elements, designed blocks, and fully coded pages, Soft UI Dashboard PRO is ready to help you create stunning websites and web apps.
+[Soft UI Dashboard](https://appseed.us/product/soft-ui-dashboard-pro/flask/) is a premium **[Bootstrap 5](https://www.admin-dashboards.com/bootstrap-5-templates/)** Design now available for download in Flask. Made of hundred of elements, designed blocks, and fully coded pages, Soft UI Dashboard PRO is ready to help you create stunning websites and web apps.
 
 - 👉 [Soft UI Dashboard PRO Flask](https://appseed.us/product/soft-ui-dashboard-pro/flask/) - Product Page
 - 👉 [Soft UI Dashboard PRO Flask](https://flask-soft-ui-dashboard-pro.appseed-srv1.com/) - LIVE Demo 
