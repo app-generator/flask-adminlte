@@ -1,5 +1,5 @@
 flask==2.0.2
-Werkzeug==2.0.3
+Werkzeug==2.2.3
 jinja2==3.0.2
 flask_login==0.5.0
 flask_migrate==3.1.0
