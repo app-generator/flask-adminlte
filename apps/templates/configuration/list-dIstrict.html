@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Groupement {% endblock %}
+{% block title %} Districts {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -51,17 +51,33 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Groupement</h1>
+                    <h1>Districts</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Groupement</li>
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">Districts</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
-
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <p>Number of availabe Districts</p>
+                            <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+                            <h3>{% print(num) %}</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
@@ -73,33 +89,36 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="sample_data" class="table table-bordered table-striped">
+                            <table id="sample_data" class="text-center table table-bordered table-striped">
                                 <thead>
                                     <tr>
+                                        <th>Action</th>
                                         <th>Id</th>
-                                        <th>type</th>
-                                        <th>code</th>
-                                        <th>groupement</th>
-                                        <th>village_id</th>
-                                        <th>gps</th>
+                                        <th>Code</th>
+                                        <th>Name</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
+                                        <td>
+                                            <a class="btn btn-primary" href="../district/edit?id={{c.id}}">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
                                         <td>{{c.id}}</td>
                                         <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
-                                            {{c.type}}</td>
-                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
                                             {{c.code}}</td>
-                                        <td data-name="district_id" class="district_id" data-type="text"
-                                            data-pk="{{c.id}}">
-                                            {{c.groupement}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
-                                            {{c.village_id}}</td>
-                                        <td data-name="district_id" class="district_id" data-type="text"
-                                            data-pk="{{c.id}}">
-                                            {{c.gps}}</td>
+                                            {{c.name}}</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="../district/edit?id={{c.id}}">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

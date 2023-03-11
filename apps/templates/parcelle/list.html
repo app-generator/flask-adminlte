@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Campagne {% endblock %}
+{% block title %} Parcelles {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -51,12 +51,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Campagne</h1>
+                    <h1>Producteur</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Campagne</li>
+                        <li class="breadcrumb-item active">Parcelles</li>
                     </ol>
                 </div>
             </div>
@@ -76,8 +76,9 @@
                             <table id="sample_data" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>code</th>
+                                        <th>Identifiant</th>
+                                        <th>Nom de la parcelle</th>
+                                        <th>Statut</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,7 +86,9 @@
                                     <tr>
                                         <td>{{c.id}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.name}}</td>
+                                            {{c.nomParcelle}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.statutParcelle}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

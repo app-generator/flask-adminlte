@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Producteur {% endblock %}
+{% block title %} List/Edit Groupement {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -51,12 +51,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Producteur</h1>
+                    <h1>Groupement</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Producteur</li>
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">List/Edit Groupement</li>
                     </ol>
                 </div>
             </div>
@@ -77,60 +77,25 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
+                                        <th>type</th>
                                         <th>code</th>
-                                        <th>nom</th>
-                                        <th>prenom</th>
-                                        <th>genre</th>
-                                        <th>dateNaissance</th>
-                                        <th>cni</th>
-                                        <th>groupement_id</th>
+                                        <th>groupement</th>
                                         <th>village_id</th>
-                                        <th>photo_cni</th>
-                                        <th>photo</th>
-                                        <th>poincon</th>
-                                        <th>coopMembersip</th>
-                                        <th>statusEnregistrement</th>
-                                        <th>tempManpower</th>
-                                        <th>permanentManpower</th>
-                                        <th>ancienCode</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
                                         <td>{{c.id}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
+                                        <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
+                                            {{c.type}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
                                             {{c.code}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.nom}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.prenom}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.genre}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.dateNaissance}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.cni}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.groupement_id}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
+                                        <td data-name="district_id" class="district_id" data-type="text"
+                                            data-pk="{{c.id}}">
+                                            {{c.groupement}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
                                             {{c.village_id}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.photo_cni}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.photo}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.poincon}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.coopMembersip}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.statusEnregistrement}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.tempManpower}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.permanentManpower}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.ancienCode}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

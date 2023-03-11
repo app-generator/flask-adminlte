@@ -58,6 +58,50 @@ class Producteur(db.Model):
         self.ancienCode = ancienCode
 
 
+def fetch_producteur(session, producteur_info, campagne):
+    producteur = Producteur.query.filter(
+        func.lower(Producteur.nom) == func.lower(producteur_info["nom"]),
+        func.lower(Producteur.prenom) == func.lower(producteur_info["prenom"]),
+        func.lower(Producteur.cni) == func.lower(producteur_info["cni"])
+    ).first()
+    if producteur:
+        # print("Producteur: " + json.dumps(producteur, cls=AlchemyEncoder), flush=True)
+        return producteur.id
+    else:
+        next_code = get_next_producteur_code(
+            session, producteur_info["groupement_id"])
+        # print("Next Producteur Code: " + next_code, flush=True)
+        producteur_info["code"] = next_code
+        p = Producteur(**producteur_info)
+        c = fetch_campagne(session, campagne)
+        p.campagnes.append(c)
+        session.add(p)
+        session.commit()
+        return p.id
+
+
+def get_next_producteur_code(session, groupement_id):
+    groupement = Groupement.query.get(groupement_id)
+    try:
+        last_groupement_producteur_code = Producteur.query.with_entities(Producteur.code).filter(
+            Producteur.code.like("%" + groupement.code + "%")
+        ).order_by(
+            Producteur.code.desc()
+        ).first()
+
+        if not last_groupement_producteur_code:
+            print("Oops, no result found for groupement " + groupement.code +
+                  ". Returning code: " + groupement.code + "-" + '{0:04}'.format(1))
+            return groupement.code + "-" + '{0:04}'.format(1)
+        else:
+            last_groupement_producteur_number = str(
+                last_groupement_producteur_code.code).replace(groupement.code + "-", "")
+            return groupement.code + "-" + '{0:04}'.format(int(last_groupement_producteur_number) + 1)
+    except:
+        print("An error error occurred while fetching for the next producteur groupement code: " + groupement.code)
+        raise
+
+
 # @login_manager.producteur_loader
 # def producteur_loader(id):
 #     return Producteur.query.filter_by(id=id).first()
