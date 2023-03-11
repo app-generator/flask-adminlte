@@ -42,180 +42,77 @@
           <a href="/index" class="nav-link {% if 'index' in segment %} active {% endif %}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
-              Home
+              Dashboard
             </p>
           </a>
-
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
-            <i class="nav-icon fas fa-copy"></i>
-            <p>
-              District
-              <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item ">
-              <a href="/district/view" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>View Districts</p>
-              </a>
-            </li>
-            <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add District</p>
-              </a>
-            </li>
-          </ul>
         </li>
 
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
+
+        <li class="nav-item has-treeview {% if 'producteur' in segment %} menu-open {% endif %}">
+          <a href="/producteur" class="nav-link {% if 'producteur' in segment %} active {% endif %}">
             <i class="nav-icon fas fa-copy"></i>
+            <i class="fa-solid fa-people-group"></i>
             <p>
-              Commune
-              <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
+              Producteurs
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item ">
-              <a href="/list-commune.html" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>List/Edit Commune</p>
-              </a>
-            </li>
-            <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add Commune</p>
-              </a>
-            </li>
-          </ul>
         </li>
 
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
+
+        <li class="nav-item has-treeview {% if 'parcelle' in segment %} menu-open {% endif %}">
+          <a href="/parcelle" class="nav-link {% if 'parcelle' in segment %} active {% endif %}">
             <i class="nav-icon fas fa-copy"></i>
+            <i class="fa-solid fa-people-group"></i>
             <p>
-              Fokontany
-              <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
+              Parcelles
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item ">
-              <a href="/list-fokontany.html" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>List/Edit Fokontany</p>
-              </a>
-            </li>
-            <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add Fokontany</p>
-              </a>
-            </li>
-          </ul>
         </li>
 
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
-            <i class="nav-icon fas fa-copy"></i>
+        <li class="nav-item has-treeview {% if 'configuration' in segment %} menu-open {% endif %}">
+          <a href="/configuration" class="nav-link {% if 'configuration' in segment %} active {% endif %}">
+            <i class="nav-icon fas fa-th"></i>
             <p>
-              Village
+              Configurations
               <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item ">
-              <a href="/list-village.html" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>List/Edit Village</p>
-              </a>
-            </li>
-            <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add Village</p>
-              </a>
-            </li>
-          </ul>
-        </li>
 
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
-            <i class="nav-icon fas fa-copy"></i>
-            <p>
-              Groupement
-              <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
-            </p>
-          </a>
           <ul class="nav nav-treeview">
             <li class="nav-item ">
-              <a href="/list-groupement.html" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
+              <a href="/configuration/groupement" class="nav-link {% if 'configuration-groupement' in segment %} active {% endif %}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>List/Edit Districts</p>
+                <p>Groupements</p>
               </a>
             </li>
             <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
+              <a href="/configuration/groupement" class="nav-link {% if 'configuration-campagne' in segment %} active {% endif %}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Add District</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
-            <i class="nav-icon fas fa-copy"></i>
-            <p>
-              Producteur
-              <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item ">
-              <a href="/list-producteur.html" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>List/Edit Producteur</p>
+                <p>Campagne</p>
               </a>
             </li>
             <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
+              <a href="/configuration/village" class="nav-link {% if 'configuration-village' in segment %} active {% endif %}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Add Producteur</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
-          <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
-            <i class="nav-icon fas fa-copy"></i>
-            <p>
-              Campagne
-              <i class="fas fa-angle-left right"></i>
-              <span class="badge badge-info right">2</span>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item ">
-              <a href="/list-campagne.html" class="nav-link {% if 'layout-top' in segment %} active {% endif %}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>List/Edit Campagne</p>
+                <p>Village</p>
               </a>
             </li>
             <li class="nav-item ">
-              <a href="#" class="nav-link {% if 'layout-boxed' in segment %} active {% endif %}">
+              <a href="/configuration/fokontany" class="nav-link {% if 'configuration-fokontany' in segment %} active {% endif %}">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Add Campagne</p>
+                <p>Fokontany</p>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="/configuration/commune" class="nav-link {% if 'configuration-commune' in segment %} active {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Commune</p>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="/configuration/district" class="nav-link {% if 'configuration-district' in segment %} active {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Districts</p>
               </a>
             </li>
           </ul>

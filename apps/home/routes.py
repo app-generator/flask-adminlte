@@ -53,39 +53,39 @@ def updateDistrict():
     return json.dumps({'status': 'ok'})
 
 
-@blueprint.route('/<template>')
-@login_required
-def route_template(template):
-    page = template.split('.')
-    print(page[0])
+# @blueprint.route('/<template>')
+# @login_required
+# def route_template(template):
+#     page = template.split('.')
+#     # print(page[0])
 
-    if page[0] == 'list-commune':
-        content = db.session.query(Commune).all()
-    if page[0] == 'list-fokontany':
-        content = db.session.query(Fokontany).all()
-    if page[0] == 'list-village':
-        content = db.session.query(Village).all()
-    if page[0] == 'list-groupement':
-        content = db.session.query(Groupement).all()
-    if page[0] == 'list-producteur':
-        content = db.session.query(Producteur).all()
-    if page[0] == 'list-campagne':
-        content = db.session.query(Campagne).all()
-    try:
-        if not template.endswith('.html'):
-            template += '.html'
+#     if page[0] == 'list-commune':
+#         content = db.session.query(Commune).all()
+#     if page[0] == 'list-fokontany':
+#         content = db.session.query(Fokontany).all()
+#     if page[0] == 'list-village':
+#         content = db.session.query(Village).all()
+#     if page[0] == 'list-groupement':
+#         content = db.session.query(Groupement).all()
+#     if page[0] == 'list-producteur':
+#         content = db.session.query(Producteur).all()
+#     if page[0] == 'list-campagne':
+#         content = db.session.query(Campagne).all()
+#     try:
+#         if not template.endswith('.html'):
+#             template += '.html'
 
-        # Detect the current page
-        segment = get_segment(request)
+#         # Detect the current page
+#         segment = get_segment(request)
 
-        # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + template, segment=segment, num=num, content=content)
+#         # Serve the file (if exists) from app/templates/home/FILE.html
+#         return render_template("home/" + template, segment=segment, num=num, content=content)
 
-    except TemplateNotFound:
-        return render_template('home/page-404.html'), 404
+#     except TemplateNotFound:
+#         return render_template('home/page-404.html'), 404
 
-    except:
-        return render_template('home/page-500.html'), 500
+#     except:
+#         return render_template('home/page-500.html'), 500
 
 
 # Helper - Extract current page name from request

@@ -67,7 +67,7 @@ class ProductionConfig(Config):
     # Security
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
-    REMEMBER_COOKIE_DURATION = 3600
+    REMEMBER_COOKIE_DURATION = 3600000
 
 
 class DebugConfig(Config):

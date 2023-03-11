@@ -46,7 +46,7 @@ class VDMataReferencementBrut(db.Model):
     nomParcelle_1 = db.Column(db.String(50))
     descriptionParcelle_1 = db.Column(db.String(50))
     statutParcelle_1 = db.Column(db.String(50))
-    surface_1 = db.Column(db.Double)
+    surface_1 = db.Column(db.Float)
     surface_1 = db.Column(db.String(50))
     totalPlants_1 = db.Column(db.Integer)
     plantsProductives_1 = db.Column(db.Integer)
@@ -54,7 +54,7 @@ class VDMataReferencementBrut(db.Model):
     photoParcelle_1 = db.Column(db.String(500))
     estimationProduction_1 = db.Column(db.Integer)
     estimationProduction_last_1 = db.Column(db.Integer)
-    estimation_VRAC_1 = db.Column(db.Double)
+    estimation_VRAC_1 = db.Column(db.Float)
     GPS_1 = db.Column(db.String(50))
     xsaison_last_1 = db.Column(db.String(50))
     xsaison_last_but_one_1 = db.Column(db.String(50))
@@ -65,14 +65,14 @@ class VDMataReferencementBrut(db.Model):
     statutParcelle_2 = db.Column(db.String(50))
     consigneGarmin_2 = db.Column(db.String(50))
     # surface_2 = db.Column(db.String(50))
-    surface_2 = db.Column(db.Double)
+    surface_2 = db.Column(db.Float)
     totalPlants_2 = db.Column(db.Integer)
     plantsProductives_2 = db.Column(db.Integer)
     ageMoyenPlants_2 = db.Column(db.Integer)
     photoParcelle_2 = db.Column(db.String(500))
-    estimationProduction_2 = db.Column(db.Double)
-    estimationProduction_last_2 = db.Column(db.Double)
-    estimation_VRAC_2 = db.Column(db.Double)
+    estimationProduction_2 = db.Column(db.Float)
+    estimationProduction_last_2 = db.Column(db.Float)
+    estimation_VRAC_2 = db.Column(db.Float)
     GPS_2 = db.Column(db.String(50))
     xsaison_last_2 = db.Column(db.String(50))
     xsaison_last_but_one_2 = db.Column(db.String(50))
@@ -190,53 +190,53 @@ class Campagne(db.Model):
         self.name = name
 
 
-class Producteur(db.Model):
-    __tablename__ = "producteur"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    code = db.Column(db.String(20), unique=True)
-    nom = db.Column(db.String(50))
-    prenom = db.Column(db.String(50))
-    genre = db.Column(db.String(15))
-    dateNaissance = db.Column(db.DateTime)
-    cni = db.Column(db.String(50))
-    photo_cni = db.Column(db.String(500))
-    photo = db.Column(db.String(500))
-    poincon = db.Column(db.String(50))
-    coopMembersip = db.Column(db.Integer)
-    statusEnregistrement = db.Column(db.String(50))
-    tempManpower = db.Column(db.String(50))
-    permanentManpower = db.Column(db.Integer)
-    ancienCode = db.Column(db.String(20))
-    groupement_id = db.Column(db.Integer, db.ForeignKey(
-        'groupement.id'), nullable=False)
-    village_id = db.Column(db.Integer, db.ForeignKey(
-        'village.id'), nullable=False)
-    parcelles = db.relationship(
-        "Parcelle", backref=db.backref("parcelle"), lazy=True)
-    campagnes = db.relationship(
-        "Campagne", secondary=campagne_producteur, backref=db.backref("campagne"), lazy=True)
-    __table_args__ = (
-        db.UniqueConstraint('nom', 'prenom', 'cni', 'groupement_id'),
-    )
+# class Producteur(db.Model):
+#     __tablename__ = "producteur"
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     code = db.Column(db.String(20), unique=True)
+#     nom = db.Column(db.String(50))
+#     prenom = db.Column(db.String(50))
+#     genre = db.Column(db.String(15))
+#     dateNaissance = db.Column(db.DateTime)
+#     cni = db.Column(db.String(50))
+#     photo_cni = db.Column(db.String(500))
+#     photo = db.Column(db.String(500))
+#     poincon = db.Column(db.String(50))
+#     coopMembersip = db.Column(db.Integer)
+#     statusEnregistrement = db.Column(db.String(50))
+#     tempManpower = db.Column(db.String(50))
+#     permanentManpower = db.Column(db.Integer)
+#     ancienCode = db.Column(db.String(20))
+#     groupement_id = db.Column(db.Integer, db.ForeignKey(
+#         'groupement.id'), nullable=False)
+#     village_id = db.Column(db.Integer, db.ForeignKey(
+#         'village.id'), nullable=False)
+#     parcelles = db.relationship(
+#         "Parcelle", backref=db.backref("parcelle"), lazy=True)
+#     campagnes = db.relationship(
+#         "Campagne", secondary=campagne_producteur, backref=db.backref("campagne"), lazy=True)
+#     __table_args__ = (
+#         db.UniqueConstraint('nom', 'prenom', 'cni', 'groupement_id'),
+#     )
 
-    def __init__(self, nom, prenom, code, genre, dateNaissance, cni, groupement_id, village_id, photo=None, photo_cni=None, poincon=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
-        self.id = id
-        self.nom = nom
-        self.prenom = prenom
-        self.code = code
-        self.genre = genre
-        self.dateNaissance = datetime.strptime(str(dateNaissance), '%d/%m/%Y')
-        self.photo = photo
-        self.cni = cni
-        self.photo_cni = photo_cni
-        self.groupement_id = groupement_id
-        self.village_id = village_id
-        self.poincon = poincon
-        self.coopMembersip = coopMembersip
-        self.statusEnregistrement = statusEnregistrement
-        self.tempManpower = tempManpower
-        self.permanentManpower = permanentManpower
-        self.ancienCode = ancienCode
+#     def __init__(self, nom, prenom, code, genre, dateNaissance, cni, groupement_id, village_id, photo=None, photo_cni=None, poincon=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
+#         self.id = id
+#         self.nom = nom
+#         self.prenom = prenom
+#         self.code = code
+#         self.genre = genre
+#         self.dateNaissance = datetime.strptime(str(dateNaissance), '%d/%m/%Y')
+#         self.photo = photo
+#         self.cni = cni
+#         self.photo_cni = photo_cni
+#         self.groupement_id = groupement_id
+#         self.village_id = village_id
+#         self.poincon = poincon
+#         self.coopMembersip = coopMembersip
+#         self.statusEnregistrement = statusEnregistrement
+#         self.tempManpower = tempManpower
+#         self.permanentManpower = permanentManpower
+#         self.ancienCode = ancienCode
 
 
 class Parcelle(db.Model):
@@ -249,17 +249,17 @@ class Parcelle(db.Model):
     nomParcelle = db.Column(db.String(50))
     descriptionParcelle = db.Column(db.String(50))
     statutParcelle = db.Column(db.String(50))
-    surface = db.Column(db.Double)
+    surface = db.Column(db.Float)
     totalPlants = db.Column(db.Integer)
     plantsProductives = db.Column(db.Integer)
     ageMoyenPlants = db.Column(db.Integer)
     photoParcelle = db.Column(db.String(500))
     estimationProduction = db.Column(db.Integer)
     estimationProduction_last = db.Column(db.Integer)
-    estimation_VRAC = db.Column(db.Double)
+    estimation_VRAC = db.Column(db.Float)
     latitude = db.Column(db.Numeric(11, 8))
     longitude = db.Column(db.Numeric(11, 8))
-    altitude = db.Column(db.Double)
+    altitude = db.Column(db.Float)
     xsaison_last = db.Column(db.String(50))
     xsaison_last_but_one = db.Column(db.String(50))
     xsaison_last_but_two = db.Column(db.String(50))
