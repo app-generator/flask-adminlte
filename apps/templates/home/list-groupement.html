@@ -1,0 +1,166 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} List/Edit Groupement {% endblock %}
+
+{% block scriptsJs %}
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script> -->
+<!-- bootstrapp  -->
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- datatable -->
+<script src="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css"></script>
+<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js" rel="stylesheet"></script>
+<!-- x-editables -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css"
+    rel="stylesheet">
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
+{% endblock scriptsJs %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+
+
+<!-- Specific Page Content goes HERE  -->
+{% block content %}
+
+<div class="content-wrapper">
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Groupement</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                        <li class="breadcrumb-item active">List/Edit Groupement</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <!-- <div class="row"> -->
+                <!-- <div class="col-12"> -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <!-- <h3 class="panel-title">District</h3> -->
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table id="sample_data" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>type</th>
+                                        <th>code</th>
+                                        <th>groupement</th>
+                                        <th>village_id</th>
+                                        <th>gps</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for c in content %}
+                                    <tr>
+                                        <td>{{c.id}}</td>
+                                        <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
+                                            {{c.type}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
+                                            {{c.code}}</td>
+                                        <td data-name="district_id" class="district_id" data-type="text"
+                                            data-pk="{{c.id}}">
+                                            {{c.groupement}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
+                                            {{c.village_id}}</td>
+                                        <td data-name="district_id" class="district_id" data-type="text"
+                                            data-pk="{{c.id}}">
+                                            {{c.gps}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <!-- </div> -->
+            </div>
+        </section>
+    </section>
+</div>
+
+{% endblock content %}
+
+{% block js_editable %}
+<script type="text/javascript" lang="javascript">
+    $(document).ready(function () {
+        // // datatable
+        $('#sample_data').DataTable();
+        // // x-editable
+        $('#sample_data').editable({
+            container: 'body',
+            selector: 'td.code',
+            url: '/updateFokontany',
+            title: 'Enter Fokontany Code',
+            type: 'POST',
+            validate: function (value) {
+                if ($.trim(value) == '') {
+                    return 'This field is required'
+                }
+            }
+        });
+
+        $('#sample_data').editable({
+            container: 'body',
+            selector: 'td.name',
+            url: '/updateFokontany',
+            title: 'Enter Fokontany Name',
+            type: 'POST',
+            validate: function (value) {
+                if ($.trim(value) == '') {
+                    return 'This field is required'
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<!-- jQuery -->
+<!-- <script src="/static/assets/plugins/jquery/jquery.min.js"></script> -->
+<!-- Bootstrap 4 -->
+<!-- <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
+
+
+{% endblock javascripts %}
