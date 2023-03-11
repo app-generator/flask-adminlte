@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Village {% endblock %}
+{% block title %} List/Edit Commune {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -51,12 +51,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Village</h1>
+                    <h1>Commune</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Village</li>
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">Communes</li>
                     </ol>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                                         <th>Id</th>
                                         <th>Code</th>
                                         <th>Name</th>
-                                        <th>Fokontany id</th>
+                                        <th>District id</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,7 +92,7 @@
                                             {{c.name}}</td>
                                         <td data-name="district_id" class="district_id" data-type="text"
                                             data-pk="{{c.id}}">
-                                            {{c.fokontany_id}}</td>
+                                            {{c.district_id}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

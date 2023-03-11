@@ -30,6 +30,9 @@ class Config(object):
     DB_PORT = os.getenv('DB_PORT', None)
     DB_NAME = os.getenv('DB_NAME', None)
 
+    METABASE_SITE_URL = os.getenv('METABASE_SITE_URL', None)
+    METABASE_SECRET_KEY = os.getenv('METABASE_SECRET_KEY', None)
+
     USE_SQLITE = True
 
     # try to set up a Relational DBMS
@@ -67,7 +70,7 @@ class ProductionConfig(Config):
     # Security
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
-    REMEMBER_COOKIE_DURATION = 3600000
+    REMEMBER_COOKIE_DURATION = 60 * 60 * 12
 
 
 class DebugConfig(Config):

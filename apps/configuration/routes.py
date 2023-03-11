@@ -57,6 +57,50 @@ def list_district():
         return render_template('configuration/list-district.html', segment='configuration-district', num=num, content=content)
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
+
+
+
+@blueprint.route('/village')
+@login_required
+def list_village():
+    try:
+        content = db.session.query(Village).all()
+        num = 0
+        for c in content:
+            num += 1
+        # print(num)
+        return render_template('configuration/list-village.html', segment='configuration-village', num=num, content=content)
+    except Exception as e:
+        print('> Error: /configuration-village: index Exception: ' + str(e))
+
+
+
+@blueprint.route('/fokontany')
+@login_required
+def list_fokontany():
+    try:
+        content = db.session.query(Fokontany).all()
+        num = 0
+        for c in content:
+            num += 1
+        # print(num)
+        return render_template('configuration/list-fokontany.html', segment='configuration-fokontany', num=num, content=content)
+    except Exception as e:
+        print('> Error: /configuration-fokontany: index Exception: ' + str(e))
+
+
+@blueprint.route('/commune')
+@login_required
+def list_commune():
+    try:
+        content = db.session.query(Commune).all()
+        num = 0
+        for c in content:
+            num += 1
+        # print(num)
+        return render_template('configuration/list-commune.html', segment='configuration-commune', num=num, content=content)
+    except Exception as e:
+        print('> Error: /configuration-commune: index Exception: ' + str(e))
     
 
 # Errors
