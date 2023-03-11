@@ -4,8 +4,10 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship, backref
 
 from apps import db, login_manager
+from apps.configuration.models import Groupement, Village
 from apps.models import *
 
 
@@ -28,8 +30,10 @@ class Producteur(db.Model):
     ancienCode = db.Column(db.String(20))
     groupement_id = db.Column(db.Integer, db.ForeignKey(
         'groupement.id'), nullable=False)
+    groupement = relationship(Groupement, backref=backref('producteurs'))
     village_id = db.Column(db.Integer, db.ForeignKey(
         'village.id'), nullable=False)
+    village = relationship(Village, backref=backref('producteurs'))
     parcelles = db.relationship(
         "Parcelle", backref=db.backref("parcelle"), lazy=True)
     campagnes = db.relationship(
@@ -56,7 +60,6 @@ class Producteur(db.Model):
         self.tempManpower = tempManpower
         self.permanentManpower = permanentManpower
         self.ancienCode = ancienCode
-
 
 def fetch_producteur(session, producteur_info, campagne):
     producteur = Producteur.query.filter(

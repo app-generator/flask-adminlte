@@ -73,32 +73,19 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="sample_data" class="table table-bordered table-striped">
+                            <table id="producteurs_list" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>code</th>
-                                        <th>nom</th>
-                                        <th>prenom</th>
-                                        <th>genre</th>
-                                        <th>dateNaissance</th>
-                                        <th>cni</th>
-                                        <th>groupement_id</th>
-                                        <th>village_id</th>
-                                        <th>photo_cni</th>
-                                        <th>photo</th>
-                                        <th>poincon</th>
-                                        <th>coopMembersip</th>
-                                        <th>statusEnregistrement</th>
-                                        <th>tempManpower</th>
-                                        <th>permanentManpower</th>
-                                        <th>ancienCode</th>
+                                        <th>Code</th>
+                                        <th>Nom</th>
+                                        <th>Prenom</th>
+                                        <th>Groupement</th>
+                                        <th>Village</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>{{c.id}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
@@ -106,31 +93,9 @@
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.prenom}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.genre}}</td>
+                                            {{c.groupement.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.dateNaissance}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.cni}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.groupement_id}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village_id}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.photo_cni}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.photo}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.poincon}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.coopMembersip}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.statusEnregistrement}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.tempManpower}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.permanentManpower}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.ancienCode}}</td>
+                                            {{c.village.name}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -151,9 +116,17 @@
 <script type="text/javascript" lang="javascript">
     $(document).ready(function () {
         // // datatable
-        $('#sample_data').DataTable();
+        $('#producteurs_list').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+        });
         // // x-editable
-        $('#sample_data').editable({
+        $('#producteurs_list').editable({
             container: 'body',
             selector: 'td.code',
             url: '/updateFokontany',
@@ -166,7 +139,7 @@
             }
         });
 
-        $('#sample_data').editable({
+        $('#producteurs_list').editable({
             container: 'body',
             selector: 'td.name',
             url: '/updateFokontany',
