@@ -4,7 +4,7 @@
   <a href="/" class="brand-link">
     <img src="/static/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
       style="opacity: .8">
-    <span class="brand-text font-weight-light">VDMADA</span>
+    <span class="brand-text font-weight-light">Virginia Dare</span>
   </a>
 
   <!-- Sidebar -->
@@ -43,8 +43,31 @@
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
+              <i class="fas fa-angle-left right"></i>
             </p>
           </a>
+
+          <ul class="nav nav-treeview">
+            <li class="nav-item ">
+              <a href="/dashboard/campagne" class="nav-link {% if 'dashboard-campagne' in segment %} active {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Dashboard - Campagne</p>
+              </a>
+            </li>
+            <li class="nav-item ">
+              <a href="/dashboard/producteur" class="nav-link {% if 'dashboard-producteur' in segment %} active {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Dashboard - Producteur</p>
+              </a>
+            </li>
+
+            <li class="nav-item ">
+              <a href="/dashboard/bio" class="nav-link {% if 'dashboard-producteur' in segment %} active {% endif %}">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Liste Bio</p>
+              </a>
+            </li>
+          </ul>
         </li>
 
 
