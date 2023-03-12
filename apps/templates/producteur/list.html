@@ -55,8 +55,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Producteur</li>
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">Producteurs</li>
                     </ol>
                 </div>
             </div>
@@ -81,6 +81,7 @@
                                         <th>Prenom</th>
                                         <th>Groupement</th>
                                         <th>Village</th>
+                                        <th style="width: 10%">
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,6 +97,23 @@
                                             {{c.groupement.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.village.name}}</td>
+                                        <td class="project-actions text-right">
+                                            <a class="btn btn-primary btn-sm" href="/producteur/view/{{c.id}}">
+                                                <i class="fas fa-folder">
+                                                </i>
+                                                View
+                                            </a>
+                                            <!-- <a class="btn btn-info btn-sm" href="#">
+                                                <i class="fas fa-pencil-alt">
+                                                </i>
+                                                Edit
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" href="#">
+                                                <i class="fas fa-trash">
+                                                </i>
+                                                Delete
+                                            </a> -->
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

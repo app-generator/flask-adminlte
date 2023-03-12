@@ -28,6 +28,17 @@ def index():
         return render_template('producteur/list.html', segment='producteur', num=num, content=content)
     except Exception as e:
         print('> Error: /producteur: index Exception: ' + str(e))
+
+
+@blueprint.route('/view/<id>', methods=['GET'])
+@login_required
+def view(id):
+    try:
+        content = db.session.query(Producteur).get(id)
+        
+        return render_template('producteur/view.html', segment='producteur-view', content=content)
+    except Exception as e:
+        print('> Error: /producteur: index Exception: ' + str(e))
     
 
 # Errors
