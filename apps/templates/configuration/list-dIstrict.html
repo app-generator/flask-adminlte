@@ -56,7 +56,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item active">Districts</li>
+                        <li class="breadcrumb-item active">View Districts</li>
                     </ol>
                 </div>
             </div>
@@ -92,8 +92,6 @@
                             <table id="sample_data" class="text-center table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Action</th>
-                                        <th>Id</th>
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Action</th>
@@ -102,19 +100,13 @@
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>
-                                            <a class="btn btn-primary" href="../district/edit?id={{c.id}}">
-                                                <i class="fas fa-edit"></i>
-                                                Edit
-                                            </a>
-                                        </td>
-                                        <td>{{c.id}}</td>
                                         <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
                                             {{c.code}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
                                             {{c.name}}</td>
                                         <td>
-                                            <a class="btn btn-primary" href="../district/edit?id={{c.id}}">
+                                            <a class="btn btn-primary"
+                                                href="../configuration/district/edit?id={{c.id}}">
                                                 <i class="fas fa-edit"></i>
                                                 Edit
                                             </a>
@@ -140,32 +132,6 @@
     $(document).ready(function () {
         // // datatable
         $('#sample_data').DataTable();
-        // // x-editable
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.code',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Code',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
-
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.name',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Name',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
     });
 </script>
 {% endblock %}

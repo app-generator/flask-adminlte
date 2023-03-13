@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Village {% endblock %}
+{% block title %} Village {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -76,16 +76,15 @@
                             <table id="sample_data" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Code</th>
                                         <th>Name</th>
-                                        <th>Fokontany id</th>
+                                        <th>Fokontany</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>{{c.id}}</td>
                                         <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
                                             {{c.code}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
@@ -93,6 +92,12 @@
                                         <td data-name="district_id" class="district_id" data-type="text"
                                             data-pk="{{c.id}}">
                                             {{c.fokontany_id}}</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="../configuration/village/edit?id={{c.id}}">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

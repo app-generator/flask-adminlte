@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Groupement {% endblock %}
+{% block title %} Groupement {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -56,7 +56,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Groupement</li>
+                        <li class="breadcrumb-item active">View Groupement</li>
                     </ol>
                 </div>
             </div>
@@ -76,17 +76,16 @@
                             <table id="sample_data" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>type</th>
-                                        <th>code</th>
-                                        <th>groupement</th>
-                                        <th>village_id</th>
+                                        <th>Type</th>
+                                        <th>Code</th>
+                                        <th>Groupement</th>
+                                        <th>Village</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>{{c.id}}</td>
                                         <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
                                             {{c.type}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
@@ -96,6 +95,13 @@
                                             {{c.groupement}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
                                             {{c.village_id}}</td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                href="../configuration/groupement/edit?id={{c.id}}">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -117,32 +123,6 @@
     $(document).ready(function () {
         // // datatable
         $('#sample_data').DataTable();
-        // // x-editable
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.code',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Code',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
-
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.name',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Name',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
     });
 </script>
 {% endblock %}

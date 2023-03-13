@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Fokontany {% endblock %}
+{% block title %} Fokontany {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -55,8 +55,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                        <li class="breadcrumb-item active">List/Edit Fokontany</li>
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item active">View Fokontany</li>
                     </ol>
                 </div>
             </div>
@@ -76,16 +76,15 @@
                             <table id="sample_data" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Code</th>
                                         <th>Name</th>
-                                        <th>Commune id</th>
+                                        <th>Commune</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>{{c.id}}</td>
                                         <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
                                             {{c.code}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
@@ -93,6 +92,13 @@
                                         <td data-name="district_id" class="district_id" data-type="text"
                                             data-pk="{{c.id}}">
                                             {{c.commune_id}}</td>
+                                        <td>
+                                            <a class="btn btn-primary"
+                                                href="../configuration/fokontany/edit?id={{c.id}}">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

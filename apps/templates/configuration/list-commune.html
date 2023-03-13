@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} List/Edit Commune {% endblock %}
+{% block title %} Commune {% endblock %}
 
 {% block scriptsJs %}
 <!-- jquery -->
@@ -56,12 +56,28 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item active">Communes</li>
+                        <li class="breadcrumb-item active">View Commune</li>
                     </ol>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
-
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <p>Number of availabe Commune</p>
+                            <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+                            <h3>{% print(num) %}</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
@@ -73,26 +89,30 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="sample_data" class="table table-bordered table-striped">
+                            <table id="sample_data" class="text-center table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Code</th>
                                         <th>Name</th>
-                                        <th>District id</th>
+                                        <th>District</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>{{c.id}}</td>
-                                        <td data-name="code" class="code" data-type="text" data-pk="{{c.id}}">
+                                        <td data-name="code" class="code">
                                             {{c.code}}</td>
-                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
+                                        <td data-name=" name" class="name">
                                             {{c.name}}</td>
-                                        <td data-name="district_id" class="district_id" data-type="text"
-                                            data-pk="{{c.id}}">
+                                        <td data-name="district" class="district">
                                             {{c.district_id}}</td>
+                                        <td>
+                                            <a class="btn btn-primary" href="../configuration/commune/edit?id={{c.id}}">
+                                                <i class="fas fa-edit"></i>
+                                                Edit
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -114,32 +134,6 @@
     $(document).ready(function () {
         // // datatable
         $('#sample_data').DataTable();
-        // // x-editable
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.code',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Code',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
-
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.name',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Name',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
     });
 </script>
 {% endblock %}
