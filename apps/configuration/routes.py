@@ -32,15 +32,14 @@ def list_groupement():
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
 
 
-@blueprint.route('/groupement/edit', methods=['GET'])
+@blueprint.route('/groupement/edit/<id>', methods=['GET'])
 @login_required
-def editGroupement():
+def editGroupement(id):
     try:
-        id = request.args.get('id')
         content = db.session.query(Groupement).get(id)
         village = db.session.query(Village).all()
 
-        return render_template('configuration/edit-groupement.html', segment='index', id=id, content=content, village=village)
+        return render_template('configuration/edit-groupement.html', segment='configuration-groupement', id=id, content=content, village=village)
     except Exception as e:
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
 
@@ -99,13 +98,12 @@ def list_district():
         print('> Error: /configuration-district: index Exception: ' + str(e))
 
 
-@blueprint.route('/district/edit', methods=['GET'])
+@blueprint.route('/district/edit/<id>', methods=['GET'])
 @login_required
-def editDistrict():
+def editDistrict(id):
     try:
-        id = request.args.get('id')
         content = db.session.query(District).get(id)
-        return render_template('configuration/edit-district.html', segment='index', id=id, content=content)
+        return render_template('configuration/edit-district.html', segment='configuration-district', id=id, content=content)
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
 
@@ -145,15 +143,14 @@ def list_village():
         print('> Error: /configuration-village: index Exception: ' + str(e))
 
 
-@blueprint.route('/village/edit', methods=['GET'])
+@blueprint.route('/village/edit/<id>', methods=['GET'])
 @login_required
-def editVillage():
+def editVillage(id):
     try:
-        id = request.args.get('id')
         content = db.session.query(Village).get(id)
         fokontany = db.session.query(Fokontany).all()
 
-        return render_template('configuration/edit-village.html', segment='index', id=id, content=content, fokontany=fokontany)
+        return render_template('configuration/edit-village.html', segment='configuration-village', id=id, content=content, fokontany=fokontany)
     except Exception as e:
         print('> Error: /configuration-village: index Exception: ' + str(e))
 
@@ -196,15 +193,14 @@ def list_fokontany():
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
 
 
-@blueprint.route('/fokontany/edit', methods=['GET'])
+@blueprint.route('/fokontany/edit/<id>', methods=['GET'])
 @login_required
-def editFokontant():
+def editFokontant(id):
     try:
-        id = request.args.get('id')
         content = db.session.query(Fokontany).get(id)
         commune = db.session.query(Commune).all()
 
-        return render_template('configuration/edit-fokontany.html', segment='index', id=id, content=content, commune=commune)
+        return render_template('configuration/edit-fokontany.html', segment='configuration-fokontany', id=id, content=content, commune=commune)
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
 
@@ -246,15 +242,14 @@ def list_commune():
         print('> Error: /configuration-commune: index Exception: ' + str(e))
 
 
-@blueprint.route('/commune/edit', methods=['GET'])
+@blueprint.route('/commune/edit/<id>', methods=['GET'])
 @login_required
-def editCommune():
+def editCommune(id):
     try:
-        id = request.args.get('id')
         content = db.session.query(Commune).get(id)
         district = db.session.query(District).all()
 
-        return render_template('configuration/edit-commune.html', segment='index', id=id, content=content, district=district)
+        return render_template('configuration/edit-commune.html', segment='configuration-commune', id=id, content=content, district=district)
     except Exception as e:
         print('> Error: /configuration-commune: index Exception: ' + str(e))
 

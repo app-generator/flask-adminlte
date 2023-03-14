@@ -61,23 +61,6 @@
                 </div>
             </div>
         </div><!-- /.container-fluid -->
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <p>Number of availabe Commune</p>
-                            <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
-                            <h3>{% print(num) %}</h3>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
@@ -108,7 +91,7 @@
                                         <td data-name="district" class="district">
                                             {{c.district_id}}</td>
                                         <td>
-                                            <a class="btn btn-primary" href="../configuration/commune/edit?id={{c.id}}">
+                                            <a class="btn btn-primary" href="../configuration/commune/edit/{{c.id}}">
                                                 <i class="fas fa-edit"></i>
                                                 Edit
                                             </a>

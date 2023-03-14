@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Profile {% endblock %} 
+{% block title %} Profile {% endblock %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini {% endblock body_class %}
@@ -8,162 +8,171 @@
 <!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
 
 {% endblock stylesheets %}
 
-{% block content %}  
+{% block content %}
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Producteur</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="/index">Home</a></li>
-              <li class="breadcrumb-item active">Producteur</li>
-            </ol>
-          </div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Producteur</h1>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/index">Home</a></li>
+            <li class="breadcrumb-item"><a href="/producteur">Producteur</a></li>
+            <li class="breadcrumb-item active">View Producteur</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3">
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3">
 
-            <!-- Profile Image -->
-            <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="/static/assets/img/avatar.png"
-                       alt="User profile picture">
-                </div>
-
-                <h3 class="profile-username text-center">
-                  {{ content.code }}
-                </h3>
-
-                <p class="text-muted text-center">
-                  {{ content.nom }}  {{ content.prenom }}
-                </p>
-
-                <ul class="list-group list-group-unbordered mb-3">
-                    <li class="list-group-item">
-                      <b>Genre</b> <a class="float-right">{{content.genre.upper()}}</a>
-                    </li>
-                    <li class="list-group-item">
-                    <b>Date de Naissance</b> <a class="float-right">{{content.dateNaissance.strftime('%Y-%m-%d')}}</a>
-                    </li>
-                    <li class="list-group-item">
-                    <b>CNI</b> <a class="float-right">{{content.cni}}</a>
-                    </li>
-                    <li class="list-group-item">
-                    <b>Groupement</b> <a class="float-right">{{content.groupement.code}}</a>
-                    </li>
-                    <li class="list-group-item">
-                    <b>Village</b> <a class="float-right">{{content.village.name}}</a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Poincon</b> <a class="float-right">{{content.poincon}}</a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Ancien Code</b> <a class="float-right">{{content.ancienCode}}</a>
-                    </li>
-                </ul>
+          <!-- Profile Image -->
+          <div class="card card-primary card-outline">
+            <div class="card-body box-profile">
+              <div class="text-center">
+                <img class="profile-user-img img-fluid img-circle" src="/static/assets/img/avatar.png"
+                  alt="User profile picture">
               </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
 
-          </div>
-          <!-- /.col -->
-          <div class="col-md-9">
-            <div class="card">
-              <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#parcelles" data-toggle="tab">Parcelles</a></li>
-                </ul>
-              </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content">
-                  <div class="active tab-pane" id="parcelles">
-                    <div class="table-responsive">
-                        <table id="sample_data" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Identifiant</th>
-                                    <th>Nom</th>
-                                    <th>Details</th>
-                                    <th>Surface</th>
-                                    <th>Plants</th>
-                                    <th>Plants Productives</th>
-                                    <th>Age Moyen</th>
-                                    <th>Production Estimée 2023</th>
-                                    <th>Production Estimée Vrac 2023</th>
-                                    <th>Statut</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for c in content.parcelles %}
-                                <tr>
-                                    <td>{{c.id}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.nomParcelle}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.descriptionParcelle}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.surface}} Ha</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.totalPlants}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.plantsProductives}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.ageMoyenPlants}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.estimationProduction}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.estimation_VRAC}}</td>
-                                    <td data-name="" class="" data-type="text" data-pk="">{{c.statutParcelle}}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                  </div>
-                  <!-- /.tab-pane -->
+              <h3 class="profile-username text-center">
+                {{ content.code }}
+              </h3>
 
-                </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
+              <p class="text-muted text-center">
+                {{ content.nom }} {{ content.prenom }}
+              </p>
+              <div class="text-center">
+                <a href="/producteur/profile/edit/{{content.id}}" class="btn btn-success">Edit profile</a>
+              </div>
+              <ul class="list-group list-group-unbordered mb-3">
+                <li class="list-group-item">
+                  <b>Genre</b> <a class="float-right">{{content.genre.upper()}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Date de Naissance</b> <a class="float-right">{{content.dateNaissance.strftime('%Y-%m-%d')}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>CNI</b> <a class="float-right">{{content.cni}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Groupement</b> <a class="float-right">{{content.groupement.code}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Village</b> <a class="float-right">{{content.village.name}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Poincon</b> <a class="float-right">{{content.poincon}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Ancien Code</b> <a class="float-right">{{content.ancienCode}}</a>
+                </li>
+              </ul>
             </div>
-            <!-- /.card -->
+            <!-- /.card-body -->
           </div>
-          <!-- /.col -->
+          <!-- /.card -->
+
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-  </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-header p-2">
+              <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link active" href="#parcelles" data-toggle="tab">Parcelles</a></li>
+              </ul>
+            </div><!-- /.card-header -->
+            <div class="card-body">
+              <div class="tab-content">
+                <div class="active tab-pane" id="parcelles">
+                  <div class="table-responsive">
+                    <table id="sample_data" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Identifiant</th>
+                          <th>Nom</th>
+                          <th>Details</th>
+                          <th>Surface</th>
+                          <th>Plants</th>
+                          <th>Plants Productives</th>
+                          <th>Age Moyen</th>
+                          <th>Production Estimée 2023</th>
+                          <th>Production Estimée Vrac 2023</th>
+                          <th>Statut</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for c in content.parcelles %}
+                        <tr>
+                          <td>{{c.id}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.nomParcelle}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.descriptionParcelle}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.surface}} Ha</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.totalPlants}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.plantsProductives}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.ageMoyenPlants}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.estimationProduction}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.estimation_VRAC}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">{{c.statutParcelle}}</td>
+                          <td data-name="" class="" data-type="text" data-pk="">
+                            <a class="btn btn-primary" href="/producteur/parcelle/edit/{{c.id}}">
+                              <i class="fas fa-edit"></i>
+                              <!-- Edit -->
+                            </a>
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!-- /.tab-pane -->
+
+              </div>
+              <!-- /.tab-content -->
+            </div><!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
+</div>
 
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
 
-  <!-- jQuery -->
-  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="/static/assets/js/adminlte.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="/static/assets/js/demo.js"></script>
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
 
-{% endblock javascripts %}  
+{% endblock javascripts %}

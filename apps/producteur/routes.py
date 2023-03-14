@@ -14,6 +14,8 @@ from flask_login import (
 from apps import db, login_manager
 from apps.producteur import blueprint
 from apps.producteur.models import Producteur
+from apps.configuration.models import Groupement
+from apps.configuration.models import Village
 
 
 @blueprint.route('/')
@@ -35,13 +37,37 @@ def index():
 def view(id):
     try:
         content = db.session.query(Producteur).get(id)
-        
+
         return render_template('producteur/view.html', segment='producteur-view', content=content)
     except Exception as e:
         print('> Error: /producteur: index Exception: ' + str(e))
-    
+
+
+@blueprint.route('/parcelle/edit/<id>', methods=['GET'])
+@login_required
+def edit_producteur_parcelle(id):
+    try:
+        content = db.session.query(Producteur).get(id)
+        print(content)
+        return render_template('producteur/edit-parcelle.html', segment='producteur-view', content=content)
+    except Exception as e:
+        print('> Error: /producteur: index Exception: ' + str(e))
+
+
+@blueprint.route('/profile/edit/<id>', methods=['GET'])
+@login_required
+def edit_producteur_profile(id):
+    try:
+        content = db.session.query(Producteur).get(id)
+        groupement = db.session.query(Groupement).all()
+        village = db.session.query(Village).all()
+        return render_template('producteur/edit-profile.html', segment='producteur-view', content=content, village=village, groupement=groupement)
+    except Exception as e:
+        print('> Error: /producteur: index Exception: ' + str(e))
 
 # Errors
+
+
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     return render_template('home/page-403.html'), 403

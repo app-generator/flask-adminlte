@@ -61,6 +61,7 @@ class Producteur(db.Model):
         self.permanentManpower = permanentManpower
         self.ancienCode = ancienCode
 
+
 def fetch_producteur(session, producteur_info, campagne):
     producteur = Producteur.query.filter(
         func.lower(Producteur.nom) == func.lower(producteur_info["nom"]),
