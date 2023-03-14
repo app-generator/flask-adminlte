@@ -17,18 +17,18 @@ class Season(db.Model):
 class Animateur(db.Model):
     __tablename__ = "animateur"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    nom = db.Column(db.String(50))
-    prenom = db.Column(db.String(50))
+    firstName = db.Column(db.String(50))
+    lastName = db.Column(db.String(50))
     telephone = db.Column(db.String(50))
     email = db.Column(db.String(50))
     __table_args__ = (
         db.UniqueConstraint('nom', 'prenom'),
     )
 
-    def __init__(self, id, nom, prenom, telephone, email):
+    def __init__(self, id, firstName, lastName, telephone, email):
         self.id = id
-        self.nom = nom
-        self.prenom = prenom
+        self.firstName = firstName
+        self.lastName = lastName
         self.telephone = telephone
         self.email = email
 
