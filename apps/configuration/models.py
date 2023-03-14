@@ -1,59 +1,17 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from flask_login import UserMixin
 
 from apps import db, login_manager
 from apps.models import *
 
 
-
-#     campagne_id = db.Column(
-#         db.Integer, db.ForeignKey('campagne.id'), nullable=True)
-#     nomParcelle = db.Column(db.String(50))
-#     descriptionParcelle = db.Column(db.String(50))
-#     statutParcelle = db.Column(db.String(50))
-#     surface = db.Column(db.Float)
-#     totalPlants = db.Column(db.Integer)
-#     plantsProductives = db.Column(db.Integer)
-#     ageMoyenPlants = db.Column(db.Integer)
-#     photoParcelle = db.Column(db.String(500))
-#     estimationProduction = db.Column(db.Integer)
-#     estimationProduction_last = db.Column(db.Integer)
-#     estimation_VRAC = db.Column(db.Float)
-#     latitude = db.Column(db.Numeric(11, 8))
-#     longitude = db.Column(db.Numeric(11, 8))
-#     altitude = db.Column(db.Float)
-#     xsaison_last = db.Column(db.String(50))
-#     xsaison_last_but_one = db.Column(db.String(50))
-#     xsaison_last_but_two = db.Column(db.String(50))
-#     __table_args__ = (
-#         db.UniqueConstraint('producteur_id', 'campagne_id', 'nomParcelle'),
-#     )
-
-#     def __init__(self, nomParcelle, descriptionParcelle, statutParcelle, surface, totalPlants, plantsProductives, ageMoyenPlants, photoParcelle, estimationProduction, estimationProduction_last, estimation_VRAC, latitude, longitude, altitude, xsaison_last, xsaison_last_but_one, xsaison_last_but_two, id=None, producteur_id=None, campagne_id=None):
-#         self.id = id
-#         self.producteur_id = producteur_id
-#         self.campagne_id = campagne_id
-#         self.nomParcelle = nomParcelle
-#         self.descriptionParcelle = descriptionParcelle
-#         self.statutParcelle = statutParcelle
-#         self.surface = surface
-#         self.totalPlants = totalPlants
-#         self.plantsProductives = plantsProductives
-#         self.ageMoyenPlants = ageMoyenPlants
-#         self.photoParcelle = photoParcelle
-#         self.estimationProduction = estimationProduction
-#         self.estimationProduction_last = estimationProduction_last
-#         self.estimation_VRAC = estimation_VRAC
-#         self.latitude = latitude
-#         self.longitude = longitude
-#         self.altitude = altitude
-#         self.xsaison_last = xsaison_last
-#         self.xsaison_last_but_one = xsaison_last_but_one
-#         self.xsaison_last_but_two = xsaison_last_but_two
+class Season(db.Model):
+    __tablename__ = "season"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(50))
+    default = db.Column(db.Boolean, default=False)
+    __table_args__ = (
+        db.UniqueConstraint('name', 'default'),
+    )
 
 
 class Animateur(db.Model):
@@ -80,21 +38,35 @@ class Groupement(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     type = db.Column(db.String(50))
     code = db.Column(db.String(50), unique=True)
-    groupement = db.Column(db.String(50), unique=True)
-    village_id = db.Column(db.Integer, db.ForeignKey(
+    name = db.Column(db.String(50), unique=True)
+    villageId = db.Column(db.Integer, db.ForeignKey(
         'village.id'), nullable=False)
-    gps = db.Column(db.String(50))
+    
+    certification = db.Column(db.String(20))
+    certificationDate = db.Column(db.Date)
+    
+    latitude = db.Column(db.Numeric(11, 8))
+    longitude = db.Column(db.Numeric(11, 8))
+    altitude = db.Column(db.Float)
+    accuracy = db.Column(db.Float)
+
+
     __table_args__ = (
-        db.UniqueConstraint('type', 'code', 'village_id'),
+        db.UniqueConstraint('type', 'code', 'villageId'),
     )
 
-    def __init__(self, type, code, groupement, village_id, id=None, gps=None):
+    def __init__(self, type, code, name, villageId, certification, certificationDate, latitude, longitude, altitude, accuracy, id=None, gps=None):
         self.id = id
         self.type = type
         self.code = code
-        self.groupement = groupement
-        self.village_id = village_id
-        self.gps = gps
+        self.name = name
+        self.villageId = villageId
+        self.certification = certification
+        self.certificationDate = certificationDate
+        self.latitude = latitude
+        self.longitude = longitude
+        self.altitude = altitude
+        self.accuracy = accuracy
 
 
 class District(db.Model):

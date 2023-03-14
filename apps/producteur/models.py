@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship, backref
 
@@ -11,55 +6,121 @@ from apps.configuration.models import Groupement, Village
 from apps.models import *
 
 
-class Producteur(db.Model):
-    __tablename__ = "producteur"
+class Farmer(db.Model):
+    __tablename__ = "farmer"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    
+    ancienCode = db.Column(db.String(20))
+    registrationStatus = db.Column(db.String(50))
+
     code = db.Column(db.String(20), unique=True)
-    nom = db.Column(db.String(50))
-    prenom = db.Column(db.String(50))
-    genre = db.Column(db.String(15))
-    dateNaissance = db.Column(db.DateTime)
-    cni = db.Column(db.String(50))
-    photo_cni = db.Column(db.String(500))
-    photo = db.Column(db.String(500))
-    poincon = db.Column(db.String(50))
-    coopMembersip = db.Column(db.Integer)
-    statusEnregistrement = db.Column(db.String(50))
+
+    firstName = db.Column(db.String(50))
+    lastName = db.Column(db.String(50))
+
+    picture = db.Column(db.String(500))
+
+    stamp = db.Column(db.String(50))
+
+    gender = db.Column(db.Enum(Gender))
+
+    idNumber = db.Column(db.String(50))
+    idNumberPicture = db.Column(db.String(500))
+
+    birthdate = db.Column(db.Date)
+    
+    inCollaboration = db.Column(db.Boolean, default=False)
+    nonCollaboarationReason = db.Column(db.String(250))
+    
+    certification = db.Column(db.String(20))
+
+    grpMembership = db.Column(db.String(20))
+    grpMembershipDate = db.Column(db.Date)
+
     tempManpower = db.Column(db.String(50))
     permanentManpower = db.Column(db.Integer)
-    ancienCode = db.Column(db.String(20))
-    groupement_id = db.Column(db.Integer, db.ForeignKey(
+
+    hhMembers = db.Column(db.Integer)
+    xsaison_last = db.Column(db.String(50))
+    xsaison_last_but_one = db.Column(db.String(50))
+    xsaison_last_but_two = db.Column(db.String(50))
+
+    plotCount = db.Column(db.Integer)
+    status = db.Column(db.Enum(FarmerStatus))
+    statusComment = db.Column(db.String(250))
+
+    groupementId = db.Column(db.Integer, db.ForeignKey(
         'groupement.id'), nullable=False)
     groupement = relationship(Groupement, backref=backref('producteurs'))
-    village_id = db.Column(db.Integer, db.ForeignKey(
+
+    villageId = db.Column(db.Integer, db.ForeignKey(
         'village.id'), nullable=False)
     village = relationship(Village, backref=backref('producteurs'))
-    parcelles = db.relationship(
-        "Parcelle", backref=db.backref("parcelle"), lazy=True)
-    campagnes = db.relationship(
-        "Campagne", secondary=campagne_producteur, backref=db.backref("campagne"), lazy=True)
+
+    plots = db.relationship(
+        "Plot", backref=db.backref("plot"), lazy=True)
+        
+    season = db.relationship(
+        "Season", secondary=season_producteur, backref=db.backref("season"), lazy=True)
+
+    createdAt = db.Column(db.DateTime, default=db.func.now())
+    updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
+    
     __table_args__ = (
         db.UniqueConstraint('nom', 'prenom', 'cni', 'groupement_id'),
     )
 
-    def __init__(self, nom, prenom, code, genre, dateNaissance, cni, groupement_id, village_id, photo=None, photo_cni=None, poincon=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
+    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, inCollaboration, nonCollaboarationReason, certification, grpMembership, grpMembershipDate, groupementId, villageId, hhMembers, xsaison_last, xsaison_last_but_one, xsaison_last_but_two, plotCount, status, statusComment, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
         self.id = id
-        self.nom = nom
-        self.prenom = prenom
+        self.firstName = lastName
+        self.lastName = prenom
         self.code = code
-        self.genre = genre
-        self.dateNaissance = datetime.strptime(str(dateNaissance), '%d/%m/%Y')
-        self.photo = photo
-        self.cni = cni
-        self.photo_cni = photo_cni
-        self.groupement_id = groupement_id
-        self.village_id = village_id
-        self.poincon = poincon
-        self.coopMembersip = coopMembersip
-        self.statusEnregistrement = statusEnregistrement
+        self.picture = picture
+        self.stamp = stamp
+        self.gender = gender
+        self.idNumber = idNumber
+        self.idNumberPicture = idNumberPicture
+        self.birthdate = datetime.strptime(str(dateNaissance), '%d/%m/%Y')
+        self.inCollaboration = inCollaboration
+        self.nonCollaboarationReason = nonCollaboarationReason
+        self.certification = certification
+        self.grpMembership = grpMembership
+        self.grpMembershipDate = grpMembershipDate
         self.tempManpower = tempManpower
         self.permanentManpower = permanentManpower
+        self.hhMembers = hhMembers
+        self.xsaison_last = xsaison_last
+        self.xsaison_last_but_one = xsaison_last_but_one
+        self.xsaison_last_but_two = xsaison_last_but_two
+        self.plotCount = plotCount
+        self.status = status
+        self.statusComment = statusComment
+        self.groupementId = groupementId
+        self.villageId = villageId
+        self.coopMembersip = coopMembersip
+        self.statusEnregistrement = statusEnregistrement
         self.ancienCode = ancienCode
+
+
+class FarmerMetadata(db.Model):
+    __tablename__ = "farmer_metadata"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    farmerId = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
+    createdBy = db.Column(db.String(50))
+    source = db.Column(db.String(50))
+    surveyDate = db.Column(db.DateTime, default=db.func.now())
+    createdAt = db.Column(db.DateTime, default=db.func.now())
+    updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
+
+
+class FarmerStatus(enum.Enum):
+    APPROVED = 'APPROVED'
+    EXCLUDED = 'EXCLUDED'
+
+
+class Gender(enum.Enum):
+    MALE = 'MALE'
+    FEMALE = 'FEMALE'
 
 
 def fetch_producteur(session, producteur_info, campagne):
@@ -104,15 +165,3 @@ def get_next_producteur_code(session, groupement_id):
     except:
         print("An error error occurred while fetching for the next producteur groupement code: " + groupement.code)
         raise
-
-
-# @login_manager.producteur_loader
-# def producteur_loader(id):
-#     return Producteur.query.filter_by(id=id).first()
-
-
-# @login_manager.request_loader
-# def request_loader(request):
-#     username = request.form.get('username')
-#     user = Users.query.filter_by(username=username).first()
-#     return user if user else None
