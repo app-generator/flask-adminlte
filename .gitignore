@@ -12,11 +12,8 @@ __pycache__/
 *.log
 
 # venv
-env
-venv
-
-# configuration file
 .env
+venv
 
 # other
 .DS_Store
