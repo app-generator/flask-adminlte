@@ -73,7 +73,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="producteurs_list" class="table table-bordered table-hover">
+                            <table id="farmer_list" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Code</th>
@@ -90,15 +90,15 @@
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.nom}}</td>
+                                            {{c.lastName}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.prenom}}</td>
+                                            {{c.firstName}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.groupement.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.village.name}}</td>
                                         <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="/producteur/view/{{c.id}}">
+                                            <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
                                                 <i class="fas fa-folder">
                                                 </i>
                                                 View

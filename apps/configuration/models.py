@@ -1,7 +1,6 @@
 from flask_login import UserMixin
 
 from apps import db, login_manager
-from apps.models import *
 
 
 class Season(db.Model):
@@ -14,6 +13,14 @@ class Season(db.Model):
     )
 
 
+season_farmer = db.Table('season_farmer',
+                               db.Column('seasonId', db.Integer,
+                                         db.ForeignKey('season.id')),
+                               db.Column('farmerId', db.Integer,
+                                         db.ForeignKey('farmer.id'))
+                               )
+
+
 class Animateur(db.Model):
     __tablename__ = "animateur"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -22,7 +29,7 @@ class Animateur(db.Model):
     telephone = db.Column(db.String(50))
     email = db.Column(db.String(50))
     __table_args__ = (
-        db.UniqueConstraint('nom', 'prenom'),
+        db.UniqueConstraint('firstName', 'lastName'),
     )
 
     def __init__(self, id, firstName, lastName, telephone, email):
@@ -88,12 +95,12 @@ class Commune(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50), unique=True)
-    district_id = db.Column(db.Integer, db.ForeignKey(
+    districtId = db.Column(db.Integer, db.ForeignKey(
         'district.id'), nullable=False)
     fokotanies = db.relationship(
         "Fokontany", backref=db.backref("fokontany"), lazy=True)
     __table_args__ = (
-        db.UniqueConstraint('code', 'name', 'district_id'),
+        db.UniqueConstraint('code', 'name', 'districtId'),
     )
 
     def __init__(self, code, name, district_id, id=None):
@@ -108,11 +115,11 @@ class Fokontany(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50), unique=True)
-    commune_id = db.Column(db.Integer, db.ForeignKey(
+    communeId = db.Column(db.Integer, db.ForeignKey(
         'commune.id'), nullable=False)
     villages = db.relationship("Village", backref=db.backref("village"))
     __table_args__ = (
-        db.UniqueConstraint('code', 'name', 'commune_id'),
+        db.UniqueConstraint('code', 'name', 'communeId'),
     )
 
     def __init__(self, code, name, commune_id, id=None):
@@ -127,10 +134,10 @@ class Village(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50), unique=True)
-    fokontany_id = db.Column(db.Integer, db.ForeignKey(
+    fokontanyId = db.Column(db.Integer, db.ForeignKey(
         'fokontany.id'), nullable=False)
     __table_args__ = (
-        db.UniqueConstraint('code', 'name', 'fokontany_id'),
+        db.UniqueConstraint('code', 'name', 'fokontanyId'),
     )
 
     def __init__(self, code, name, fokontany_id, id=None):

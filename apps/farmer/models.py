@@ -1,13 +1,30 @@
+# -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
+
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship, backref
+import enum
 
 from apps import db, login_manager
-from apps.configuration.models import Groupement, Village
-from apps.models import *
+from apps.farm.models import *
+from apps.configuration.models import *
+
+
+class FarmerStatus(enum.Enum):
+    APPROVED = 'APPROVED'
+    EXCLUDED = 'EXCLUDED'
+
+
+class Gender(enum.Enum):
+    MALE = 'MALE'
+    FEMALE = 'FEMALE'
 
 
 class Farmer(db.Model):
     __tablename__ = "farmer"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     
     ancienCode = db.Column(db.String(20))
@@ -45,7 +62,7 @@ class Farmer(db.Model):
     xsaison_last_but_one = db.Column(db.String(50))
     xsaison_last_but_two = db.Column(db.String(50))
 
-    plotCount = db.Column(db.Integer)
+    farmCount = db.Column(db.Integer)
     status = db.Column(db.Enum(FarmerStatus))
     statusComment = db.Column(db.String(250))
 
@@ -57,20 +74,20 @@ class Farmer(db.Model):
         'village.id'), nullable=False)
     village = relationship(Village, backref=backref('producteurs'))
 
-    plots = db.relationship(
-        "Plot", backref=db.backref("plot"), lazy=True)
+    farms = db.relationship(
+        "Farm", backref=db.backref("farm"), lazy=True)
         
     season = db.relationship(
-        "Season", secondary=season_producteur, backref=db.backref("season"), lazy=True)
+        "Season", secondary=season_farmer, backref=db.backref("season"), lazy=True)
 
     createdAt = db.Column(db.DateTime, default=db.func.now())
     updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
     
     __table_args__ = (
-        db.UniqueConstraint('nom', 'prenom', 'cni', 'groupement_id'),
+        db.UniqueConstraint('firstName', 'lastName', 'idNumber', 'groupementId'),
     )
 
-    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, inCollaboration, nonCollaboarationReason, certification, grpMembership, grpMembershipDate, groupementId, villageId, hhMembers, xsaison_last, xsaison_last_but_one, xsaison_last_but_two, plotCount, status, statusComment, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
+    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, inCollaboration, nonCollaboarationReason, certification, grpMembership, grpMembershipDate, groupementId, villageId, hhMembers, xsaison_last, xsaison_last_but_one, xsaison_last_but_two, farmCount, status, statusComment, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
         self.id = id
         self.firstName = lastName
         self.lastName = prenom
@@ -92,7 +109,7 @@ class Farmer(db.Model):
         self.xsaison_last = xsaison_last
         self.xsaison_last_but_one = xsaison_last_but_one
         self.xsaison_last_but_two = xsaison_last_but_two
-        self.plotCount = plotCount
+        self.farmCount = farmCount
         self.status = status
         self.statusComment = statusComment
         self.groupementId = groupementId
@@ -112,15 +129,12 @@ class FarmerMetadata(db.Model):
     createdAt = db.Column(db.DateTime, default=db.func.now())
     updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
 
-
-class FarmerStatus(enum.Enum):
-    APPROVED = 'APPROVED'
-    EXCLUDED = 'EXCLUDED'
-
-
-class Gender(enum.Enum):
-    MALE = 'MALE'
-    FEMALE = 'FEMALE'
+    def __init__(self, farmerId, createdBy, source, surveyDate, id=None):
+        self.id = id
+        self.farmerId = farmerId
+        self.createdBy = createdBy
+        self.source = source
+        self.surveyDate = surveyDate
 
 
 def fetch_producteur(session, producteur_info, campagne):
