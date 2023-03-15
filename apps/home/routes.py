@@ -4,51 +4,80 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from apps.home import blueprint
-from flask import render_template, request
+from flask import render_template, request, current_app
 from flask_login import login_required
 from jinja2 import TemplateNotFound
+
+from ..models import *
+from apps import db
+import jwt
+import time
 
 
 @blueprint.route('/index')
 @login_required
 def index():
 
-    return render_template('home/index.html', segment='index')
+    payload = {
+        "resource": {"dashboard": 3},
+        "params": {},
+        "exp": round(time.time()) + (60 * 10)  # 10 minute expiration
+    }
+    token = jwt.encode(
+        payload, current_app.config["METABASE_SECRET_KEY"], algorithm="HS256")
+
+    iframeUrl = current_app.config["METABASE_SITE_URL"] + \
+        "/embed/dashboard/" + token + "#bordered=true&titled=true"
+    return render_template('home/dashboard-campagne.html', segment='index', iframeUrl=iframeUrl)
 
 
-@blueprint.route('/<template>')
+@blueprint.route('/dashboard/campagne')
 @login_required
-def route_template(template):
+def dashboard_campagne():
 
-    try:
+    payload = {
+        "resource": {"dashboard": 3},
+        "params": {},
+        "exp": round(time.time()) + (60 * 10)  # 10 minute expiration
+    }
+    token = jwt.encode(
+        payload, current_app.config["METABASE_SECRET_KEY"], algorithm="HS256")
 
-        if not template.endswith('.html'):
-            template += '.html'
+    iframeUrl = current_app.config["METABASE_SITE_URL"] + \
+        "/embed/dashboard/" + token + "#bordered=true&titled=true"
 
-        # Detect the current page
-        segment = get_segment(request)
-
-        # Serve the file (if exists) from app/templates/home/FILE.html
-        return render_template("home/" + template, segment=segment)
-
-    except TemplateNotFound:
-        return render_template('home/page-404.html'), 404
-
-    except:
-        return render_template('home/page-500.html'), 500
+    return render_template('home/dashboard-campagne.html', segment='index', iframeUrl=iframeUrl)
 
 
-# Helper - Extract current page name from request
-def get_segment(request):
+@blueprint.route('/dashboard/producteur')
+@login_required
+def dashboard_producteur():
 
-    try:
+    payload = {
+        "resource": {"dashboard": 4},
+        "params": {},
+        "exp": round(time.time()) + (60 * 10)  # 10 minute expiration
+    }
+    token = jwt.encode(
+        payload, current_app.config["METABASE_SECRET_KEY"], algorithm="HS256")
 
-        segment = request.path.split('/')[-1]
+    iframeUrl = current_app.config["METABASE_SITE_URL"] + \
+        "/embed/dashboard/" + token + "#bordered=true&titled=true"
+    return render_template('home/dashboard-producteur.html', segment='index', iframeUrl=iframeUrl)
 
-        if segment == '':
-            segment = 'index'
 
-        return segment
+@blueprint.route('/dashboard/bio')
+@login_required
+def dashboard_list_bio():
 
-    except:
-        return None
+    payload = {
+        "resource": {"question": 4},
+        "params": {},
+        "exp": round(time.time()) + (60 * 10)  # 10 minute expiration
+    }
+    token = jwt.encode(
+        payload, current_app.config["METABASE_SECRET_KEY"], algorithm="HS256")
+
+    iframeUrl = current_app.config["METABASE_SITE_URL"] + \
+        "/embed/question/" + token + "#bordered=true&titled=true"
+    return render_template('home/dashboard-liste-bio.html', segment='index', iframeUrl=iframeUrl)
