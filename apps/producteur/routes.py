@@ -10,7 +10,7 @@ from flask_login import (
     logout_user,
     login_required
 )
-
+import json
 from apps import db, login_manager
 from apps.producteur import blueprint
 from apps.producteur.models import Producteur
@@ -43,17 +43,6 @@ def view(id):
         print('> Error: /producteur: index Exception: ' + str(e))
 
 
-@blueprint.route('/parcelle/edit/<id>', methods=['GET'])
-@login_required
-def edit_producteur_parcelle(id):
-    try:
-        content = db.session.query(Producteur).get(id)
-        print(content)
-        return render_template('producteur/edit-parcelle.html', segment='producteur-view', content=content)
-    except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
-
-
 @blueprint.route('/profile/edit/<id>', methods=['GET'])
 @login_required
 def edit_producteur_profile(id):
@@ -65,6 +54,37 @@ def edit_producteur_profile(id):
     except Exception as e:
         print('> Error: /producteur: index Exception: ' + str(e))
 
+
+@blueprint.route('/profile/edit/save/<id>', methods=['GET'])
+@login_required
+def save_producteur_profile(id):
+    try:
+        # id = request.args.get('id')
+        nom = request.args.get('nom')
+        prenom = request.args.get('prenom')
+        genre = request.args.get('genre')
+        date = request.args.get('date')
+        cni = request.args.get('cni')
+        groupement = request.args.get('groupement')
+        village = request.args.get('village')
+        poincon = request.args.get('poincon')
+        ancienCode = request.args.get('ancienCode')
+
+        content = db.session.query(Producteur).get(id)
+        content.nom = nom
+        content.prenom = prenom
+        content.genre = genre
+        content.date = date
+        content.cni = cni
+        content.groupement.id = groupement
+        content.village.id = village
+        content.poincon = poincon
+        content.ancienCode = ancienCode
+        db.session.commit()
+        return json.dumps({'status': 'true'})
+    except Exception as e:
+        print('> Error: /producteur-profile-edit-save: index Exception: ' + str(e))
+        return str(e)
 # Errors
 
 

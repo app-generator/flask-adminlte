@@ -1,7 +1,10 @@
 {% extends "layouts/base.html" %}
 
 {% block title %} Edit Profile {% endblock %}
-
+{% block scriptsJs %}
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+{% endblock %}
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini {% endblock body_class %}
 
@@ -56,7 +59,9 @@
                     <p class="text-muted text-center">
                         Edit profile
                     </p>
-
+                    <div class="form-group">
+                        <div class="" id="msg_error"></div>
+                    </div>
                     <div class="form-group">
                         <label for="nom">Nom</label>
                         <input type="text" value="{{content.nom}}" class="form-control" id="nom" placeholder="Nom" />
@@ -92,9 +97,9 @@
                         <select id="groupement" class="form-control">
                             {% for g in groupement %}
                             {% if content.groupement.code == g.code%}
-                            <option selected value="{{g.code}}">{{g.code}}</option>
+                            <option selected value="{{g.id}}">{{g.code}}</option>
                             {% else %}
-                            <option value="{{g.code}}">{{g.code}}</option>
+                            <option value="{{g.id}}">{{g.code}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -104,9 +109,9 @@
                         <select id="village" class="form-control">
                             {% for v in village %}
                             {% if content.village.name == v.name %}
-                            <option selected value="{{v.name}}">{{v.name}}</option>
+                            <option selected value="{{v.id}}">{{v.name}}</option>
                             {% else %}
-                            <option value="{{v.name}}">{{v.name}}</option>
+                            <option value="{{v.id}}">{{v.name}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
@@ -121,8 +126,8 @@
                     </div>
                     </ul>
                     <div class="d-flex mb-4">
-                        <button id="" class="btn btn-primary mr-3">Save</button>
-                        <button id="" class="btn btn-danger ml-3">Cancel</button>
+                        <button id="producteur_save" class="btn btn-primary mr-3">Save</button>
+                        <button id="producteur_cancel" class="btn btn-danger ml-3">Cancel</button>
                     </div>
                 </div>
             </div>
@@ -133,6 +138,59 @@
 </div>
 
 {% endblock content %}
+
+{% block js_editable %}
+<script type="text/javascript" lang="javascript">
+    $(document).ready(function () {
+
+        // save
+        let save = document.getElementById("producteur_save")
+        let cancel = document.getElementById("producteur_cancel")
+
+        let nom = document.getElementById('nom')
+        let prenom = document.getElementById('prenom')
+        let genre = document.getElementById('genre')
+        let date = document.getElementById('date')
+        let cni = document.getElementById('cni')
+        let groupement = document.getElementById('groupement')
+        let village = document.getElementById('village')
+        let poincon = document.getElementById('poincon')
+        let ancienCode = document.getElementById('ancienCode')
+
+
+        let msg_error = document.getElementById('msg_error')
+
+        $(cancel).click('click', () => {
+            event.preventDefault()
+            msg_error.insertAdjacentHTML("afterend",
+                "<h4 class='alert alert-danger text-center'>update canceled</h4>")
+            window.location.href = '/producteur/view/{{content.id}}';
+        })
+
+        $(save).click('click', () => {
+            event.preventDefault()
+            $.ajax({
+                url: '/producteur/profile/edit/save/{{content.id}}',
+                // data: `id={{content.id}}&nom=${nom.value}&prenom=${prenom.value}&genre=${genre.value}&date=${date.value}&date=${date.value}&cni=${cni.value}&groupement=${groupement.value}&village=${village.value}&poincon=${poincon.value}&ancienCode=${ancienCode.value}`,
+                data: `nom=${nom.value}&prenom=${prenom.value}&genre=${genre.value}&date=${date.value}&date=${date.value}&cni=${cni.value}&groupement=${groupement.value}&village=${village.value}&poincon=${poincon.value}&ancienCode=${ancienCode.value}`,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response)
+                    msg_error.insertAdjacentHTML("afterend",
+                        "<h3 class='alert alert-success text-center'> update successfully </h3>")
+
+                    window.location.href = '/producteur/view/{{content.id}}';
+                },
+                error: function (error) {
+                    console.log(error);
+                    msg_error.insertAdjacentHTML("afterend",
+                        "<h4 class='alert alert-danger text-center'>" + error + "</h4>")
+                }
+            });
+        })
+    });
+</script>
+{% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
 {% block javascripts %}
