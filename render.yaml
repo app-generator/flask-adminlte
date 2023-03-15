@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: flask-adminlte
+    name: s-tim
     plan: starter
     env: python
     region: frankfurt  # region should be same as your database region.
