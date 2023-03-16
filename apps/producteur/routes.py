@@ -33,7 +33,7 @@ def index():
 
 
 @blueprint.route('/view/<id>', methods=['GET'])
-@login_required
+# @login_required
 def view(id):
     try:
         content = db.session.query(Producteur).get(id)
@@ -44,7 +44,7 @@ def view(id):
 
 
 @blueprint.route('/profile/edit/<id>', methods=['GET'])
-@login_required
+# @login_required
 def edit_producteur_profile(id):
     try:
         content = db.session.query(Producteur).get(id)
@@ -56,7 +56,7 @@ def edit_producteur_profile(id):
 
 
 @blueprint.route('/profile/edit/save/<id>', methods=['GET'])
-@login_required
+# @login_required
 def save_producteur_profile(id):
     try:
         # id = request.args.get('id')
@@ -76,8 +76,8 @@ def save_producteur_profile(id):
         content.genre = genre
         content.date = date
         content.cni = cni
-        content.groupement.id = groupement
-        content.village.id = village
+        content.groupement_id = groupement
+        content.village_id = village
         content.poincon = poincon
         content.ancienCode = ancienCode
         db.session.commit()
