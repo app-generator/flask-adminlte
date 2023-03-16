@@ -85,6 +85,59 @@ def save_producteur_profile(id):
     except Exception as e:
         print('> Error: /producteur-profile-edit-save: index Exception: ' + str(e))
         return str(e)
+
+
+@blueprint.route('/<prod_id>/parcelle/edit/<id>', methods=['GET'])
+@login_required
+def edit_producteur_parcelle(prod_id, id):
+    try:
+        content = db.session.query(Producteur).get(prod_id)
+        parcelles = content.parcelles
+
+        for p in parcelles:
+            if str(p.id) == str(id):
+                return render_template('producteur/edit-parcelle.html', segment='producteur-view', content=p, producteur_id=prod_id, id=id)
+
+    except Exception as e:
+        print('> Error: /producteur: index Exception: ' + str(e))
+
+
+@blueprint.route('/<prod_id>/parcelle/edit/save/<id>', methods=['GET'])
+@login_required
+def save_producteur_parcelle(prod_id, id):
+    try:
+        nom = request.args.get('nom')
+        details = request.args.get('details')
+        surface = request.args.get('surface')
+        plants = request.args.get('plants')
+        plantsProductives = request.args.get('plantsProductives')
+        ageMoyen = request.args.get('ageMoyen')
+        productionEstimée = request.args.get('productionEstimée')
+        productionEstiméeVrac = request.args.get('productionEstiméeVrac')
+        statut = request.args.get('statut')
+
+        print('nom parcelle '+nom)
+
+        content = db.session.query(Producteur).get(prod_id)
+
+        for p in content.parcelles:
+            if str(p.id) == str(id):
+                p.nomParcelle = nom
+                p.descriptionParcelle = details
+                p.surface = surface
+                p.totalPlants = plants
+                p.plantsProductives = plantsProductives
+                p.ageMoyenPlants = ageMoyen
+                p.estimationProduction = productionEstimée
+                p.estimation_VRAC = productionEstiméeVrac
+                p.statutParcelle = statut
+
+        db.session.commit()
+        return json.dumps({'status': 'true'})
+    except Exception as e:
+        print('> Error: /producteur-profile-edit-save: index Exception: ' + str(e))
+        return str(e)
+
 # Errors
 
 
