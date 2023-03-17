@@ -17,9 +17,11 @@ from apps.producteur.models import Producteur
 from apps.configuration.models import Groupement
 from apps.configuration.models import Village
 
+import pandas as pd
 
-@blueprint.route('/')
-@login_required
+
+@blueprint.route('/', methods=['GET', 'POST'])
+# @login_required
 def index():
     try:
         content = db.session.query(Producteur).all()
@@ -28,6 +30,20 @@ def index():
             num += 1
         # print(num)
         return render_template('producteur/list.html', segment='producteur', num=num, content=content)
+    except Exception as e:
+        print('> Error: /producteur: index Exception: ' + str(e))
+
+
+@blueprint.route('/upload', methods=['GET', 'POST'])
+# @login_required
+def upload():
+    try:
+        if request.method == 'POST':
+            file = request.files['upload_file']
+            if file:
+                data = pd.read_excel(file)
+
+        return render_template('producteur/upload.html', segment='producteur', data=data.to_dict('list'))
     except Exception as e:
         print('> Error: /producteur: index Exception: ' + str(e))
 
