@@ -21,7 +21,7 @@ import pandas as pd
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def index():
     try:
         content = db.session.query(Producteur).all()
@@ -35,7 +35,7 @@ def index():
 
 
 @blueprint.route('/upload', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def upload():
     try:
         if request.method == 'POST':
@@ -44,20 +44,16 @@ def upload():
                 data = pd.read_excel(file)
                 # get table head from keys
                 head = list(data.to_dict('list').keys())
-                # get table row from values
-                Jdata = list(data.to_dict('list').values())
-                i = 0
-                for j in Jdata[0]:
-                    print('row'+str(i)+''+str(j))
-                    i += 1
-                print(Jdata[0])
-        return render_template('producteur/upload.html', segment='producteur', head=head, data=Jdata)
+                jdata = data.to_dict('records')
+                print(jdata)
+
+        return render_template('producteur/upload.html', segment='producteur', data=data.to_dict('records'), head=head)
     except Exception as e:
         print('> Error: /producteur: index Exception: ' + str(e))
 
 
-@blueprint.route('/view/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/view/<id>', methods=['GET'])
+@ login_required
 def view(id):
     try:
         content = db.session.query(Producteur).get(id)
@@ -67,8 +63,8 @@ def view(id):
         print('> Error: /producteur: index Exception: ' + str(e))
 
 
-@blueprint.route('/profile/edit/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/profile/edit/<id>', methods=['GET'])
+@ login_required
 def edit_producteur_profile(id):
     try:
         content = db.session.query(Producteur).get(id)
@@ -79,8 +75,8 @@ def edit_producteur_profile(id):
         print('> Error: /producteur: index Exception: ' + str(e))
 
 
-@blueprint.route('/profile/edit/save/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/profile/edit/save/<id>', methods=['GET'])
+@ login_required
 def save_producteur_profile(id):
     try:
         # id = request.args.get('id')
@@ -111,8 +107,8 @@ def save_producteur_profile(id):
         return str(e)
 
 
-@blueprint.route('/<prod_id>/parcelle/edit/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/<prod_id>/parcelle/edit/<id>', methods=['GET'])
+@ login_required
 def edit_producteur_parcelle(prod_id, id):
     try:
         content = db.session.query(Producteur).get(prod_id)
@@ -126,8 +122,8 @@ def edit_producteur_parcelle(prod_id, id):
         print('> Error: /producteur: index Exception: ' + str(e))
 
 
-@blueprint.route('/<prod_id>/parcelle/edit/save/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/<prod_id>/parcelle/edit/save/<id>', methods=['GET'])
+@ login_required
 def save_producteur_parcelle(prod_id, id):
     try:
         nom = request.args.get('nom')
@@ -165,21 +161,21 @@ def save_producteur_parcelle(prod_id, id):
 # Errors
 
 
-@login_manager.unauthorized_handler
+@ login_manager.unauthorized_handler
 def unauthorized_handler():
     return render_template('home/page-403.html'), 403
 
 
-@blueprint.errorhandler(403)
+@ blueprint.errorhandler(403)
 def access_forbidden(error):
     return render_template('home/page-403.html'), 403
 
 
-@blueprint.errorhandler(404)
+@ blueprint.errorhandler(404)
 def not_found_error(error):
     return render_template('home/page-404.html'), 404
 
 
-@blueprint.errorhandler(500)
+@ blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
