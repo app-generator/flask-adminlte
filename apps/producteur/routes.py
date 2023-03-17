@@ -21,7 +21,7 @@ import pandas as pd
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def index():
     try:
         content = db.session.query(Producteur).all()
@@ -35,15 +35,23 @@ def index():
 
 
 @blueprint.route('/upload', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def upload():
     try:
         if request.method == 'POST':
             file = request.files['upload_file']
             if file:
                 data = pd.read_excel(file)
-
-        return render_template('producteur/upload.html', segment='producteur', data=data.to_dict('list'))
+                # get table head from keys
+                head = list(data.to_dict('list').keys())
+                # get table row from values
+                Jdata = list(data.to_dict('list').values())
+                i = 0
+                for j in Jdata[0]:
+                    print('row'+str(i)+''+str(j))
+                    i += 1
+                print(Jdata[0])
+        return render_template('producteur/upload.html', segment='producteur', head=head, data=Jdata)
     except Exception as e:
         print('> Error: /producteur: index Exception: ' + str(e))
 
