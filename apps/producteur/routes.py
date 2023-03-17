@@ -21,7 +21,7 @@ import pandas as pd
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def index():
     try:
         content = db.session.query(Producteur).all()
@@ -35,7 +35,7 @@ def index():
 
 
 @blueprint.route('/upload', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def upload():
     try:
         if request.method == 'POST':
