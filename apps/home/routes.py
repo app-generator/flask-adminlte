@@ -8,7 +8,6 @@ from flask import render_template, request, current_app
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 
-from ..models import *
 from apps import db
 import jwt
 import time

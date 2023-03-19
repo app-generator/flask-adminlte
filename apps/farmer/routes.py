@@ -12,10 +12,10 @@ from flask_login import (
 )
 import json
 from apps import db, login_manager
-from apps.producteur import blueprint
-from apps.producteur.models import Producteur
-from apps.configuration.models import Groupement
-from apps.configuration.models import Village
+from apps.farmer import blueprint
+from apps.farmer.models import Farmer
+from apps.farm.models import Farm
+from apps.configuration.models import Groupement, Village
 
 import pandas as pd
 
@@ -24,14 +24,14 @@ import pandas as pd
 @login_required
 def index():
     try:
-        content = db.session.query(Producteur).all()
+        content = db.session.query(Farmer).all()
         num = 0
         for c in content:
             num += 1
         # print(num)
-        return render_template('producteur/list.html', segment='producteur', num=num, content=content)
+        return render_template('farmer/list.html', segment='farmer', num=num, content=content)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: index Exception: ' + str(e))
 
 
 @blueprint.route('/upload', methods=['GET', 'POST'])
@@ -49,35 +49,36 @@ def upload():
 
         return render_template('producteur/upload.html', segment='producteur', data=data.to_dict('records'), head=head)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: upload Exception: ' + str(e))
 
 
 @ blueprint.route('/view/<id>', methods=['GET'])
 @ login_required
 def view(id):
     try:
-        content = db.session.query(Producteur).get(id)
+        content = db.session.query(Farmer).get(id)
 
-        return render_template('producteur/view.html', segment='producteur-view', content=content)
+        return render_template('farmer/view.html', segment='farmer-view', content=content)
+
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: view Exception: ' + str(e))
 
 
-@ blueprint.route('/profile/edit/<id>', methods=['GET'])
-@ login_required
-def edit_producteur_profile(id):
+@blueprint.route('/edit/<id>', methods=['GET'])
+@login_required
+def edit_farmer_profile(id):
     try:
-        content = db.session.query(Producteur).get(id)
+        content = db.session.query(Farmer).get(id)
         groupement = db.session.query(Groupement).all()
         village = db.session.query(Village).all()
-        return render_template('producteur/edit-profile.html', segment='producteur-view', content=content, village=village, groupement=groupement)
+        return render_template('farmer/edit-farmer.html', segment='farmer-view', content=content, village=village, groupement=groupement)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: edit_farmer_profile Exception: ' + str(e))
 
 
-@ blueprint.route('/profile/edit/save/<id>', methods=['GET'])
-@ login_required
-def save_producteur_profile(id):
+@blueprint.route('/edit/save/<id>', methods=['GET'])
+@login_required
+def save_farmer_profile(id):
     try:
         # id = request.args.get('id')
         nom = request.args.get('nom')
@@ -90,7 +91,7 @@ def save_producteur_profile(id):
         poincon = request.args.get('poincon')
         ancienCode = request.args.get('ancienCode')
 
-        content = db.session.query(Producteur).get(id)
+        content = db.session.query(Farmer).get(id)
         content.nom = nom
         content.prenom = prenom
         content.genre = genre
@@ -103,28 +104,37 @@ def save_producteur_profile(id):
         db.session.commit()
         return json.dumps({'status': 'true'})
     except Exception as e:
-        print('> Error: /producteur-profile-edit-save: index Exception: ' + str(e))
+        print('> Error: /farmer: save_farmer_profile Exception: ' + str(e))
         return str(e)
 
 
-@ blueprint.route('/<prod_id>/parcelle/edit/<id>', methods=['GET'])
-@ login_required
-def edit_producteur_parcelle(prod_id, id):
+@blueprint.route('/<farmer_id>/farm/edit/<id>', methods=['GET'])
+@login_required
+def edit_farmer_farm(farmer_id, id):
     try:
-        content = db.session.query(Producteur).get(prod_id)
-        parcelles = content.parcelles
+        content = db.session.query(Farmer).get(farmer_id)
+        farms = content.farms
 
-        for p in parcelles:
+        for p in farms:
             if str(p.id) == str(id):
-                return render_template('producteur/edit-parcelle.html', segment='producteur-view', content=p, producteur_id=prod_id, id=id)
+                return render_template('farmer/edit-farm.html', segment='farmer-view', content=p, farmer_id=farmer_id, id=id)
 
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: Edit farmer Exception: ' + str(e))
 
 
-@ blueprint.route('/<prod_id>/parcelle/edit/save/<id>', methods=['GET'])
-@ login_required
-def save_producteur_parcelle(prod_id, id):
+# def edit_farmer_farm(id):
+#     try:
+#         content = db.session.query(Farmer).get(id)
+#         print(content)
+#         return render_template('farmer/edit-farm.html', segment='farmer-view', content=content)
+
+#     except Exception as e:
+#         print('> Error: /farmer: index Exception: ' + str(e))
+
+@blueprint.route('/<farmer_id>/farm/edit/save/<id>', methods=['GET'])
+@login_required
+def save_farmer_farm(farmer_id, id):
     try:
         nom = request.args.get('nom')
         details = request.args.get('details')
@@ -136,26 +146,26 @@ def save_producteur_parcelle(prod_id, id):
         productionEstiméeVrac = request.args.get('productionEstiméeVrac')
         statut = request.args.get('statut')
 
-        print('nom parcelle '+nom)
+        print('nom farm '+nom)
 
-        content = db.session.query(Producteur).get(prod_id)
+        content = db.session.query(Farmer).get(farmer_id)
 
-        for p in content.parcelles:
+        for p in content.farms:
             if str(p.id) == str(id):
-                p.nomParcelle = nom
-                p.descriptionParcelle = details
+                p.nomFarm = nom
+                p.descriptionFarm = details
                 p.surface = surface
                 p.totalPlants = plants
                 p.plantsProductives = plantsProductives
                 p.ageMoyenPlants = ageMoyen
                 p.estimationProduction = productionEstimée
                 p.estimation_VRAC = productionEstiméeVrac
-                p.statutParcelle = statut
+                p.statutFarm = statut
 
         db.session.commit()
         return json.dumps({'status': 'true'})
     except Exception as e:
-        print('> Error: /producteur-profile-edit-save: index Exception: ' + str(e))
+        print('> Error: /farmer-profile-edit-save: index Exception: ' + str(e))
         return str(e)
 
 # Errors

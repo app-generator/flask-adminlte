@@ -12,22 +12,22 @@ from flask_login import (
 )
 
 from apps import db, login_manager
-from apps.parcelle import blueprint
-from apps.parcelle.models import Parcelle
+from apps.farm import blueprint
+from apps.farm.models import Farm
 
 
 @blueprint.route('/')
 @login_required
 def index():
     try:
-        content = db.session.query(Parcelle).all()
+        content = db.session.query(Farm).all()
         num = 0
         for c in content:
             num += 1
         # print(num)
-        return render_template('parcelle/list.html', segment='parcelle', num=num, content=content)
+        return render_template('farm/list.html', segment='farm', num=num, content=content)
     except Exception as e:
-        print('> Error: /parcelle: index Exception: ' + str(e))
+        print('> Error: /farm: index Exception: ' + str(e))
     
 
 # Errors
