@@ -44,23 +44,16 @@ def upload():
                 data = pd.read_excel(file)
                 # get table head from keys
                 head = list(data.to_dict('list').keys())
-                # get table row from values
-                Jdata = list(data.to_dict('list').values())
-                i = 0
-                for j in Jdata[0]:
-                    print('row'+str(i)+''+str(j))
-                    i += 1
-                print(Jdata[0])
-        return render_template('farmer/upload.html', segment='farmer', head=head, data=Jdata)
-        content = db.session.query(Farmer).get(id)
+                jdata = data.to_dict('records')
+                print(jdata)
 
-        return render_template('farmer/view.html', segment='farmer-view', content=content)
+        return render_template('producteur/upload.html', segment='producteur', data=data.to_dict('records'), head=head)
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
 
 
-@blueprint.route('/view/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/view/<id>', methods=['GET'])
+@ login_required
 def view(id):
     try:
         content = db.session.query(Farmer).get(id)
@@ -178,21 +171,21 @@ def save_farmer_farm(farmer_id, id):
 # Errors
 
 
-@login_manager.unauthorized_handler
+@ login_manager.unauthorized_handler
 def unauthorized_handler():
     return render_template('home/page-403.html'), 403
 
 
-@blueprint.errorhandler(403)
+@ blueprint.errorhandler(403)
 def access_forbidden(error):
     return render_template('home/page-403.html'), 403
 
 
-@blueprint.errorhandler(404)
+@ blueprint.errorhandler(404)
 def not_found_error(error):
     return render_template('home/page-404.html'), 404
 
 
-@blueprint.errorhandler(500)
+@ blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500

@@ -62,7 +62,6 @@
                 </div>
             </div>
         </div><!-- /.container-fluid -->
-
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -76,10 +75,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for d in data %}
+                                {% for key in data %}
                                 <tr>
-                                    {% for row in d %}
-                                    <td>{{row}}</td>
+                                    {%for value in key %}
+                                    <td>{{key[value]}}</td>
                                     {% endfor %}
                                 </tr>
                                 {% endfor %}
