@@ -68,11 +68,11 @@ class Farmer(db.Model):
 
     groupementId = db.Column(db.Integer, db.ForeignKey(
         'groupement.id'), nullable=False)
-    groupement = relationship(Groupement, backref=backref('producteurs'))
+    groupement = relationship(Groupement, backref=backref('farmers'))
 
     villageId = db.Column(db.Integer, db.ForeignKey(
         'village.id'), nullable=False)
-    village = relationship(Village, backref=backref('producteurs'))
+    village = relationship(Village, backref=backref('farmers'))
 
     farms = db.relationship(
         "Farm", backref=db.backref("farm"), lazy=True)
@@ -137,21 +137,21 @@ class FarmerMetadata(db.Model):
         self.surveyDate = surveyDate
 
 
-def fetch_producteur(session, producteur_info, campagne):
-    producteur = Producteur.query.filter(
-        func.lower(Producteur.nom) == func.lower(producteur_info["nom"]),
-        func.lower(Producteur.prenom) == func.lower(producteur_info["prenom"]),
-        func.lower(Producteur.cni) == func.lower(producteur_info["cni"])
+def fetch_farmer(session, farmer_info, campagne):
+    farmer = Farmer.query.filter(
+        func.lower(Farmer.nom) == func.lower(farmer_info["nom"]),
+        func.lower(Farmer.prenom) == func.lower(farmer_info["prenom"]),
+        func.lower(Farmer.cni) == func.lower(farmer_info["cni"])
     ).first()
-    if producteur:
-        # print("Producteur: " + json.dumps(producteur, cls=AlchemyEncoder), flush=True)
-        return producteur.id
+    if farmer:
+        # print("Farmer: " + json.dumps(farmer, cls=AlchemyEncoder), flush=True)
+        return farmer.id
     else:
-        next_code = get_next_producteur_code(
-            session, producteur_info["groupement_id"])
-        # print("Next Producteur Code: " + next_code, flush=True)
-        producteur_info["code"] = next_code
-        p = Producteur(**producteur_info)
+        next_code = get_next_farmer_code(
+            session, farmer_info["groupement_id"])
+        # print("Next Farmer Code: " + next_code, flush=True)
+        farmer_info["code"] = next_code
+        p = Farmer(**farmer_info)
         c = fetch_campagne(session, campagne)
         p.campagnes.append(c)
         session.add(p)
@@ -159,23 +159,23 @@ def fetch_producteur(session, producteur_info, campagne):
         return p.id
 
 
-def get_next_producteur_code(session, groupement_id):
+def get_next_farmer_code(session, groupement_id):
     groupement = Groupement.query.get(groupement_id)
     try:
-        last_groupement_producteur_code = Producteur.query.with_entities(Producteur.code).filter(
-            Producteur.code.like("%" + groupement.code + "%")
+        last_groupement_farmer_code = Farmer.query.with_entities(Farmer.code).filter(
+            Farmer.code.like("%" + groupement.code + "%")
         ).order_by(
-            Producteur.code.desc()
+            Farmer.code.desc()
         ).first()
 
-        if not last_groupement_producteur_code:
+        if not last_groupement_farmer_code:
             print("Oops, no result found for groupement " + groupement.code +
                   ". Returning code: " + groupement.code + "-" + '{0:04}'.format(1))
             return groupement.code + "-" + '{0:04}'.format(1)
         else:
-            last_groupement_producteur_number = str(
-                last_groupement_producteur_code.code).replace(groupement.code + "-", "")
-            return groupement.code + "-" + '{0:04}'.format(int(last_groupement_producteur_number) + 1)
+            last_groupement_farmer_number = str(
+                last_groupement_farmer_code.code).replace(groupement.code + "-", "")
+            return groupement.code + "-" + '{0:04}'.format(int(last_groupement_farmer_number) + 1)
     except:
-        print("An error error occurred while fetching for the next producteur groupement code: " + groupement.code)
+        print("An error error occurred while fetching for the next farmer groupement code: " + groupement.code)
         raise
