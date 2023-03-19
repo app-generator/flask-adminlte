@@ -68,11 +68,11 @@ def updateGroupement():
 #  end of routes for districts
 
 
-@blueprint.route('/campagne')
+@blueprint.route('/season')
 @login_required
 def list_campagne():
     try:
-        content = db.session.query(Campagne).all()
+        content = db.session.query(Season).all()
         num = 0
         for c in content:
             num += 1

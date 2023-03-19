@@ -12,8 +12,8 @@ from flask_login import (
 )
 import json
 from apps import db, login_manager
-from apps.producteur import blueprint
-from apps.producteur.models import Producteur
+from apps.farmer import blueprint
+from apps.farmer.models import Farmer
 from apps.configuration.models import Groupement
 from apps.configuration.models import Village
 
@@ -24,14 +24,14 @@ import pandas as pd
 @login_required
 def index():
     try:
-        content = db.session.query(Producteur).all()
+        content = db.session.query(Farmer).all()
         num = 0
         for c in content:
             num += 1
         # print(num)
-        return render_template('producteur/list.html', segment='producteur', num=num, content=content)
+        return render_template('farmer/list.html', segment='farmer', num=num, content=content)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: index Exception: ' + str(e))
 
 
 @blueprint.route('/upload', methods=['GET', 'POST'])
@@ -51,9 +51,12 @@ def upload():
                     print('row'+str(i)+''+str(j))
                     i += 1
                 print(Jdata[0])
-        return render_template('producteur/upload.html', segment='producteur', head=head, data=Jdata)
+        return render_template('farmer/upload.html', segment='farmer', head=head, data=Jdata)
+        content = db.session.query(Farmer).get(id)
+
+        return render_template('farmer/view.html', segment='farmer-view', content=content)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: index Exception: ' + str(e))
 
 
 @blueprint.route('/view/<id>', methods=['GET'])
@@ -62,21 +65,28 @@ def view(id):
     try:
         content = db.session.query(Producteur).get(id)
 
-        return render_template('producteur/view.html', segment='producteur-view', content=content)
+        return render_template('farmer/view.html', segment='farmer-view', content=content)
+
+        
+def edit_farmer_parcelle(id):
+    try:
+        content = db.session.query(Farmer).get(id)
+        print(content)
+        return render_template('farmer/edit-parcelle.html', segment='farmer-view', content=content)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: index Exception: ' + str(e))
 
 
 @blueprint.route('/profile/edit/<id>', methods=['GET'])
 @login_required
-def edit_producteur_profile(id):
+def edit_farmer_profile(id):
     try:
-        content = db.session.query(Producteur).get(id)
+        content = db.session.query(Farmer).get(id)
         groupement = db.session.query(Groupement).all()
         village = db.session.query(Village).all()
-        return render_template('producteur/edit-profile.html', segment='producteur-view', content=content, village=village, groupement=groupement)
+        return render_template('farmer/edit-profile.html', segment='farmer-view', content=content, village=village, groupement=groupement)
     except Exception as e:
-        print('> Error: /producteur: index Exception: ' + str(e))
+        print('> Error: /farmer: index Exception: ' + str(e))
 
 
 @blueprint.route('/profile/edit/save/<id>', methods=['GET'])
