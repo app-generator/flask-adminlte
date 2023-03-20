@@ -73,33 +73,27 @@
                                 <h3 class="card-title">Edit District id={{id}}</h3>
                             </div>
                             <!-- /.card-header -->
-                            <!-- form start -->
-                            <form class="form-horizontal">
-                                <div class="card-body">
-                                    <div class="form-group row justify-content-around">
-                                        <div class="col-sm-10 " id="msg_error"></div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code</label>
-                                        <div class="col-sm-10">
-                                            <input value="{{content.code}}" type="text" class="form-control" id="code"
-                                                placeholder="Code">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" value="{{content.name}}" class="form-control" id="name"
-                                                placeholder="Name">
-                                        </div>
-                                    </div>
 
+                            <!-- form start -->
+                            <form class="form-horizontal" action="/configuration/district/update/{{content.id}}">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        {{form.code.label(class="col-sm-2 col-form-label", for='code')}}
+                                        <div class="col-sm-10">
+                                            {{form.code(class="form-control from-control-lg",value=content.code,
+                                            id='code')}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        {{form.name.label(class="col-sm-2 col-form-label", for='name')}}
+                                        <div class="col-sm-10">
+                                            {{form.name(class="form-control from-control-lg",value=content.name,
+                                            id='name')}}
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <button type="submit" id="district_save" class="btn btn-info">Save</button>
-                                    <button type="submit" id="district_cancel"
-                                        class="btn btn-default float-right">Cancel</button>
+                                    {{form.submit(class='btn btn-info')}}
                                 </div>
                             </form>
                         </div>
@@ -113,48 +107,6 @@
 {% endblock content %}
 
 {% block js_editable %}
-<script type="text/javascript" lang="javascript">
-    $(document).ready(function () {
-        // // datatable
-        $('#sample_data').DataTable();
-
-        // save
-        let save = document.getElementById("district_save")
-        let cancel = document.getElementById("district_cancel")
-
-        let code = document.getElementById('code')
-        let name = document.getElementById('name')
-        let msg_error = document.getElementById('msg_error')
-
-        $(cancel).click('click', () => {
-            event.preventDefault()
-            msg_error.insertAdjacentHTML("afterend",
-                "<h4 class='alert alert-danger text-center'>update canceled</h4>")
-            window.location.href = '/configuration/district';
-        })
-
-        $(save).click('click', () => {
-            event.preventDefault()
-            $.ajax({
-                url: '/configuration/district/update',
-                data: `code=${code.value}&name=${name.value}&id={{content.id}}`,
-                type: 'GET',
-                success: function (response) {
-                    console.log(response)
-                    msg_error.insertAdjacentHTML("afterend",
-                        "<h3 class='alert alert-success text-center'> update successfully </h3>")
-
-                    window.location.href = '/configuration/district';
-                },
-                error: function (error) {
-                    console.log(error);
-                    msg_error.insertAdjacentHTML("afterend",
-                        "<h4 class='alert alert-danger text-center'>" + error + "</h4>")
-                }
-            });
-        })
-    });
-</script>
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->

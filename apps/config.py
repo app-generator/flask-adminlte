@@ -9,9 +9,8 @@ import string
 from dotenv import load_dotenv
 
 
-
 class Config(object):
-    
+
     load_dotenv()
     basedir = os.path.abspath(os.path.dirname(__file__))
 

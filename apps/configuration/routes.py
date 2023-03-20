@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for
+from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
     current_user,
     login_user,
@@ -15,6 +15,12 @@ from apps import db, login_manager
 from apps.configuration import blueprint
 from apps.configuration.models import *
 
+# importing forms
+from apps.configuration.forms import *
+from flask_wtf.csrf import CSRFProtect
+
+
+csrf = CSRFProtect()
 # routes for groupement
 
 
@@ -23,11 +29,7 @@ from apps.configuration.models import *
 def list_groupement():
     try:
         content = db.session.query(Groupement).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-groupement.html', segment='configuration-groupement', num=num, content=content)
+        return render_template('configuration/list-groupement.html', segment='configuration-groupement', content=content)
     except Exception as e:
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
 
@@ -73,11 +75,7 @@ def updateGroupement():
 def list_campagne():
     try:
         content = db.session.query(Season).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-campagne.html', segment='configuration-season', num=num, content=content)
+        return render_template('configuration/list-campagne.html', segment='configuration-season', content=content)
     except Exception as e:
         print('> Error: /configuration-season: index Exception: ' + str(e))
 
@@ -89,30 +87,31 @@ def list_campagne():
 def list_district():
     try:
         content = db.session.query(District).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-district.html', segment='configuration-district', num=num, content=content)
+        return render_template('configuration/list-district.html', segment='configuration-district', content=content)
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
 
 
 @blueprint.route('/district/edit/<id>', methods=['GET'])
 @login_required
+@csrf.exempt
 def editDistrict(id):
     try:
+        form = EditDistrictForm()
         content = db.session.query(District).get(id)
-        return render_template('configuration/edit-district.html', segment='configuration-district', id=id, content=content)
+
+        if form.validate_on_submit():
+            flash(f'District ' + str(id) + ' updated successfully', 'success')
+            return redirect('/configuration/district')
+        return render_template('configuration/edit-district.html', segment='configuration-district', form=form, id=id, content=content)
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
 
 
-@blueprint.route('/district/update', methods=['GET'])
+@blueprint.route('/district/update/<id>', methods=['GET'])
 @login_required
-def updateDistrict():
+def updateDistrict(id):
     try:
-        id = request.args.get('id')
         code = request.args.get('code')
         name = request.args.get('name')
 
@@ -120,7 +119,8 @@ def updateDistrict():
         content.code = code
         content.name = name
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'District ' + str(id) + ' updated successfully', 'success')
+        return redirect('/configuration/district')
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
         return str(e)
@@ -134,11 +134,7 @@ def updateDistrict():
 def list_village():
     try:
         content = db.session.query(Village).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-village.html', segment='configuration-village', num=num, content=content)
+        return render_template('configuration/list-village.html', segment='configuration-village', content=content)
     except Exception as e:
         print('> Error: /configuration-village: index Exception: ' + str(e))
 
@@ -184,11 +180,7 @@ def updateVillage():
 def list_fokontany():
     try:
         content = db.session.query(Fokontany).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-fokontany.html', segment='configuration-fokontany', num=num, content=content)
+        return render_template('configuration/list-fokontany.html', segment='configuration-fokontany', content=content)
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
 
@@ -233,11 +225,7 @@ def updateFokontant():
 def list_commune():
     try:
         content = db.session.query(Commune).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-commune.html', segment='configuration-commune', num=num, content=content)
+        return render_template('configuration/list-commune.html', segment='configuration-commune', content=content)
     except Exception as e:
         print('> Error: /configuration-commune: index Exception: ' + str(e))
 
