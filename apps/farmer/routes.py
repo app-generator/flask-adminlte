@@ -29,9 +29,11 @@ def index():
         for c in content:
             num += 1
         # print(num)
-        return render_template('farmer/list.html', segment='farmer', num=num, content=content)
+        return render_template('farmer/list.html', segment='producteur', num=num, content=content)
     except Exception as e:
         print('> Error: /farmer: index Exception: ' + str(e))
+
+# uploading excell file function
 
 
 @blueprint.route('/upload', methods=['GET', 'POST'])
@@ -45,9 +47,8 @@ def upload():
                 # get table head from keys
                 head = list(data.to_dict('list').keys())
                 jdata = data.to_dict('records')
-                print(jdata)
 
-        return render_template('producteur/upload.html', segment='producteur', data=data.to_dict('records'), head=head)
+        return render_template('farmer/upload.html', segment='producteur-upload', data=jdata, head=head)
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
 
@@ -58,7 +59,7 @@ def view(id):
     try:
         content = db.session.query(Farmer).get(id)
 
-        return render_template('farmer/view.html', segment='farmer-view', content=content)
+        return render_template('farmer/view.html', segment='producteur-view', content=content)
 
     except Exception as e:
         print('> Error: /farmer: view Exception: ' + str(e))
@@ -71,7 +72,7 @@ def edit_farmer_profile(id):
         content = db.session.query(Farmer).get(id)
         groupement = db.session.query(Groupement).all()
         village = db.session.query(Village).all()
-        return render_template('farmer/edit-farmer.html', segment='farmer-view', content=content, village=village, groupement=groupement)
+        return render_template('farmer/edit-farmer.html', segment='producteur-view', content=content, village=village, groupement=groupement)
     except Exception as e:
         print('> Error: /farmer: edit_farmer_profile Exception: ' + str(e))
 
@@ -92,14 +93,14 @@ def save_farmer_profile(id):
         ancienCode = request.args.get('ancienCode')
 
         content = db.session.query(Farmer).get(id)
-        content.nom = nom
-        content.prenom = prenom
-        content.genre = genre
-        content.date = date
-        content.cni = cni
-        content.groupement_id = groupement
-        content.village_id = village
-        content.poincon = poincon
+        content.firstName = nom
+        content.lastName = prenom
+        content.gender = genre
+        content.birthdate = date
+        content.idNumber = cni
+        content.groupementId = groupement
+        content.villageId = village
+        content.stamp = poincon
         content.ancienCode = ancienCode
         db.session.commit()
         return json.dumps({'status': 'true'})
@@ -117,7 +118,7 @@ def edit_farmer_farm(farmer_id, id):
 
         for p in farms:
             if str(p.id) == str(id):
-                return render_template('farmer/edit-farm.html', segment='farmer-view', content=p, farmer_id=farmer_id, id=id)
+                return render_template('farmer/edit-farm.html', segment='producteur-view', content=p, farmer_id=farmer_id, id=id)
 
     except Exception as e:
         print('> Error: /farmer: Edit farmer Exception: ' + str(e))
@@ -151,16 +152,20 @@ def save_farmer_farm(farmer_id, id):
         content = db.session.query(Farmer).get(farmer_id)
 
         for p in content.farms:
+            # print(p.id)
             if str(p.id) == str(id):
-                p.nomFarm = nom
-                p.descriptionFarm = details
-                p.surface = surface
+                p.name = nom
+                p.description = details
+                p.overallSize = surface
                 p.totalPlants = plants
-                p.plantsProductives = plantsProductives
-                p.ageMoyenPlants = ageMoyen
-                p.estimationProduction = productionEstimée
-                p.estimation_VRAC = productionEstiméeVrac
-                p.statutFarm = statut
+                p.productivePlants = plantsProductives
+                p.averageAge = ageMoyen
+                p.estimatedProduction = productionEstimée
+                p.estimated_VRAC = productionEstiméeVrac
+                if str(statut) == 'True':
+                    p.inspected = 1
+                else:
+                    p.inspected = 0
 
         db.session.commit()
         return json.dumps({'status': 'true'})

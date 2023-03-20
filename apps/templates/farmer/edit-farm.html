@@ -34,7 +34,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/producteur/view/{{content.id}}">View Producteur</a></li>
+                        <li class="breadcrumb-item"><a href="/farmer/view/{{farmer_id}}">View Producteur</a></li>
                         <li class="breadcrumb-item active">Edit Parcelle</li>
                     </ol>
                 </div>
@@ -52,8 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="name">Nom</label>
-                        <input type="text" value="{{content.name}}" class="form-control" id="name"
-                            placeholder="name" />
+                        <input type="text" value="{{content.name}}" class="form-control" id="name" placeholder="name" />
                     </div>
                     <div class="form-group">
                         <label for="description">Details</label>
@@ -87,11 +86,11 @@
                     </div>
                     <div class="form-group">
                         <label for="estimated_VRAC">Production Estimée Vrac</label>
-                        <input type="text" value="{{content.estimated_VRAC}}" class="form-control"
-                            id="estimated_VRAC" placeholder="Production Estimée Vrac" />
+                        <input type="text" value="{{content.estimated_VRAC}}" class="form-control" id="estimated_VRAC"
+                            placeholder="Production Estimée Vrac" />
                     </div>
                     <div class="form-group">
-                        <label for="inspected">Statut</label>
+                        <label for="inspected">Inspected</label>
                         <input type="text" value="{{content.inspected}}" class="form-control" id="inspected"
                             placeholder="Inspected" />
                     </div>
@@ -117,15 +116,15 @@
         let save = document.getElementById("producteur_save")
         let cancel = document.getElementById("producteur_cancel")
 
-        let nom = document.getElementById('nom')
-        let details = document.getElementById('details')
-        let surface = document.getElementById('surface')
-        let plants = document.getElementById('plants')
-        let plantsProductives = document.getElementById('plantsProductives')
-        let ageMoyen = document.getElementById('ageMoyen')
-        let productionEstimée = document.getElementById('productionEstimée')
-        let productionEstiméeVrac = document.getElementById('productionEstiméeVrac')
-        let statut = document.getElementById('statut')
+        let nom = document.getElementById('name')
+        let details = document.getElementById('description')
+        let surface = document.getElementById('overallSize')
+        let plants = document.getElementById('totalPlants')
+        let plantsProductives = document.getElementById('productivePlants')
+        let ageMoyen = document.getElementById('averageAge')
+        let productionEstimée = document.getElementById('estimatedProduction')
+        let productionEstiméeVrac = document.getElementById('estimated_VRAC')
+        let statut = document.getElementById('inspected')
 
 
         let msg_error = document.getElementById('msg_error')
@@ -134,13 +133,13 @@
             event.preventDefault()
             msg_error.insertAdjacentHTML("afterend",
                 "<h4 class='alert alert-danger text-center'>update canceled</h4>")
-            window.location.href = '/producteur/view/{{producteur_id}}';
+            window.location.href = '/farmer/view/{{farmer_id}}';
         })
 
         $(save).click('click', () => {
             event.preventDefault()
             $.ajax({
-                url: '/producteur/{{producteur_id}}/parcelle/edit/save/{{content.id}}',
+                url: '/farmer/{{farmer_id}}/farm/edit/save/{{content.id}}',
                 data: `nom=${nom.value}&details=${details.value}&surface=${surface.value}&plants=${plants.value}&plantsProductives=${plantsProductives.value}&ageMoyen=${ageMoyen.value}&productionEstimée=${productionEstimée.value}&productionEstiméeVrac=${productionEstiméeVrac.value}&statut=${statut.value}`,
                 type: 'GET',
                 success: function (response) {
@@ -148,7 +147,7 @@
                     msg_error.insertAdjacentHTML("afterend",
                         "<h3 class='alert alert-success text-center'> update successfully </h3>")
 
-                    window.location.href = '/producteur/view/{{producteur_id}}';
+                    window.location.href = '/farmer/view/{{farmer_id}}';
                 },
                 error: function (error) {
                     console.log(error);

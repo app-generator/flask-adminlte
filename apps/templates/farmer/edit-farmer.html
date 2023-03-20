@@ -34,7 +34,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/producteur/view/{{content.id}}">View Producteur</a></li>
+                        <li class="breadcrumb-item"><a href="/farmer/view/{{content.id}}">View Producteur</a></li>
                         <li class="breadcrumb-item active">Edit Producteur</li>
                     </ol>
                 </div>
@@ -64,17 +64,18 @@
                     </div>
                     <div class="form-group">
                         <label for="nom">Nom</label>
-                        <input type="text" value="{{content.nom}}" class="form-control" id="nom" placeholder="Nom" />
+                        <input type="text" value="{{content.firstName}}" class="form-control" id="nom"
+                            placeholder="Nom" />
                     </div>
                     <div class="form-group">
                         <label for="prenom">Prenom</label>
-                        <input type="text" value="{{content.prenom}}" class="form-control" id="prenom"
+                        <input type="text" value="{{content.lastName}}" class="form-control" id="prenom"
                             placeholder="Prenon" />
                     </div>
                     <div class="form-group col-md-4">
                         <label for="genre">Gender</label>
                         <select id="genre" class="form-control">
-                            {% if content.genre == 'male' %}
+                            {% if content.gender == 'male' %}
                             <option selected value="male">MALE</option>
                             <option value="female">FEMALE</option>
                             {% else %}
@@ -85,18 +86,18 @@
                     </div>
                     <div class="form-group">
                         <label for="date">Date de Naissance</label>
-                        <input type="date" value="{{content.dateNaissance.strftime('%Y-%m-%d')}}" class="form-control"
+                        <input type="date" value="{{content.birthdate.strftime('%Y-%m-%d')}}" class="form-control"
                             id="date" />
                     </div>
                     <div class="form-group">
                         <label for="cni">CNI</label>
-                        <input type="text" value="{{content.cni}}" class="form-control" id="cni" />
+                        <input type="text" value="{{content.idNumber}}" class="form-control" id="cni" />
                     </div>
                     <div class="form-group col-md-4">
                         <label for="groupement">Groupement</label>
                         <select id="groupement" class="form-control">
                             {% for g in groupement %}
-                            {% if content.groupement.code == g.code%}
+                            {% if content.groupementId.code == g.code%}
                             <option selected value="{{g.id}}">{{g.code}}</option>
                             {% else %}
                             <option value="{{g.id}}">{{g.code}}</option>
@@ -108,7 +109,7 @@
                         <label for="village">Village</label>
                         <select id="village" class="form-control">
                             {% for v in village %}
-                            {% if content.village.name == v.name %}
+                            {% if content.villageId.name == v.name %}
                             <option selected value="{{v.id}}">{{v.name}}</option>
                             {% else %}
                             <option value="{{v.id}}">{{v.name}}</option>
@@ -118,7 +119,7 @@
                     </div>
                     <div class="form-group">
                         <label for="poincon">Poincon</label>
-                        <input type="text" value="{{content.poincon}}" class="form-control" id="poincon" />
+                        <input type="text" value="{{content.stamp}}" class="form-control" id="poincon" />
                     </div>
                     <div class="form-group">
                         <label for="ancienCode">Ancien Code</label>
@@ -164,13 +165,13 @@
             event.preventDefault()
             msg_error.insertAdjacentHTML("afterend",
                 "<h4 class='alert alert-danger text-center'>update canceled</h4>")
-            window.location.href = '/producteur/view/{{content.id}}';
+            window.location.href = '/farmer/view/{{content.id}}';
         })
 
         $(save).click('click', () => {
             event.preventDefault()
             $.ajax({
-                url: '/producteur/profile/edit/save/{{content.id}}',
+                url: '/farmer/edit/save/{{content.id}}',
                 // data: `id={{content.id}}&nom=${nom.value}&prenom=${prenom.value}&genre=${genre.value}&date=${date.value}&date=${date.value}&cni=${cni.value}&groupement=${groupement.value}&village=${village.value}&poincon=${poincon.value}&ancienCode=${ancienCode.value}`,
                 data: `nom=${nom.value}&prenom=${prenom.value}&genre=${genre.value}&date=${date.value}&date=${date.value}&cni=${cni.value}&groupement=${groupement.value}&village=${village.value}&poincon=${poincon.value}&ancienCode=${ancienCode.value}`,
                 type: 'GET',
@@ -179,7 +180,7 @@
                     msg_error.insertAdjacentHTML("afterend",
                         "<h3 class='alert alert-success text-center'> update successfully </h3>")
 
-                    window.location.href = '/producteur/view/{{content.id}}';
+                    window.location.href = '/farmer/view/{{content.id}}';
                 },
                 error: function (error) {
                     console.log(error);

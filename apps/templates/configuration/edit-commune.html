@@ -99,7 +99,7 @@
                                         </div>
                                         <select class="custom-select" id="district">
                                             {% for d in district %}
-                                            {% if content.district_id == d.id %}
+                                            {% if content.districtId == d.id %}
                                             <option selected value="{{d.id}}">{{d.code}}</option>
                                             {% else %}
                                             <option value="{{d.id}}">{{d.code}}</option>

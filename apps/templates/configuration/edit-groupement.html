@@ -96,8 +96,8 @@
                                     <div class="form-group row">
                                         <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
                                         <div class="col-sm-10">
-                                            <input type="text" value="{{content.groupement}}" class="form-control"
-                                                id="groupement" placeholder="Groupement">
+                                            <input type="text" value="{{content.name}}" class="form-control" id="name"
+                                                placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="input-group mb-3">
@@ -106,7 +106,7 @@
                                         </div>
                                         <select class="custom-select" id="village">
                                             {% for v in village %}
-                                            {% if content.village_id == v.id %}
+                                            {% if content.villageId == v.id %}
                                             <option selected value="{{v.id}}">{{v.code}}</option>
                                             {% else %}
                                             <option value="{{v.id}}">{{v.code}}</option>
@@ -144,7 +144,7 @@
         let cancel = document.getElementById("village_cancel")
 
         let code = document.getElementById('code')
-        let groupement = document.getElementById('groupement')
+        let groupement = document.getElementById('name')
         let village = document.getElementById('village')
 
 

@@ -91,7 +91,7 @@
                                             {{c.name}}</td>
                                         <td data-name="district_id" class="district_id" data-type="text"
                                             data-pk="{{c.id}}">
-                                            {{c.commune_id}}</td>
+                                            {{c.communeId}}</td>
                                         <td>
                                             <a class="btn btn-primary" href="../configuration/fokontany/edit/{{c.id}}">
                                                 <i class="fas fa-edit"></i>
@@ -119,32 +119,7 @@
     $(document).ready(function () {
         // // datatable
         $('#sample_data').DataTable();
-        // // x-editable
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.code',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Code',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
 
-        $('#sample_data').editable({
-            container: 'body',
-            selector: 'td.name',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Name',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
     });
 </script>
 {% endblock %}

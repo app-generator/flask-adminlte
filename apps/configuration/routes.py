@@ -10,7 +10,7 @@ from flask_login import (
     logout_user,
     login_required
 )
-
+import json
 from apps import db, login_manager
 from apps.configuration import blueprint
 from apps.configuration.models import *
@@ -57,8 +57,8 @@ def updateGroupement():
         content = db.session.query(Groupement).get(id)
         content.type = Gtype
         content.code = code
-        content.groupement = groupement
-        content.village_id = village
+        content.name = groupement
+        content.villageId = village
         db.session.commit()
         return json.dumps({'status': 'true'})
     except Exception as e:
@@ -77,9 +77,9 @@ def list_campagne():
         for c in content:
             num += 1
         # print(num)
-        return render_template('configuration/list-campagne.html', segment='configuration-campagne', num=num, content=content)
+        return render_template('configuration/list-campagne.html', segment='configuration-season', num=num, content=content)
     except Exception as e:
-        print('> Error: /configuration-campagne: index Exception: ' + str(e))
+        print('> Error: /configuration-season: index Exception: ' + str(e))
 
 # routes for districts
 
@@ -167,7 +167,7 @@ def updateVillage():
         content = db.session.query(Village).get(id)
         content.code = code
         content.name = name
-        content.fokontany_id = fokontany
+        content.fokontanyId = fokontany
         db.session.commit()
         return json.dumps({'status': 'true'})
     except Exception as e:
@@ -217,7 +217,7 @@ def updateFokontant():
         content = db.session.query(Fokontany).get(id)
         content.code = code
         content.name = name
-        content.commune_id = commune
+        content.communeId = commune
         db.session.commit()
         return json.dumps({'status': 'true'})
     except Exception as e:
@@ -266,7 +266,7 @@ def updateCommune():
         content = db.session.query(Commune).get(id)
         content.code = code
         content.name = name
-        content.district_id = district
+        content.districtId = district
         db.session.commit()
         return json.dumps({'status': 'true'})
     except Exception as e:

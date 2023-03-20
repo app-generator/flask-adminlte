@@ -64,7 +64,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <form action="/producteur/upload" method="post" enctype='multipart/form-data'>
+                    <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
                         <input type="file" id="upload_file" name="upload_file" class="btn btn-primary" />
                         <input type="submit" name="submit" value="Upload" class="btn btn-primary" />
                     </form>
@@ -143,7 +143,7 @@
 <script type="text/javascript" lang="javascript">
     $(document).ready(function () {
         // // datatable
-        $('#producteurs_list').DataTable({
+        $('#farmer_list').DataTable({
             "paging": true,
             "lengthChange": true,
             "searching": true,
@@ -151,32 +151,6 @@
             "info": true,
             "autoWidth": true,
             "responsive": true,
-        });
-        // // x-editable
-        $('#producteurs_list').editable({
-            container: 'body',
-            selector: 'td.code',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Code',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
-
-        $('#producteurs_list').editable({
-            container: 'body',
-            selector: 'td.name',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Name',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
         });
     });
 </script>
