@@ -42,6 +42,15 @@
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
+      {% with messages = get_flashed_messages(with_categories= true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{category}}">
+        {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
       <div class="row">
         <div class="col-md-3">
 

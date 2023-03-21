@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for
+from flask import render_template, redirect, request, url_for,flash
 from flask_login import (
     current_user,
     login_user,
@@ -16,6 +16,7 @@ from apps.farmer import blueprint
 from apps.farmer.models import Farmer
 from apps.farm.models import Farm
 from apps.configuration.models import Groupement, Village
+from apps.farmer.forms import *
 
 import pandas as pd
 
@@ -69,10 +70,19 @@ def view(id):
 @login_required
 def edit_farmer_profile(id):
     try:
+        form = EditProfileForm()
         content = db.session.query(Farmer).get(id)
-        groupement = db.session.query(Groupement).all()
-        village = db.session.query(Village).all()
-        return render_template('farmer/edit-farmer.html', segment='producteur-view', content=content, village=village, groupement=groupement)
+
+        form.village.choices = [(village.id, village.name)
+                                for village in db.session.query(Village).all()]
+        form.groupement.choices = [(groupement.id, groupement.code)
+                                   for groupement in db.session.query(Groupement).all()]
+
+        form.village.default = content.villageId
+        form.groupement.default = content.groupementId
+        form.genre.default = content.gender
+        form.process()
+        return render_template('farmer/edit-farmer.html', segment='producteur-view', content=content, form=form)
     except Exception as e:
         print('> Error: /farmer: edit_farmer_profile Exception: ' + str(e))
 
@@ -81,7 +91,6 @@ def edit_farmer_profile(id):
 @login_required
 def save_farmer_profile(id):
     try:
-        # id = request.args.get('id')
         nom = request.args.get('nom')
         prenom = request.args.get('prenom')
         genre = request.args.get('genre')
@@ -103,7 +112,8 @@ def save_farmer_profile(id):
         content.stamp = poincon
         content.ancienCode = ancienCode
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'Farmer Profile updated successfully', 'success')
+        return redirect('/farmer/view/'+str(id))
     except Exception as e:
         print('> Error: /farmer: save_farmer_profile Exception: ' + str(e))
         return str(e)
