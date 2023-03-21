@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for,flash
+from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
     current_user,
     login_user,
@@ -70,7 +70,7 @@ def view(id):
 @login_required
 def edit_farmer_profile(id):
     try:
-        form = EditProfileForm()
+        form = EditFarmerForm()
         content = db.session.query(Farmer).get(id)
 
         form.village.choices = [(village.id, village.name)
@@ -123,12 +123,12 @@ def save_farmer_profile(id):
 @login_required
 def edit_farmer_farm(farmer_id, id):
     try:
+        form = EditFarmForm()
         content = db.session.query(Farmer).get(farmer_id)
         farms = content.farms
-
         for p in farms:
             if str(p.id) == str(id):
-                return render_template('farmer/edit-farm.html', segment='producteur-view', content=p, farmer_id=farmer_id, id=id)
+                return render_template('farmer/edit-farm.html', segment='producteur-view', form=form, content=p, farmer_id=farmer_id, id=id, inspected=str(p.inspected))
 
     except Exception as e:
         print('> Error: /farmer: Edit farmer Exception: ' + str(e))
@@ -147,24 +147,22 @@ def edit_farmer_farm(farmer_id, id):
 @login_required
 def save_farmer_farm(farmer_id, id):
     try:
-        nom = request.args.get('nom')
-        details = request.args.get('details')
-        surface = request.args.get('surface')
-        plants = request.args.get('plants')
-        plantsProductives = request.args.get('plantsProductives')
-        ageMoyen = request.args.get('ageMoyen')
-        productionEstimée = request.args.get('productionEstimée')
-        productionEstiméeVrac = request.args.get('productionEstiméeVrac')
-        statut = request.args.get('statut')
-
-        print('nom farm '+nom)
+        name = request.args.get('name')
+        details = request.args.get('description')
+        surface = request.args.get('overallSize')
+        plants = request.args.get('totalPlants')
+        plantsProductives = request.args.get('productivePlants')
+        ageMoyen = request.args.get('averageAge')
+        productionEstimée = request.args.get('estimatedProduction')
+        productionEstiméeVrac = request.args.get('estimated_VRAC')
+        statut = request.args.get('inspected')
 
         content = db.session.query(Farmer).get(farmer_id)
 
         for p in content.farms:
             # print(p.id)
             if str(p.id) == str(id):
-                p.name = nom
+                p.name = name
                 p.description = details
                 p.overallSize = surface
                 p.totalPlants = plants
@@ -172,13 +170,14 @@ def save_farmer_farm(farmer_id, id):
                 p.averageAge = ageMoyen
                 p.estimatedProduction = productionEstimée
                 p.estimated_VRAC = productionEstiméeVrac
-                if str(statut) == 'True':
+                if str(statut.lower()) == 'true':
                     p.inspected = 1
                 else:
                     p.inspected = 0
 
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'Farm '+id+' updated successfully', 'success')
+        return redirect('/farmer/view/'+str(farmer_id))
     except Exception as e:
         print('> Error: /farmer-profile-edit-save: index Exception: ' + str(e))
         return str(e)

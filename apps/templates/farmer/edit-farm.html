@@ -47,57 +47,49 @@
         <div class="container-fluid">
             <div class="row justify-content-around">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <div class="" id="msg_error"></div>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Nom</label>
-                        <input type="text" value="{{content.name}}" class="form-control" id="name" placeholder="name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Details</label>
-                        <input type="text" value="{{content.description}}" class="form-control" id="description"
-                            placeholder="Description" />
-                    </div>
-                    <div class="form-group">
-                        <label for="overallSize">Surface en Ha</label>
-                        <input type="text" value="{{content.overallSize}}" class="form-control" id="overallSize"
-                            placeholder="Size" />
-                    </div>
-                    <div class="form-group">
-                        <label for="totalPlants">Plants</label>
-                        <input type="text" value="{{content.totalPlants}}" class="form-control" id="totalPlants"
-                            placeholder="Total Plants" />
-                    </div>
-                    <div class="form-group">
-                        <label for="productivePlants">Plants Productives</label>
-                        <input type="text" value="{{content.productivePlants}}" class="form-control"
-                            id="productivePlants" placeholder="Plants Productives" />
-                    </div>
-                    <div class="form-group">
-                        <label for="averageAge">Age Moyen</label>
-                        <input type="text" value="{{content.averageAge}}" class="form-control" id="averageAge"
-                            placeholder="Age Moyen" />
-                    </div>
-                    <div class="form-group">
-                        <label for="estimatedProduction">Production Estimée</label>
-                        <input type="text" value="{{content.estimatedProduction}}" class="form-control"
-                            id="estimatedProduction" placeholder="Production Estimée" />
-                    </div>
-                    <div class="form-group">
-                        <label for="estimated_VRAC">Production Estimée Vrac</label>
-                        <input type="text" value="{{content.estimated_VRAC}}" class="form-control" id="estimated_VRAC"
-                            placeholder="Production Estimée Vrac" />
-                    </div>
-                    <div class="form-group">
-                        <label for="inspected">Inspected</label>
-                        <input type="text" value="{{content.inspected}}" class="form-control" id="inspected"
-                            placeholder="Inspected" />
-                    </div>
-                    <div class="d-flex mb-4">
-                        <button id="producteur_save" class="btn btn-primary mr-3">Save</button>
-                        <button id="producteur_cancel" class="btn btn-danger ml-3">Cancel</button>
-                    </div>
+                    <form action="/farmer/{{farmer_id}}/farm/edit/save/{{content.id}}">
+                        {{form.hidden_tag()}}
+                        <div class="form-group">
+                            {{form.name.label(for='name')}}
+                            {{form.name(class="form-control",value=content.name)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.description.label(for='description')}}
+                            {{form.description(class="form-control",value=content.description)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.overallSize.label(for='overallSize')}}
+                            {{form.overallSize(class="form-control",value=content.overallSize)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.totalPlants.label(for='totalPlants')}}
+                            {{form.totalPlants(class="form-control",value=content.totalPlants)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.productivePlants.label(for='productivePlants')}}
+                            {{form.productivePlants(class="form-control",value=content.productivePlants)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.averageAge.label(for='averageAge')}}
+                            {{form.averageAge(class="form-control",value=content.averageAge)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.estimatedProduction.label(for='estimatedProduction')}}
+                            {{form.estimatedProduction(class="form-control",value=content.estimatedProduction)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.estimated_VRAC.label(for='estimated_VRAC')}}
+                            {{form.estimated_VRAC(class="form-control",value=content.estimated_VRAC)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.inspected.label(for='inspected')}}
+                            {{form.inspected(class="form-control",value=inspected)}}
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            {{form.submit(class="btn btn-primary")}}
+                        </div>
+                    </form>
                 </div>
             </div>
             <!-- /.row -->
@@ -109,55 +101,6 @@
 {% endblock content %}
 
 {% block js_editable %}
-<script type="text/javascript" lang="javascript">
-    $(document).ready(function () {
-
-        // save
-        let save = document.getElementById("producteur_save")
-        let cancel = document.getElementById("producteur_cancel")
-
-        let nom = document.getElementById('name')
-        let details = document.getElementById('description')
-        let surface = document.getElementById('overallSize')
-        let plants = document.getElementById('totalPlants')
-        let plantsProductives = document.getElementById('productivePlants')
-        let ageMoyen = document.getElementById('averageAge')
-        let productionEstimée = document.getElementById('estimatedProduction')
-        let productionEstiméeVrac = document.getElementById('estimated_VRAC')
-        let statut = document.getElementById('inspected')
-
-
-        let msg_error = document.getElementById('msg_error')
-
-        $(cancel).click('click', () => {
-            event.preventDefault()
-            msg_error.insertAdjacentHTML("afterend",
-                "<h4 class='alert alert-danger text-center'>update canceled</h4>")
-            window.location.href = '/farmer/view/{{farmer_id}}';
-        })
-
-        $(save).click('click', () => {
-            event.preventDefault()
-            $.ajax({
-                url: '/farmer/{{farmer_id}}/farm/edit/save/{{content.id}}',
-                data: `nom=${nom.value}&details=${details.value}&surface=${surface.value}&plants=${plants.value}&plantsProductives=${plantsProductives.value}&ageMoyen=${ageMoyen.value}&productionEstimée=${productionEstimée.value}&productionEstiméeVrac=${productionEstiméeVrac.value}&statut=${statut.value}`,
-                type: 'GET',
-                success: function (response) {
-                    console.log(response)
-                    msg_error.insertAdjacentHTML("afterend",
-                        "<h3 class='alert alert-success text-center'> update successfully </h3>")
-
-                    window.location.href = '/farmer/view/{{farmer_id}}';
-                },
-                error: function (error) {
-                    console.log(error);
-                    msg_error.insertAdjacentHTML("afterend",
-                        "<h4 class='alert alert-danger text-center'>" + error + "</h4>")
-                }
-            });
-        })
-    });
-</script>
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->
