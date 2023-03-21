@@ -77,18 +77,19 @@
                             <!-- form start -->
                             <form class="form-horizontal" action="/configuration/district/update/{{content.id}}">
                                 <div class="card-body">
+                                    {{form.hidden_tag()}}
                                     <div class="form-group row">
                                         {{form.code.label(class="col-sm-2 col-form-label", for='code')}}
                                         <div class="col-sm-10">
-                                            {{form.code(class="form-control from-control-lg",value=content.code,
-                                            id='code')}}
+                                            {{form.code(class="form-control from-control-lg",value=content.code
+                                            )}}
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         {{form.name.label(class="col-sm-2 col-form-label", for='name')}}
                                         <div class="col-sm-10">
-                                            {{form.name(class="form-control from-control-lg",value=content.name,
-                                            id='name')}}
+                                            {{form.name(class="form-control from-control-lg",value=content.name
+                                            )}}
                                         </div>
                                     </div>
                                 </div>
