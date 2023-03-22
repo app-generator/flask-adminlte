@@ -25,12 +25,9 @@ import pandas as pd
 @login_required
 def index():
     try:
+        form = UploadFarmerForm()
         content = db.session.query(Farmer).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('farmer/list.html', segment='producteur', num=num, content=content)
+        return render_template('farmer/list.html', segment='producteur', form=form, content=content)
     except Exception as e:
         print('> Error: /farmer: index Exception: ' + str(e))
 
@@ -42,7 +39,7 @@ def index():
 def upload():
     try:
         if request.method == 'POST':
-            file = request.files['upload_file']
+            file = request.files['uploadFile']
             if file:
                 data = pd.read_excel(file)
                 # get table head from keys

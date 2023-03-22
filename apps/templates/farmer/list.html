@@ -62,11 +62,28 @@
             </div>
         </div><!-- /.container-fluid -->
         <div class="container">
-            <div class="row">
+            <div class="row float-right">
                 <div class="col">
                     <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
-                        <input type="file" id="upload_file" name="upload_file" class="btn btn-primary" />
-                        <input type="submit" name="submit" value="Upload" class="btn btn-primary" />
+                        <div class="card-body">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        {{form.uploadFile(class="custom-file-input")}}
+                                        <label class="custom-file-label" for="uploadFile">Choose file</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <!-- <span class="input-group-text">Upload</span> -->
+                                        <button type="submit" class="btn btn-success">upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <a href="#">Click here</a> to download the farmer upload template
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
                     </form>
                 </div>
             </div>
