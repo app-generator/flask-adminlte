@@ -93,8 +93,9 @@
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <div class="float-right">
-                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
-                                    Save</button>
+                                <form action="/farmer/upload/ok" method="post" enctype='multipart/form-data'>
+                                    {{form.submit(class='btn btn-primary')}}
+                                </form>
                             </div>
                             <a href="/farmer/" class="btn btn-default"><i class="fas fa-times"></i> Discard</a>
                         </div>

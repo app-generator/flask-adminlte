@@ -74,12 +74,14 @@
                                     </div>
                                     <div class="input-group-append">
                                         <!-- <span class="input-group-text">Upload</span> -->
-                                        <button type="submit" class="btn btn-success">upload</button>
+                                        <button type="submit" class="btn btn-success" id="submit">upload</button>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-check">
-                                <a href="#">Click here</a> to download the farmer upload template
+                                <a href="{{ url_for('farmer_blueprint.downloadTemplate') }}">Click here</a>
+                                to
+                                download the farmer upload template
                             </div>
 
                         </div>

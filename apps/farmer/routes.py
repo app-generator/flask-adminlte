@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, send_from_directory
 from flask_login import (
     current_user,
     login_user,
@@ -38,21 +38,31 @@ def index():
 @login_required
 def upload():
     try:
+        form = UploadFarmerForm()
         if request.method == 'POST':
             file = request.files['uploadFile']
-            if file:
-                data = pd.read_excel(file)
-                # get table head from keys
-                head = list(data.to_dict('list').keys())
-                jdata = data.to_dict('records')
+            data = pd.read_excel(file)
+            # get table head from keys
+            head = list(data.to_dict('list').keys())
+            jdata = data.to_dict('records')
 
-        return render_template('farmer/upload.html', segment='producteur-upload', data=jdata, head=head)
+        return render_template('farmer/upload.html', segment='producteur-upload', data=jdata, head=head, file=file, form=form)
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
 
 
-@ blueprint.route('/view/<id>', methods=['GET'])
-@ login_required
+@blueprint.route('/download/template/')
+@login_required
+def downloadTemplate():
+    try:
+        path = 'assets/template/Framer_Upload_template.xlsx'
+        return send_from_directory('static', path)
+    except Exception as e:
+        print('> Error: /farmer: download template Exception: ' + str(e))
+
+
+@blueprint.route('/view/<id>', methods=['GET'])
+@login_required
 def view(id):
     try:
         content = db.session.query(Farmer).get(id)
@@ -182,21 +192,21 @@ def save_farmer_farm(farmer_id, id):
 # Errors
 
 
-@ login_manager.unauthorized_handler
+@login_manager.unauthorized_handler
 def unauthorized_handler():
     return render_template('home/page-403.html'), 403
 
 
-@ blueprint.errorhandler(403)
+@blueprint.errorhandler(403)
 def access_forbidden(error):
     return render_template('home/page-403.html'), 403
 
 
-@ blueprint.errorhandler(404)
+@blueprint.errorhandler(404)
 def not_found_error(error):
     return render_template('home/page-404.html'), 404
 
 
-@ blueprint.errorhandler(500)
+@blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
