@@ -89,6 +89,9 @@
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Village</th>
+                                        <th>Fokontany</th>
+                                        <th>Commune</th>
+                                        <th>District</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -103,7 +106,13 @@
                                             data-pk="{{c.id}}">
                                             {{c.name}}</td>
                                         <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
-                                            {{c.villageId}}</td>
+                                            {{c.village.name}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
+                                            {{c.village.fokontany.name}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
+                                            {{c.village.fokontany.commune.name}}</td>
+                                        <td data-name="name" class="name" data-type="text" data-pk="{{c.id}}">
+                                            {{c.village.fokontany.commune.district.name}}</td>
                                         <td>
                                             <a class="btn btn-primary" href="../configuration/groupement/edit/{{c.id}}">
                                                 <i class="fas fa-edit"></i>

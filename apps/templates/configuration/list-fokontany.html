@@ -88,6 +88,7 @@
                                         <th>Code</th>
                                         <th>Name</th>
                                         <th>Commune</th>
+                                        <th>District</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -100,7 +101,10 @@
                                             {{c.name}}</td>
                                         <td data-name="district_id" class="district_id" data-type="text"
                                             data-pk="{{c.id}}">
-                                            {{c.communeId}}</td>
+                                            {{c.commune.name}}</td>
+                                        <td data-name="district_id" class="district_id" data-type="text"
+                                            data-pk="{{c.id}}">
+                                            {{c.commune.district.name}}</td>
                                         <td>
                                             <a class="btn btn-primary" href="../configuration/fokontany/edit/{{c.id}}">
                                                 <i class="fas fa-edit"></i>

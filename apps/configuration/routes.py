@@ -66,7 +66,7 @@ def updateGroupement(id):
         content.name = name
         content.villageId = village
         db.session.commit()
-        flash(f'Groupement ' + str(id) + ' updated successfully', 'success')
+        flash(f'Groupement ' + str(name) + ' updated successfully', 'success')
         return redirect('/configuration/groupement')
     except Exception as e:
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
@@ -121,7 +121,7 @@ def updateDistrict(id):
         content.code = code
         content.name = name
         db.session.commit()
-        flash(f'District ' + str(id) + ' updated successfully', 'success')
+        flash(f'District ' + str(name) + ' updated successfully', 'success')
         return redirect('/configuration/district')
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
@@ -172,7 +172,7 @@ def updateVillage(id):
         content.name = name
         content.fokontanyId = fokontany
         db.session.commit()
-        flash(f'Village ' + str(id) + ' updated successfully', 'success')
+        flash(f'Village ' + str(name) + ' updated successfully', 'success')
         return redirect('/configuration/village')
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
@@ -224,7 +224,7 @@ def updateFokontant(id):
         content.name = name
         content.communeId = commune
         db.session.commit()
-        flash(f'Fokontany ' + str(id) + ' updated successfully', 'success')
+        flash(f'Fokontany ' + str(name) + ' updated successfully', 'success')
         return redirect('/configuration/fokontany')
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
@@ -274,7 +274,7 @@ def updateCommune(id):
         content.name = name
         content.districtId = district
         db.session.commit()
-        flash(f'Commune ' + str(id) + ' updated successfully', 'success')
+        flash(f'Commune ' + str(name) + ' updated successfully', 'success')
         return redirect('/configuration/commune')
     except Exception as e:
         print('> Error: /configuration-commune: index Exception: ' + str(e))
