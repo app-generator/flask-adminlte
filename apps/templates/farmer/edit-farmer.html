@@ -1,0 +1,130 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Edit Profile {% endblock %}
+{% block scriptsJs %}
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+{% endblock %}
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Producteur</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/farmer/view/{{content.id}}">View Producteur</a></li>
+                        <li class="breadcrumb-item active">Edit Producteur</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <div class="text-center">
+                        <img class="profile-user-img img-fluid img-circle" src="/static/assets/img/avatar.png"
+                            alt="User profile picture">
+                    </div>
+
+                    <h3 class="profile-username text-center">
+                        {{ content.code }}
+                    </h3>
+
+                    <p class="text-muted text-center">
+                        Edit profile
+                    </p>
+                    <form action="/farmer/edit/save/{{content.id}}">
+                        {{form.hidden_tag()}}
+                        <div class="form-group">
+                            {{form.nom.label(for='nom')}}
+                            {{form.nom(class="form-control",value=content.firstName)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.prenom.label(for='prenom')}}
+                            {{form.prenom(class="form-control",value=content.lastName)}}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{form.genre.label(for='genre')}}
+                            {{form.genre(class="form-control")}}
+                        </div>
+                        <div class="form-group">
+                            {{form.date.label(for='date')}}
+                            {{form.date(class="form-control",value=content.birthdate.strftime('%Y-%m-%d'))}}
+                        </div>
+                        <div class="form-group">
+                            {{form.cni.label(for='cni')}}
+                            {{form.cni(class="form-control",value=content.idNumber)}}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{form.groupement.label(for='village')}}
+                            {{form.groupement(class="form-control")}}
+                        </div>
+                        <div class="form-group col-md-4">
+                            {{form.village.label(for='village')}}
+                            {{form.village(class="form-control")}}
+                        </div>
+                        <div class="form-group">
+                            {{form.poincon.label(for='poincon')}}
+                            {{form.poincon(class="form-control",value=content.stamp)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.ancienCode.label(for='ancienCode')}}
+                            {{form.ancienCode(class="form-control",value=content.ancienCode)}}
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            {{form.submit(class="btn btn-primary")}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+{% endblock content %}
+
+{% block js_editable %}
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
+
+{% endblock javascripts %}

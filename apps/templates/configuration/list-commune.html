@@ -65,6 +65,15 @@
         <section class="content">
             <div class="container-fluid">
                 <!-- <div class="row"> -->
+                {% with messages = get_flashed_messages(with_categories= true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}}">
+                    {{message}}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
                 <!-- <div class="col-12"> -->
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -72,7 +81,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="table-responsive">
-                            <table id="sample_data" class="text-center table table-bordered table-striped">
+                            <table id="sample_data" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>Code</th>
@@ -89,7 +98,7 @@
                                         <td data-name=" name" class="name">
                                             {{c.name}}</td>
                                         <td data-name="district" class="district">
-                                            {{c.district_id}}</td>
+                                            {{c.district.name}}</td>
                                         <td>
                                             <a class="btn btn-primary" href="../configuration/commune/edit/{{c.id}}">
                                                 <i class="fas fa-edit"></i>

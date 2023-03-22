@@ -61,7 +61,16 @@
                 </div>
             </div>
         </div><!-- /.container-fluid -->
-
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <!-- <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
+                        <input type="file" id="upload_file" name="upload_file" class="btn btn-primary" />
+                        <input type="submit" name="submit" value="Upload" class="btn btn-primary" />
+                    </form> -->
+                </div>
+            </div>
+        </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
@@ -81,6 +90,9 @@
                                         <th>Prenom</th>
                                         <th>Groupement</th>
                                         <th>Village</th>
+                                        <th>Fokontany</th>
+                                        <th>Commune</th>
+                                        <th>District</th>
                                         <th style="width: 10%">
                                     </tr>
                                 </thead>
@@ -97,6 +109,12 @@
                                             {{c.groupement.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.village.name}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.village.fokontany.name}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.village.fokontany.commune.name}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.village.fokontany.commune.district.name}}</td>
                                         <td class="project-actions text-right">
                                             <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
                                                 <i class="fas fa-folder">
@@ -134,7 +152,7 @@
 <script type="text/javascript" lang="javascript">
     $(document).ready(function () {
         // // datatable
-        $('#producteurs_list').DataTable({
+        $('#farmer_list').DataTable({
             "paging": true,
             "lengthChange": true,
             "searching": true,
@@ -142,32 +160,6 @@
             "info": true,
             "autoWidth": true,
             "responsive": true,
-        });
-        // // x-editable
-        $('#producteurs_list').editable({
-            container: 'body',
-            selector: 'td.code',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Code',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
-        });
-
-        $('#producteurs_list').editable({
-            container: 'body',
-            selector: 'td.name',
-            url: '/updateFokontany',
-            title: 'Enter Fokontany Name',
-            type: 'POST',
-            validate: function (value) {
-                if ($.trim(value) == '') {
-                    return 'This field is required'
-                }
-            }
         });
     });
 </script>

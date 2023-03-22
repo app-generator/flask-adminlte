@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship, backref
 
 from apps import db, login_manager
 
@@ -48,6 +49,7 @@ class Groupement(db.Model):
     name = db.Column(db.String(50), unique=True)
     villageId = db.Column(db.Integer, db.ForeignKey(
         'village.id'), nullable=False)
+    village = relationship("Village", backref=backref('groupements'))
     
     certification = db.Column(db.String(20))
     certificationDate = db.Column(db.Date)
@@ -81,8 +83,6 @@ class District(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(50), unique=True)
     name = db.Column(db.String(50), unique=True)
-    communes = db.relationship(
-        "Commune", backref=db.backref("commune"), lazy=True)
 
     def __init__(self, code, name, id=None):
         self.id = id
@@ -97,17 +97,17 @@ class Commune(db.Model):
     name = db.Column(db.String(50), unique=True)
     districtId = db.Column(db.Integer, db.ForeignKey(
         'district.id'), nullable=False)
-    fokotanies = db.relationship(
-        "Fokontany", backref=db.backref("fokontany"), lazy=True)
+    district = relationship("District", backref=backref('communes'))
+
     __table_args__ = (
         db.UniqueConstraint('code', 'name', 'districtId'),
     )
 
-    def __init__(self, code, name, district_id, id=None):
+    def __init__(self, code, name, districtId, id=None):
         self.id = id
         self.code = code
         self.name = name
-        self.district_id = district_id
+        self.districtId = districtId
 
 
 class Fokontany(db.Model):
@@ -117,7 +117,8 @@ class Fokontany(db.Model):
     name = db.Column(db.String(50), unique=True)
     communeId = db.Column(db.Integer, db.ForeignKey(
         'commune.id'), nullable=False)
-    villages = db.relationship("Village", backref=db.backref("village"))
+    commune = relationship("Commune", backref=backref('fokotanies'))
+    
     __table_args__ = (
         db.UniqueConstraint('code', 'name', 'communeId'),
     )
@@ -136,6 +137,8 @@ class Village(db.Model):
     name = db.Column(db.String(50), unique=True)
     fokontanyId = db.Column(db.Integer, db.ForeignKey(
         'fokontany.id'), nullable=False)
+    fokontany = relationship("Fokontany", backref=backref('villages'))
+
     __table_args__ = (
         db.UniqueConstraint('code', 'name', 'fokontanyId'),
     )

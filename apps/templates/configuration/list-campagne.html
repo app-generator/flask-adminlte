@@ -76,16 +76,18 @@
                             <table id="sample_data" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Id</th>
-                                        <th>code</th>
+                                        <th>Campagne</th>
+                                        <th>Default</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for c in content %}
                                     <tr>
-                                        <td>{{c.id}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.name}}</td>
+                                    
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.default}}</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

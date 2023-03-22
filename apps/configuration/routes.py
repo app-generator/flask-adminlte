@@ -3,18 +3,24 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for
+from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
     current_user,
     login_user,
     logout_user,
     login_required
 )
-
+import json
 from apps import db, login_manager
 from apps.configuration import blueprint
 from apps.configuration.models import *
 
+# importing forms
+from apps.configuration.forms import *
+from flask_wtf.csrf import CSRFProtect
+
+
+csrf = CSRFProtect()
 # routes for groupement
 
 
@@ -23,11 +29,7 @@ from apps.configuration.models import *
 def list_groupement():
     try:
         content = db.session.query(Groupement).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-groupement.html', segment='configuration-groupement', num=num, content=content)
+        return render_template('configuration/list-groupement.html', segment='configuration-groupement', content=content)
     except Exception as e:
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
 
@@ -36,36 +38,41 @@ def list_groupement():
 @login_required
 def editGroupement(id):
     try:
+        form = EditGroupementForm()
         content = db.session.query(Groupement).get(id)
-        village = db.session.query(Village).all()
 
-        return render_template('configuration/edit-groupement.html', segment='configuration-groupement', id=id, content=content, village=village)
+        form.village.choices = [(village.id, village.name)
+                                for village in db.session.query(Village).all()]
+
+        form.village.default = content.villageId
+        form.process()
+        return render_template('configuration/edit-groupement.html', segment='configuration-groupement', id=id, content=content, form=form)
     except Exception as e:
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
 
 
-@blueprint.route('/groupement/update', methods=['GET'])
+@blueprint.route('/groupement/update/<id>', methods=['GET'])
 @login_required
-def updateGroupement():
+def updateGroupement(id):
     try:
-        id = request.args.get('id')
-        Gtype = request.args.get('type')
+        Gtype = request.args.get('Gtype')
         code = request.args.get('code')
-        groupement = request.args.get('groupement')
+        name = request.args.get('name')
         village = request.args.get('village')
 
         content = db.session.query(Groupement).get(id)
         content.type = Gtype
         content.code = code
-        content.groupement = groupement
-        content.village_id = village
+        content.name = name
+        content.villageId = village
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'Groupement ' + str(name) + ' updated successfully', 'success')
+        return redirect('/configuration/groupement')
     except Exception as e:
         print('> Error: /configuration-groupement: index Exception: ' + str(e))
         return str(e)
 
-#  end of routes for districts
+#  end of routes for groupement
 
 
 @blueprint.route('/season')
@@ -73,13 +80,9 @@ def updateGroupement():
 def list_campagne():
     try:
         content = db.session.query(Season).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-campagne.html', segment='configuration-campagne', num=num, content=content)
+        return render_template('configuration/list-campagne.html', segment='configuration-season', content=content)
     except Exception as e:
-        print('> Error: /configuration-campagne: index Exception: ' + str(e))
+        print('> Error: /configuration-season: index Exception: ' + str(e))
 
 # routes for districts
 
@@ -89,30 +92,28 @@ def list_campagne():
 def list_district():
     try:
         content = db.session.query(District).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-district.html', segment='configuration-district', num=num, content=content)
+        return render_template('configuration/list-district.html', segment='configuration-district', content=content)
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
 
 
 @blueprint.route('/district/edit/<id>', methods=['GET'])
 @login_required
+@csrf.exempt
 def editDistrict(id):
     try:
+        form = EditDistrictForm()
         content = db.session.query(District).get(id)
-        return render_template('configuration/edit-district.html', segment='configuration-district', id=id, content=content)
+
+        return render_template('configuration/edit-district.html', segment='configuration-district', form=form, id=id, content=content)
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
 
 
-@blueprint.route('/district/update', methods=['GET'])
+@blueprint.route('/district/update/<id>', methods=['GET'])
 @login_required
-def updateDistrict():
+def updateDistrict(id):
     try:
-        id = request.args.get('id')
         code = request.args.get('code')
         name = request.args.get('name')
 
@@ -120,7 +121,8 @@ def updateDistrict():
         content.code = code
         content.name = name
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'District ' + str(name) + ' updated successfully', 'success')
+        return redirect('/configuration/district')
     except Exception as e:
         print('> Error: /configuration-district: index Exception: ' + str(e))
         return str(e)
@@ -134,11 +136,7 @@ def updateDistrict():
 def list_village():
     try:
         content = db.session.query(Village).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-village.html', segment='configuration-village', num=num, content=content)
+        return render_template('configuration/list-village.html', segment='configuration-village', content=content)
     except Exception as e:
         print('> Error: /configuration-village: index Exception: ' + str(e))
 
@@ -147,19 +145,24 @@ def list_village():
 @login_required
 def editVillage(id):
     try:
+        form = EditVillageForm()
         content = db.session.query(Village).get(id)
-        fokontany = db.session.query(Fokontany).all()
 
-        return render_template('configuration/edit-village.html', segment='configuration-village', id=id, content=content, fokontany=fokontany)
+        form.fokontany.choices = [(fokontany.id, fokontany.name)
+                                  for fokontany in db.session.query(Fokontany).all()]
+
+        form.fokontany.default = content.fokontanyId
+        form.process()
+
+        return render_template('configuration/edit-village.html', segment='configuration-village', id=id, content=content, form=form)
     except Exception as e:
         print('> Error: /configuration-village: index Exception: ' + str(e))
 
 
-@blueprint.route('/village/update', methods=['GET'])
+@blueprint.route('/village/update/<id>', methods=['GET'])
 @login_required
-def updateVillage():
+def updateVillage(id):
     try:
-        id = request.args.get('id')
         code = request.args.get('code')
         name = request.args.get('name')
         fokontany = request.args.get('fokontany')
@@ -167,9 +170,10 @@ def updateVillage():
         content = db.session.query(Village).get(id)
         content.code = code
         content.name = name
-        content.fokontany_id = fokontany
+        content.fokontanyId = fokontany
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'Village ' + str(name) + ' updated successfully', 'success')
+        return redirect('/configuration/village')
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
         return str(e)
@@ -184,11 +188,7 @@ def updateVillage():
 def list_fokontany():
     try:
         content = db.session.query(Fokontany).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-fokontany.html', segment='configuration-fokontany', num=num, content=content)
+        return render_template('configuration/list-fokontany.html', segment='configuration-fokontany', content=content)
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
 
@@ -197,19 +197,24 @@ def list_fokontany():
 @login_required
 def editFokontant(id):
     try:
+        form = EditFokontanyForm()
         content = db.session.query(Fokontany).get(id)
-        commune = db.session.query(Commune).all()
 
-        return render_template('configuration/edit-fokontany.html', segment='configuration-fokontany', id=id, content=content, commune=commune)
+        form.commune.choices = [(commune.id, commune.name)
+                                for commune in db.session.query(Commune).all()]
+
+        form.commune.default = content.communeId
+        form.process()
+
+        return render_template('configuration/edit-fokontany.html', segment='configuration-fokontany', id=id, content=content, form=form)
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
 
 
-@blueprint.route('/fokontany/update', methods=['GET'])
+@blueprint.route('/fokontany/update/<id>', methods=['GET'])
 @login_required
-def updateFokontant():
+def updateFokontant(id):
     try:
-        id = request.args.get('id')
         code = request.args.get('code')
         name = request.args.get('name')
         commune = request.args.get('commune')
@@ -217,9 +222,10 @@ def updateFokontant():
         content = db.session.query(Fokontany).get(id)
         content.code = code
         content.name = name
-        content.commune_id = commune
+        content.communeId = commune
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'Fokontany ' + str(name) + ' updated successfully', 'success')
+        return redirect('/configuration/fokontany')
     except Exception as e:
         print('> Error: /configuration-fokontany: index Exception: ' + str(e))
         return str(e)
@@ -233,11 +239,7 @@ def updateFokontant():
 def list_commune():
     try:
         content = db.session.query(Commune).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('configuration/list-commune.html', segment='configuration-commune', num=num, content=content)
+        return render_template('configuration/list-commune.html', segment='configuration-commune', content=content)
     except Exception as e:
         print('> Error: /configuration-commune: index Exception: ' + str(e))
 
@@ -246,19 +248,23 @@ def list_commune():
 @login_required
 def editCommune(id):
     try:
+        form = EditCommuneForm()
         content = db.session.query(Commune).get(id)
-        district = db.session.query(District).all()
 
-        return render_template('configuration/edit-commune.html', segment='configuration-commune', id=id, content=content, district=district)
+        form.district.choices = [(district.id, district.name)
+                                 for district in db.session.query(District).all()]
+
+        form.district.default = content.districtId
+        form.process()
+        return render_template('configuration/edit-commune.html', segment='configuration-commune', form=form, id=id, content=content)
     except Exception as e:
         print('> Error: /configuration-commune: index Exception: ' + str(e))
 
 
-@blueprint.route('/commune/update', methods=['GET'])
+@blueprint.route('/commune/update/<id>', methods=['GET'])
 @login_required
-def updateCommune():
+def updateCommune(id):
     try:
-        id = request.args.get('id')
         code = request.args.get('code')
         name = request.args.get('name')
         district = request.args.get('district')
@@ -266,9 +272,10 @@ def updateCommune():
         content = db.session.query(Commune).get(id)
         content.code = code
         content.name = name
-        content.district_id = district
+        content.districtId = district
         db.session.commit()
-        return json.dumps({'status': 'true'})
+        flash(f'Commune ' + str(name) + ' updated successfully', 'success')
+        return redirect('/configuration/commune')
     except Exception as e:
         print('> Error: /configuration-commune: index Exception: ' + str(e))
         return str(e)

@@ -70,57 +70,43 @@
                     <div class="col-6">
                         <div class="card card-info">
                             <div class="card-header">
-                                <h3 class="card-title">Edit Groupement id={{id}}</h3>
+                                <h3 class="card-title">Edit Groupement {{content.name}}</h3>
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form class="form-horizontal">
+                            <form class="form-horizontal" action="/configuration/groupement/update/{{content.id}}">
                                 <div class="card-body">
-                                    <div class="form-group row justify-content-around">
-                                        <div class="col-sm-10 " id="msg_error"></div>
-                                    </div>
+                                    {{form.hidden_tag()}}
                                     <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code</label>
+                                        {{form.Gtype.label(class="col-sm-2 col-form-label", for='Gtype')}}
                                         <div class="col-sm-10">
-                                            <input value="{{content.type}}" type="text" class="form-control" id="type"
-                                                placeholder="Code">
+                                            {{form.Gtype(class="form-control from-control-lg",value=content.type
+                                            )}}
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Code</label>
+                                        {{form.code.label(class="col-sm-2 col-form-label", for='code')}}
                                         <div class="col-sm-10">
-                                            <input value="{{content.code}}" type="text" class="form-control" id="code"
-                                                placeholder="Code">
+                                            {{form.code(class="form-control from-control-lg",value=content.code
+                                            )}}
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                                        {{form.name.label(class="col-sm-2 col-form-label", for='name')}}
                                         <div class="col-sm-10">
-                                            <input type="text" value="{{content.groupement}}" class="form-control"
-                                                id="groupement" placeholder="Groupement">
+                                            {{form.name(class="form-control from-control-lg",value=content.name
+                                            )}}
                                         </div>
                                     </div>
                                     <div class="input-group mb-3">
                                         <div class="input-group-prepend">
-                                            <label class="input-group-text" for="village">Village</label>
+                                            {{form.village.label(class="input-group-text", for='village')}}
                                         </div>
-                                        <select class="custom-select" id="village">
-                                            {% for v in village %}
-                                            {% if content.village_id == v.id %}
-                                            <option selected value="{{v.id}}">{{v.code}}</option>
-                                            {% else %}
-                                            <option value="{{v.id}}">{{v.code}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
+                                        {{form.village(class="custom-select")}}
                                     </div>
-
                                 </div>
-                                <!-- /.card-body -->
                                 <div class="card-footer">
-                                    <button type="submit" id="village_save" class="btn btn-info">Save</button>
-                                    <button type="submit" id="village_cancel"
-                                        class="btn btn-default float-right">Cancel</button>
+                                    {{form.submit(class='btn btn-info')}}
                                 </div>
                             </form>
                         </div>
@@ -144,7 +130,7 @@
         let cancel = document.getElementById("village_cancel")
 
         let code = document.getElementById('code')
-        let groupement = document.getElementById('groupement')
+        let groupement = document.getElementById('name')
         let village = document.getElementById('village')
 
 

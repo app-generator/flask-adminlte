@@ -1,0 +1,118 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Edit Parcelle {% endblock %}
+{% block scriptsJs %}
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+{% endblock %}
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini {% endblock body_class %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Producteur Edit parcelle</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/index">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/farmer/view/{{farmer_id}}">View Producteur</a></li>
+                        <li class="breadcrumb-item active">Edit Parcelle</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-around">
+                <div class="col-md-6">
+                    <form action="/farmer/{{farmer_id}}/farm/edit/save/{{content.id}}">
+                        {{form.hidden_tag()}}
+                        <div class="form-group">
+                            {{form.name.label(for='name')}}
+                            {{form.name(class="form-control",value=content.name)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.description.label(for='description')}}
+                            {{form.description(class="form-control",value=content.description)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.overallSize.label(for='overallSize')}}
+                            {{form.overallSize(class="form-control",value=content.overallSize)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.totalPlants.label(for='totalPlants')}}
+                            {{form.totalPlants(class="form-control",value=content.totalPlants)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.productivePlants.label(for='productivePlants')}}
+                            {{form.productivePlants(class="form-control",value=content.productivePlants)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.averageAge.label(for='averageAge')}}
+                            {{form.averageAge(class="form-control",value=content.averageAge)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.estimatedProduction.label(for='estimatedProduction')}}
+                            {{form.estimatedProduction(class="form-control",value=content.estimatedProduction)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.estimated_VRAC.label(for='estimated_VRAC')}}
+                            {{form.estimated_VRAC(class="form-control",value=content.estimated_VRAC)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.inspected.label(for='inspected')}}
+                            {{form.inspected(class="form-control",value=inspected)}}
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            {{form.submit(class="btn btn-primary")}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+{% endblock content %}
+
+{% block js_editable %}
+{% endblock %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
+
+{% endblock javascripts %}
