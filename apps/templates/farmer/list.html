@@ -64,10 +64,10 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
+                    <!-- <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
                         <input type="file" id="upload_file" name="upload_file" class="btn btn-primary" />
                         <input type="submit" name="submit" value="Upload" class="btn btn-primary" />
-                    </form>
+                    </form> -->
                 </div>
             </div>
         </div>
@@ -90,6 +90,9 @@
                                         <th>Prenom</th>
                                         <th>Groupement</th>
                                         <th>Village</th>
+                                        <th>Fokontany</th>
+                                        <th>Commune</th>
+                                        <th>District</th>
                                         <th style="width: 10%">
                                     </tr>
                                 </thead>
@@ -106,6 +109,12 @@
                                             {{c.groupement.code}}</td>
                                         <td data-name="" class="" data-type="text" data-pk="">
                                             {{c.village.name}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.village.fokontany.name}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.village.fokontany.commune.name}}</td>
+                                        <td data-name="" class="" data-type="text" data-pk="">
+                                            {{c.village.fokontany.commune.district.name}}</td>
                                         <td class="project-actions text-right">
                                             <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
                                                 <i class="fas fa-folder">
