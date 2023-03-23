@@ -13,13 +13,14 @@ from flask_login import (
 import json
 from apps import db, login_manager
 from apps.farmer import blueprint
-from apps.farmer.models import Farmer
+from apps.farmer.models import Farmer, FarmerMetadata
 from apps.farm.models import Farm
 from apps.configuration.models import Groupement, Village
 from apps.farmer.forms import *
 from werkzeug.utils import secure_filename
 import os
 import pandas as pd
+from datetime import datetime
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
@@ -62,7 +63,6 @@ def upload():
 @login_required
 def upload_file(filename):
     try:
-        # print(filename)
         uploads_dir = os.path.join(current_app.instance_path, 'uploads')
         file = os.path.join(
             uploads_dir, filename)
@@ -72,14 +72,23 @@ def upload_file(filename):
         data = data.fillna("")
         jdata = data.to_dict('records')
         farmers = []
+        farmersMetadata = []
         for d in jdata:
             farmers.append(Farmer(**d))
-        # print(farmers)
-        db.session.bulk_save_objects(farmers)
+        db.session.bulk_save_objects(farmers, return_defaults=True)
+
+        for f in farmers:
+            farmersMetadata.append(FarmerMetadata(
+                farmerId=f.id, createdBy=current_user.username, source=filename, surveyDate=datetime.now()))
+        db.session.bulk_save_objects(farmersMetadata)
+
         db.session.commit()
+        flash(f'Uploaded successfully', 'success')
         return redirect(url_for('farmer_blueprint.index'))
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
+        flash(f'Upload failed ', 'danger')
+        return redirect(url_for('farmer_blueprint.index'))
 
 
 @ blueprint.route('/download/template/')

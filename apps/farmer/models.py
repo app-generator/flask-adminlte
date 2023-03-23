@@ -128,6 +128,8 @@ class FarmerMetadata(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     farmerId = db.Column(db.Integer, db.ForeignKey(
         'farmer.id'), nullable=False)
+    farmers = relationship(
+        "Farmer", backref=backref('farmerMetadata'), lazy=True)
     createdBy = db.Column(db.String(50))
     source = db.Column(db.String(50))
     surveyDate = db.Column(db.DateTime, default=db.func.now())
