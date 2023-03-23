@@ -50,6 +50,22 @@ def upload():
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
 
+@blueprint.route('/addUpload', methods=['GET', 'POST'])
+@login_required
+def addUpload():
+    try:
+        # if request.method == 'POST': 
+            # file = request.files['uploadFile']
+            # if file:
+            #     data = pd.read_excel(file)
+            #     # get table head from keys
+            #     head = list(data.to_dict('list').keys())
+            #     jdata = data.to_dict('records')
+
+        return render_template('farmer/upload.html', segment='producteur-upload', data=jdata, head=head)
+    except Exception as e:
+        print('> Error: /addUpload: upload Exception: ' + str(e))
+
 
 @blueprint.route('/download/template/')
 @login_required

@@ -15,6 +15,7 @@ from apps.configuration.models import *
 class FarmerStatus(enum.Enum):
     APPROVED = 'APPROVED'
     EXCLUDED = 'EXCLUDED'
+    PENDING = 'PENDING'
 
 
 class Gender(enum.Enum):
@@ -63,7 +64,7 @@ class Farmer(db.Model):
     xsaison_last_but_two = db.Column(db.String(50))
 
     farmCount = db.Column(db.Integer)
-    status = db.Column(db.Enum(FarmerStatus))
+    status = db.Column(db.Enum(FarmerStatus), default=FarmerStatus.PENDING)
     statusComment = db.Column(db.String(250))
 
     groupementId = db.Column(db.Integer, db.ForeignKey(

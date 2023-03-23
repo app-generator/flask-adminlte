@@ -93,73 +93,91 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <!-- <div class="row"> -->
-                <!-- <div class="col-12"> -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <!-- <h3 class="panel-title">District</h3> -->
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table id="farmer_list" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Nom</th>
-                                        <th>Prenom</th>
-                                        <th>Groupement</th>
-                                        <th>Village</th>
-                                        <th>Fokontany</th>
-                                        <th>Commune</th>
-                                        <th>District</th>
-                                        <th style="width: 10%">
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for c in content %}
-                                    <tr>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.code}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.lastName}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.firstName}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.groupement.code}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.name}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.fokontany.name}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.fokontany.commune.name}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.fokontany.commune.district.name}}</td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <!-- <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a> -->
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row float-right">
+                                    <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    {{form.uploadFile(class="custom-file-input", type="file")}}
+                                                    <label class="custom-file-label" for="UploadFile">Choose file</label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <!-- <span class="input-group-text">Upload</span> -->
+                                                    <button type="submit" class="btn btn-success">upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-check">
+                                                <a href="#">Click here</a> to download the farmer upload template
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- <h3 class="card-title">DataTable with minimal features & hover style</h3> -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="farmer_list" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom</th>
+                                            <th>Prenom</th>
+                                            <th>Groupement</th>
+                                            <th>Village</th>
+                                            <th>Fokontany</th>
+                                            <th>Commune</th>
+                                            <th>District</th>
+                                            <th style="width: 10%">
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for c in content %}
+                                        <tr>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.code}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.lastName}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.firstName}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.groupement.code}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.fokontany.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.fokontany.commune.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.fokontany.commune.district.name}}</td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <!-- <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a> -->
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- </div> -->
-                <!-- </div> -->
             </div>
         </section>
     </section>
@@ -194,6 +212,9 @@
 <script src="/static/assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/static/assets/js/demo.js"></script>
+
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 
 {% endblock javascripts %}

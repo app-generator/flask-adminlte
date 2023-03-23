@@ -116,7 +116,6 @@
                     <table id="sample_data" class="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th>Identifiant</th>
                           <th>Nom</th>
                           <th>Details</th>
                           <th>Surface</th>
@@ -132,7 +131,6 @@
                       <tbody>
                         {% for c in content.farms %}
                         <tr>
-                          <td>{{c.id}}</td>
                           <td data-name="" class="" data-type="text" data-pk="">{{c.name}}</td>
                           <td data-name="" class="" data-type="text" data-pk="">{{c.description}}</td>
                           <td data-name="" class="" data-type="text" data-pk="">{{c.overallSize}} Ha</td>

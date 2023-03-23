@@ -66,39 +66,40 @@
             <div class="row">
                 <div class="col">
                     <div class="card card-primary card-outline">
-
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="sample_data" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            {% for h in head %}
-                                            <th>{{h}}</th>
+                        <form action = "/addUpload" method = "post" enctype="multipart/form-data">
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="sample_data" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                {% for h in head %}
+                                                <th>{{h}}</th>
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for key in data %}
+                                            <tr>
+                                                {%for value in key %}
+                                                <td>{{key[value]}}</td>
+                                                {% endfor %}
+                                            </tr>
                                             {% endfor %}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for key in data %}
-                                        <tr>
-                                            {%for value in key %}
-                                            <td>{{key[value]}}</td>
-                                            {% endfor %}
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            <div class="float-right">
-                                <form action="/farmer/upload/ok" method="post" enctype='multipart/form-data'>
-                                    {{form.submit(class='btn btn-primary')}}
-                                </form>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    <input type = "submit" value="Upload">  
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
+                                        Save</button>
+                                </div>
+                                <a href="/farmer/" class="btn btn-default"><i class="fas fa-times"></i> Discard</a>
                             </div>
-                            <a href="/farmer/" class="btn btn-default"><i class="fas fa-times"></i> Discard</a>
-                        </div>
+                        </form>
                         <!-- /.card-footer -->
                     </div>
                 </div>

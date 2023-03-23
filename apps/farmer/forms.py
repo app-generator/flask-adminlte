@@ -40,6 +40,5 @@ class EditFarmForm(FlaskForm):
 
 
 class UploadFarmerForm(FlaskForm):
-    uploadFile = FileField('Upload File', validators=[
-        DataRequired()], id='uploadFile')
-    submit = SubmitField('Save', id='save_farmer_upload')
+    uploadFile = FileField('UploadFile', validators=[
+        DataRequired()], id='UploadFile')

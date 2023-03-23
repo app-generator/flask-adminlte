@@ -15,6 +15,7 @@ Flask-Minify==0.37
 PyJWT==2.5.0
 mysqlclient==2.1.1
 pandas==1.5.3
+openpyxl==3.1.1
 
 # flask_mysqldb
 # psycopg2-binary
