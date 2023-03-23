@@ -53,33 +53,6 @@
             {% endfor %}
             {% endif %}
             {% endwith %}
-            <div class="row float-right">
-                <div class="col">
-                    <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
-                        <div class="card-body">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        {{form.uploadFile(class="custom-file-input")}}
-                                        <label class="custom-file-label" for="uploadFile">Choose file</label>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <!-- <span class="input-group-text">Upload</span> -->
-                                        <button type="submit" class="btn btn-success" id="submit">upload</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-check">
-                                <a href="{{ url_for('farmer_blueprint.downloadTemplate') }}">Click here</a>
-                                to
-                                download the farmer upload template
-                            </div>
-
-                        </div>
-                        <!-- /.card-body -->
-                    </form>
-                </div>
-            </div>
         </div>
         <!-- Main content -->
         <section class="content">
@@ -93,7 +66,8 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="custom-file">
-                                                    {{form.uploadFile(class="custom-file-input", type="file")}}
+                                                    {{form.uploadFile(class="custom-file-input", type="file", 
+                                                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel")}}
                                                     <label class="custom-file-label" for="UploadFile">Choose file</label>
                                                 </div>
                                                 <div class="input-group-append">
@@ -102,7 +76,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-check">
-                                                <a href="#">Click here</a> to download the farmer upload template
+                                                <a href="{{ url_for('farmer_blueprint.downloadTemplate') }}">Click here</a>
+                                                to
+                                                download the farmer upload template
                                             </div>
                                         </div>
                                     </form>
