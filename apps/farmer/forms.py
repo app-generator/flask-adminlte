@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, DateField
+from wtforms import StringField, SelectField, SubmitField, DateField, FileField
 from wtforms.validators import DataRequired
 
 
@@ -37,3 +37,8 @@ class EditFarmForm(FlaskForm):
     inspected = StringField('Inspected', id='inspected')
 
     submit = SubmitField('Save', id='save_farmer_profile')
+
+
+class UploadFarmerForm(FlaskForm):
+    uploadFile = FileField('UploadFile', validators=[
+        DataRequired()], id='UploadFile')

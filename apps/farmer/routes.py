@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, send_from_directory, current_app
 from flask_login import (
     current_user,
     login_user,
@@ -13,26 +13,26 @@ from flask_login import (
 import json
 from apps import db, login_manager
 from apps.farmer import blueprint
-from apps.farmer.models import Farmer
+from apps.farmer.models import Farmer, FarmerMetadata
 from apps.farm.models import Farm
 from apps.configuration.models import Groupement, Village
 from apps.farmer.forms import *
-
+from werkzeug.utils import secure_filename
+import os
 import pandas as pd
+from datetime import datetime
 
 
 @blueprint.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
     try:
+        form = UploadFarmerForm()
         content = db.session.query(Farmer).all()
-        num = 0
-        for c in content:
-            num += 1
-        # print(num)
-        return render_template('farmer/list.html', segment='producteur', num=num, content=content)
+        return render_template('farmer/list.html', segment='producteur', form=form, content=content)
     except Exception as e:
         print('> Error: /farmer: index Exception: ' + str(e))
+
 
 # uploading excell file function
 
@@ -41,17 +41,80 @@ def index():
 @login_required
 def upload():
     try:
+        uploads_dir = os.path.join(current_app.instance_path, 'uploads')
+        os.makedirs(uploads_dir, exist_ok=True)
+
         if request.method == 'POST':
-            file = request.files['upload_file']
-            if file:
-                data = pd.read_excel(file)
-                # get table head from keys
-                head = list(data.to_dict('list').keys())
-                jdata = data.to_dict('records')
+            file = request.files['uploadFile']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(
+                uploads_dir, filename))
+            data = pd.read_excel(file)
+            # get table head from keys
+            head = list(data.to_dict('list').keys())
+            jdata = data.to_dict('records')
+
+        return render_template('farmer/upload.html', segment='producteur-upload', filename=filename, data=jdata, head=head)
+    except Exception as e:
+        print('> Error: /farmer: upload Exception: ' + str(e))
+
+@blueprint.route('/addUpload', methods=['GET', 'POST'])
+@login_required
+def addUpload():
+    try:
+        # if request.method == 'POST': 
+            # file = request.files['uploadFile']
+            # if file:
+            #     data = pd.read_excel(file)
+            #     # get table head from keys
+            #     head = list(data.to_dict('list').keys())
+            #     jdata = data.to_dict('records')
 
         return render_template('farmer/upload.html', segment='producteur-upload', data=jdata, head=head)
     except Exception as e:
+        print('> Error: /addUpload: upload Exception: ' + str(e))
+
+
+@blueprint.route('/upload/<filename>', methods=['GET', 'POST'])
+@login_required
+def upload_file(filename):
+    try:
+        uploads_dir = os.path.join(current_app.instance_path, 'uploads')
+        file = os.path.join(
+            uploads_dir, filename)
+        data = pd.read_excel(file)
+        data.style.format({"birthdate": lambda t: t.strftime("%d/%m/%Y")})
+        data['birthdate'] = data['birthdate'].dt.strftime('%d/%m/%Y')
+        data = data.fillna("")
+        jdata = data.to_dict('records')
+        farmers = []
+        farmersMetadata = []
+        for d in jdata:
+            farmers.append(Farmer(**d))
+        db.session.bulk_save_objects(farmers, return_defaults=True)
+
+        for f in farmers:
+            farmersMetadata.append(FarmerMetadata(
+                farmerId=f.id, createdBy=current_user.username, source=filename, surveyDate=datetime.now()))
+        db.session.bulk_save_objects(farmersMetadata)
+
+        db.session.commit()
+        flash(f'Uploaded successfully', 'success')
+        return redirect(url_for('farmer_blueprint.index'))
+    except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
+        flash(f'Upload failed ', 'danger')
+        return redirect(url_for('farmer_blueprint.index'))
+
+
+@ blueprint.route('/download/template/')
+@ login_required
+def downloadTemplate():
+    try:
+        path = 'assets/template/Framer_Upload_template.xlsx'
+        return send_from_directory('static', path)
+    except Exception as e:
+        print('> Error: /farmer: download template Exception: ' + str(e))
 
 
 @ blueprint.route('/view/<id>', methods=['GET'])
@@ -66,8 +129,8 @@ def view(id):
         print('> Error: /farmer: view Exception: ' + str(e))
 
 
-@blueprint.route('/edit/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/edit/<id>', methods=['GET'])
+@ login_required
 def edit_farmer_profile(id):
     try:
         form = EditFarmerForm()
@@ -87,8 +150,8 @@ def edit_farmer_profile(id):
         print('> Error: /farmer: edit_farmer_profile Exception: ' + str(e))
 
 
-@blueprint.route('/edit/save/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/edit/save/<id>', methods=['GET'])
+@ login_required
 def save_farmer_profile(id):
     try:
         nom = request.args.get('nom')
@@ -119,8 +182,8 @@ def save_farmer_profile(id):
         return str(e)
 
 
-@blueprint.route('/<farmer_id>/farm/edit/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/<farmer_id>/farm/edit/<id>', methods=['GET'])
+@ login_required
 def edit_farmer_farm(farmer_id, id):
     try:
         form = EditFarmForm()
@@ -134,17 +197,8 @@ def edit_farmer_farm(farmer_id, id):
         print('> Error: /farmer: Edit farmer Exception: ' + str(e))
 
 
-# def edit_farmer_farm(id):
-#     try:
-#         content = db.session.query(Farmer).get(id)
-#         print(content)
-#         return render_template('farmer/edit-farm.html', segment='farmer-view', content=content)
-
-#     except Exception as e:
-#         print('> Error: /farmer: index Exception: ' + str(e))
-
-@blueprint.route('/<farmer_id>/farm/edit/save/<id>', methods=['GET'])
-@login_required
+@ blueprint.route('/<farmer_id>/farm/edit/save/<id>', methods=['GET'])
+@ login_required
 def save_farmer_farm(farmer_id, id):
     try:
         name = request.args.get('name')

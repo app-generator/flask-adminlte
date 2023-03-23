@@ -65,25 +65,43 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="table-responsive">
-                        <table id="sample_data" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    {% for h in head %}
-                                    <th>{{h}}</th>
-                                    {% endfor %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for key in data %}
-                                <tr>
-                                    {%for value in key %}
-                                    <td>{{key[value]}}</td>
-                                    {% endfor %}
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="card card-primary card-outline">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="sample_data" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            {% for h in head %}
+                                            <th>{{h}}</th>
+                                            {% endfor %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for key in data %}
+                                        <tr>
+                                            {%for value in key %}
+                                            <td>{{key[value]}}</td>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <form action="/farmer/upload/{{filename}}" method="post">
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
+                                        Save
+                                    </button>
+                                </form>
+                            </div>
+                            <a href="/farmer/" class="btn btn-default"><i class="fas fa-times"></i> Discard</a>
+                        </div>
+                        <!-- /.card-footer -->
                     </div>
                 </div>
             </div>
@@ -94,6 +112,13 @@
 {% endblock content %}
 
 {% block js_editable %}
+<script type="text/javascript" lang="javascript">
+    $(document).ready(function () {
+        // // datatable
+        $('#sample_data').DataTable();
+
+    });
+</script>
 {% endblock %}
 
 <!-- Specific Page JS goes HERE  -->

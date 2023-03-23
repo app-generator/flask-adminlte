@@ -2,27 +2,6 @@
 
 {% block title %} List Producteur {% endblock %}
 
-{% block scriptsJs %}
-<!-- jquery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script> -->
-<!-- bootstrapp  -->
-<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<!-- datatable -->
-<script src="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap4.min.css"></script>
-<script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap4.min.js" rel="stylesheet"></script>
-<!-- x-editables -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/css/bootstrap-editable.css"
-    rel="stylesheet">
-<script
-    src="https://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-
-{% endblock scriptsJs %}
 
 <!-- Element injected in the BODY element -->
 {% block body_class %} sidebar-mini {% endblock body_class %}
@@ -34,6 +13,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="/static/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
 
@@ -62,85 +44,107 @@
             </div>
         </div><!-- /.container-fluid -->
         <div class="container">
-            <div class="row">
-                <div class="col">
-                    <!-- <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
-                        <input type="file" id="upload_file" name="upload_file" class="btn btn-primary" />
-                        <input type="submit" name="submit" value="Upload" class="btn btn-primary" />
-                    </form> -->
-                </div>
+            {% with messages = get_flashed_messages(with_categories= true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{category}}">
+                {{message}}
             </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
         </div>
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <!-- <div class="row"> -->
-                <!-- <div class="col-12"> -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <!-- <h3 class="panel-title">District</h3> -->
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table id="farmer_list" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Code</th>
-                                        <th>Nom</th>
-                                        <th>Prenom</th>
-                                        <th>Groupement</th>
-                                        <th>Village</th>
-                                        <th>Fokontany</th>
-                                        <th>Commune</th>
-                                        <th>District</th>
-                                        <th style="width: 10%">
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for c in content %}
-                                    <tr>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.code}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.lastName}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.firstName}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.groupement.code}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.name}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.fokontany.name}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.fokontany.commune.name}}</td>
-                                        <td data-name="" class="" data-type="text" data-pk="">
-                                            {{c.village.fokontany.commune.district.name}}</td>
-                                        <td class="project-actions text-right">
-                                            <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
-                                                <i class="fas fa-folder">
-                                                </i>
-                                                View
-                                            </a>
-                                            <!-- <a class="btn btn-info btn-sm" href="#">
-                                                <i class="fas fa-pencil-alt">
-                                                </i>
-                                                Edit
-                                            </a>
-                                            <a class="btn btn-danger btn-sm" href="#">
-                                                <i class="fas fa-trash">
-                                                </i>
-                                                Delete
-                                            </a> -->
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row float-right">
+                                    <form action="/farmer/upload" method="post" enctype='multipart/form-data'>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="custom-file">
+                                                    {{form.uploadFile(class="custom-file-input", type="file", 
+                                                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel")}}
+                                                    <label class="custom-file-label" for="UploadFile">Choose file</label>
+                                                </div>
+                                                <div class="input-group-append">
+                                                    <!-- <span class="input-group-text">Upload</span> -->
+                                                    <button type="submit" class="btn btn-success">upload</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-check">
+                                                <a href="{{ url_for('farmer_blueprint.downloadTemplate') }}">Click here</a>
+                                                to
+                                                download the farmer upload template
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!-- <h3 class="card-title">DataTable with minimal features & hover style</h3> -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table id="farmer_list" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Code</th>
+                                            <th>Nom</th>
+                                            <th>Prenom</th>
+                                            <th>Groupement</th>
+                                            <th>Village</th>
+                                            <th>Fokontany</th>
+                                            <th>Commune</th>
+                                            <th>District</th>
+                                            <th style="width: 10%">
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for c in content %}
+                                        <tr>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.code}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.lastName}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.firstName}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.groupement.code}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.fokontany.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.fokontany.commune.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.village.fokontany.commune.district.name}}</td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View
+                                                </a>
+                                                <!-- <a class="btn btn-info btn-sm" href="#">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" href="#">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                                    Delete
+                                                </a> -->
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- </div> -->
-                <!-- </div> -->
             </div>
         </section>
     </section>
@@ -148,33 +152,44 @@
 
 {% endblock content %}
 
-{% block js_editable %}
-<script type="text/javascript" lang="javascript">
-    $(document).ready(function () {
-        // // datatable
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<!-- jQuery -->
+<script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="/static/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/static/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/static/assets/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/static/assets/js/demo.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- page script -->
+<script>
+    $(function () {
+
         $('#farmer_list').DataTable({
             "paging": true,
             "lengthChange": true,
             "searching": true,
             "ordering": true,
             "info": true,
-            "autoWidth": true,
+            "autoWidth": false,
             "responsive": true,
         });
+
+        bsCustomFileInput.init();
     });
 </script>
-{% endblock %}
 
-<!-- Specific Page JS goes HERE  -->
-{% block javascripts %}
-<!-- jQuery -->
-<!-- <script src="/static/assets/plugins/jquery/jquery.min.js"></script> -->
-<!-- Bootstrap 4 -->
-<!-- <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- AdminLTE App -->
-<script src="/static/assets/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="/static/assets/js/demo.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
 
 {% endblock javascripts %}

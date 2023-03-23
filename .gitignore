@@ -18,6 +18,9 @@ venv
 # configuration file
 .env
 
+#upload folder
+instance/
+
 # other
 .DS_Store
 
