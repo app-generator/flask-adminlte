@@ -10,11 +10,13 @@ import enum
 from apps import db, login_manager
 from apps.farm.models import *
 from apps.configuration.models import *
+from datetime import datetime
 
 
 class FarmerStatus(enum.Enum):
     APPROVED = 'APPROVED'
     EXCLUDED = 'EXCLUDED'
+    PENDING = 'PENDING'
 
 
 class Gender(enum.Enum):
@@ -26,7 +28,7 @@ class Farmer(db.Model):
     __tablename__ = "farmer"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
+
     ancienCode = db.Column(db.String(20))
     registrationStatus = db.Column(db.String(50))
 
@@ -45,10 +47,10 @@ class Farmer(db.Model):
     idNumberPicture = db.Column(db.String(500))
 
     birthdate = db.Column(db.Date)
-    
+
     inCollaboration = db.Column(db.Boolean, default=False)
     nonCollaboarationReason = db.Column(db.String(250))
-    
+
     certification = db.Column(db.String(20))
 
     grpMembership = db.Column(db.String(20))
@@ -76,28 +78,30 @@ class Farmer(db.Model):
 
     farms = db.relationship(
         "Farm", backref=db.backref("farm"), lazy=True)
-        
+
     season = db.relationship(
         "Season", secondary=season_farmer, backref=db.backref("season"), lazy=True)
 
     createdAt = db.Column(db.DateTime, default=db.func.now())
-    updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
-    
+    updatedAt = db.Column(db.DateTime, default=db.func.now(),
+                          server_onupdate=db.func.now())
+
     __table_args__ = (
-        db.UniqueConstraint('firstName', 'lastName', 'idNumber', 'groupementId'),
+        db.UniqueConstraint('firstName', 'lastName',
+                            'idNumber', 'groupementId'),
     )
 
-    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, inCollaboration, nonCollaboarationReason, certification, grpMembership, grpMembershipDate, groupementId, villageId, hhMembers, xsaison_last, xsaison_last_but_one, xsaison_last_but_two, farmCount, status, statusComment, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
+    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, groupementId, villageId, inCollaboration=False, nonCollaboarationReason=None, certification=None, grpMembership=None, grpMembershipDate=None, hhMembers=None, xsaison_last=None, xsaison_last_but_one=None, xsaison_last_but_two=None, farmCount=None, status=FarmerStatus.PENDING, statusComment=None, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
         self.id = id
-        self.firstName = lastName
-        self.lastName = prenom
+        self.firstName = firstName
+        self.lastName = lastName
         self.code = code
         self.picture = picture
         self.stamp = stamp
         self.gender = gender
         self.idNumber = idNumber
         self.idNumberPicture = idNumberPicture
-        self.birthdate = datetime.strptime(str(dateNaissance), '%d/%m/%Y')
+        self.birthdate = datetime.strptime(str(birthdate), '%d/%m/%Y')
         self.inCollaboration = inCollaboration
         self.nonCollaboarationReason = nonCollaboarationReason
         self.certification = certification
@@ -122,12 +126,14 @@ class Farmer(db.Model):
 class FarmerMetadata(db.Model):
     __tablename__ = "farmer_metadata"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    farmerId = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
+    farmerId = db.Column(db.Integer, db.ForeignKey(
+        'farmer.id'), nullable=False)
     createdBy = db.Column(db.String(50))
     source = db.Column(db.String(50))
     surveyDate = db.Column(db.DateTime, default=db.func.now())
     createdAt = db.Column(db.DateTime, default=db.func.now())
-    updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
+    updatedAt = db.Column(db.DateTime, default=db.func.now(),
+                          server_onupdate=db.func.now())
 
     def __init__(self, farmerId, createdBy, source, surveyDate, id=None):
         self.id = id
