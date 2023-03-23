@@ -90,14 +90,15 @@
                                     </table>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <div class="float-right">
-                                    <input type = "submit" value="Upload">  
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <form action="/farmer/upload/{{filename}}" method="post">
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
-                                        Save</button>
-                                </div>
-                                <a href="/farmer/" class="btn btn-default"><i class="fas fa-times"></i> Discard</a>
+                                        Save
+                                    </button>
+                                </form>
                             </div>
                         </form>
                         <!-- /.card-footer -->
