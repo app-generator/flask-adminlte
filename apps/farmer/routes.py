@@ -58,22 +58,6 @@ def upload():
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
 
-@blueprint.route('/addUpload', methods=['GET', 'POST'])
-@login_required
-def addUpload():
-    try:
-        # if request.method == 'POST': 
-            # file = request.files['uploadFile']
-            # if file:
-            #     data = pd.read_excel(file)
-            #     # get table head from keys
-            #     head = list(data.to_dict('list').keys())
-            #     jdata = data.to_dict('records')
-
-        return render_template('farmer/upload.html', segment='producteur-upload', data=jdata, head=head)
-    except Exception as e:
-        print('> Error: /addUpload: upload Exception: ' + str(e))
-
 
 @blueprint.route('/upload/<filename>', methods=['GET', 'POST'])
 @login_required
@@ -111,7 +95,7 @@ def upload_file(filename):
 @ login_required
 def downloadTemplate():
     try:
-        path = 'assets/template/Framer_Upload_template.xlsx'
+        path = 'assets/template/Farmer_Upload_template.xlsx'
         return send_from_directory('static', path)
     except Exception as e:
         print('> Error: /farmer: download template Exception: ' + str(e))
@@ -121,12 +105,62 @@ def downloadTemplate():
 @ login_required
 def view(id):
     try:
+        form = UploadFarmerForm()
         content = db.session.query(Farmer).get(id)
 
-        return render_template('farmer/view.html', segment='producteur-view', content=content)
+        return render_template('farmer/view.html', segment='producteur-view', form=form, content=content)
 
     except Exception as e:
         print('> Error: /farmer: view Exception: ' + str(e))
+
+
+@ blueprint.route('/download/template/farm')
+@ login_required
+def farmDownloadTemplate():
+    try:
+        path = 'assets/template/Farm_Upload_template.xlsx'
+        return send_from_directory('static', path)
+    except Exception as e:
+        print('> Error: /farm: download template Exception: ' + str(e))
+
+
+@blueprint.route('<farmer_id>/upload/farm', methods=['GET', 'POST'])
+@login_required
+def upload_farm(farmer_id):
+    try:
+        uploads_dir = os.path.join(current_app.instance_path, 'uploads')
+        os.makedirs(uploads_dir, exist_ok=True)
+
+        if request.method == 'POST':
+            file = request.files['uploadFile']
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(
+                uploads_dir, filename))
+            data = pd.read_excel(file)
+            # get table head from keys
+            head = list(data.to_dict('list').keys())
+            jdata = data.to_dict('records')
+
+        return render_template('farmer/upload-farm.html', segment='producteur-upload-farm', farmer_id=farmer_id, filename=filename, data=jdata, head=head)
+    except Exception as e:
+        print('> Error: /farmer: upload Exception: ' + str(e))
+
+
+@blueprint.route('/upload/<farmer_id>/farm/<filename>', methods=['GET', 'POST'])
+@login_required
+def uploadFarm_file(farmer_id, filename):
+    try:
+        uploads_dir = os.path.join(current_app.instance_path, 'uploads')
+        file = os.path.join(
+            uploads_dir, filename)
+
+        print(filename)
+        flash(f'Uploaded successfully', 'success')
+        return redirect('/farmer/view/'+str(farmer_id))
+    except Exception as e:
+        print('> Error: /farmer: upload Exception: ' + str(e))
+        flash(f'Upload failed ', 'danger')
+        return redirect('/farmer/view/'+str(farmer_id))
 
 
 @ blueprint.route('/edit/<id>', methods=['GET'])

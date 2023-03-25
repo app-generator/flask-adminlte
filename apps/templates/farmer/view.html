@@ -108,6 +108,29 @@
               <ul class="nav nav-pills">
                 <li class="nav-item"><a class="nav-link active" href="#parcelles" data-toggle="tab">Parcelles</a></li>
               </ul>
+              <div class="col-md-6 float-right mt-2">
+                <form action="/farmer/{{content.id}}/upload/farm" method="post" enctype='multipart/form-data'>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="custom-file">
+                        {{form.uploadFile(class="custom-file-input", type="file",
+                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+                        application/vnd.ms-excel")}}
+                        <label class="custom-file-label" for="UploadFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <!-- <span class="input-group-text">Upload</span> -->
+                        <button type="submit" class="btn btn-success">upload</button>
+                      </div>
+                    </div>
+                    <div class="form-check">
+                      <a href="{{ url_for('farmer_blueprint.farmDownloadTemplate') }}">Click here</a>
+                      to
+                      download the farm upload template
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div><!-- /.card-header -->
             <div class="card-body">
               <div class="tab-content">
@@ -181,5 +204,13 @@
 <script src="/static/assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/static/assets/js/demo.js"></script>
+<!-- bs-custom-file-input -->
+<script src="/static/assets/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- page script -->
+<script>
+  $(function () {
+    bsCustomFileInput.init();
+  });
+</script>
 
 {% endblock javascripts %}
