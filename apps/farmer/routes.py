@@ -103,7 +103,7 @@ def upload_file(filename):
         return redirect(url_for('farmer_blueprint.index'))
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
-        flash(f'Upload failed ', 'danger')
+        flash(f'Upload failed ' + str(e), 'danger')
         return redirect(url_for('farmer_blueprint.index'))
 
 

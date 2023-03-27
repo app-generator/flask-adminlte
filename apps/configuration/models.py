@@ -93,8 +93,8 @@ class District(db.Model):
 class Commune(db.Model):
     __tablename__ = "commune"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    code = db.Column(db.String(50), unique=True)
-    name = db.Column(db.String(50), unique=True)
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(50))
     districtId = db.Column(db.Integer, db.ForeignKey(
         'district.id'), nullable=False)
     district = relationship("District", backref=backref('communes'))
@@ -113,8 +113,8 @@ class Commune(db.Model):
 class Fokontany(db.Model):
     __tablename__ = "fokontany"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    code = db.Column(db.String(50), unique=True)
-    name = db.Column(db.String(50), unique=True)
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(50))
     communeId = db.Column(db.Integer, db.ForeignKey(
         'commune.id'), nullable=False)
     commune = relationship("Commune", backref=backref('fokotanies'))
@@ -133,8 +133,8 @@ class Fokontany(db.Model):
 class Village(db.Model):
     __tablename__ = "village"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    code = db.Column(db.String(50), unique=True)
-    name = db.Column(db.String(50), unique=True)
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(50))
     fokontanyId = db.Column(db.Integer, db.ForeignKey(
         'fokontany.id'), nullable=False)
     fokontany = relationship("Fokontany", backref=backref('villages'))
