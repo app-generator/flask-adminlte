@@ -14,6 +14,7 @@ import json
 from apps import db, login_manager
 from apps.farmer import blueprint
 from apps.farmer.models import Farmer, FarmerMetadata
+from apps.farm.models import Farm, FarmMetadata
 from apps.farm.models import Farm
 from apps.configuration.models import Groupement, Village
 from apps.farmer.forms import *
@@ -146,21 +147,34 @@ def upload_farm(farmer_id):
         print('> Error: /farmer: upload Exception: ' + str(e))
 
 
-@blueprint.route('/upload/<farmer_id>/farm/<filename>', methods=['GET', 'POST'])
+@blueprint.route('/upload/<farmerId>/farm/<filename>', methods=['GET', 'POST'])
 @login_required
-def uploadFarm_file(farmer_id, filename):
+def uploadFarm_file(farmerId, filename):
     try:
         uploads_dir = os.path.join(current_app.instance_path, 'uploads')
         file = os.path.join(
             uploads_dir, filename)
+        data = pd.read_excel(file)
+        jdata = data.to_dict('records')
+        farms = []
+        farmsMetadata = []
+        for d in jdata:
+            farms.append(Farm(**d))
+        db.session.bulk_save_objects(farms, return_defaults=True)
 
-        print(filename)
+        for f in farms:
+            farmsMetadata.append(FarmMetadata(
+                farmId=f.id, createdBy=current_user.username, source=filename, surveyDate=datetime.now()))
+        db.session.bulk_save_objects(farmsMetadata)
+
+        db.session.commit()
+
         flash(f'Uploaded successfully', 'success')
-        return redirect('/farmer/view/'+str(farmer_id))
+        return redirect('/farmer/view/'+str(farmerId))
     except Exception as e:
         print('> Error: /farmer: upload Exception: ' + str(e))
         flash(f'Upload failed ', 'danger')
-        return redirect('/farmer/view/'+str(farmer_id))
+        return redirect('/farmer/view/'+str(farmerId))
 
 
 @ blueprint.route('/edit/<id>', methods=['GET'])

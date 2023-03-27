@@ -13,7 +13,7 @@ from apps.configuration.models import *
 class Farm(db.Model):
     __tablename__ = "farm"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
+
     farmId = db.Column(db.String(20))
     name = db.Column(db.String(50))
     description = db.Column(db.String(50))
@@ -47,20 +47,22 @@ class Farm(db.Model):
     inspectionDate = db.Column(db.Date)
     inspectedBy = db.Column(db.String(50))
 
-    farmerId = db.Column(db.Integer, db.ForeignKey('farmer.id'), nullable=False)
+    farmerId = db.Column(db.Integer, db.ForeignKey(
+        'farmer.id'), nullable=False)
     seasonId = db.Column(
         db.Integer, db.ForeignKey('season.id'), nullable=True)
 
     createdAt = db.Column(db.DateTime, default=db.func.now())
-    updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
+    updatedAt = db.Column(db.DateTime, default=db.func.now(),
+                          server_onupdate=db.func.now())
 
     __table_args__ = (
         db.UniqueConstraint('farmerId', 'seasonId', 'farmId'),
     )
 
-    def __init__(self, farmId, name, description, status, crops, overallSize, productiveSize, totalPlants, productivePlants, averageAge, farmPicture, estimatedProduction, estimatedProduction_last, estimated_VRAC, latitude, longitude, altitude, accuracy, xsaison_last, xsaison_last_but_one, xsaison_last_but_two, inspected, inspectionDate, inspectedBy, id=None, farmerId=None, seasonId=None):
+    def __init__(self,  name, description, farmerId, estimated_VRAC, inspected, overallSize, totalPlants,  productivePlants, estimatedProduction, averageAge, farmId=None, status=None, crops=None,  productiveSize=None, farmPicture=None,  estimatedProduction_last=None,  latitude=None, longitude=None, altitude=None, accuracy=None, xsaison_last=None, xsaison_last_but_one=None, xsaison_last_but_two=None,  inspectionDate=None, inspectedBy=None, id=None,  seasonId=None):
         self.id = id
-        self.farmId = farmId
+        self.farmId = id
         self.name = name
         self.description = description
         self.status = status
@@ -95,16 +97,18 @@ class FarmMetadata(db.Model):
     __tablename__ = "farm_metadata"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     farmId = db.Column(db.Integer, db.ForeignKey('farm.id'), nullable=False)
+    farms = relationship(
+        "Farm", backref=backref('farmMetadata'), lazy=True)
     createdBy = db.Column(db.String(50))
     source = db.Column(db.String(50))
     surveyDate = db.Column(db.DateTime, default=db.func.now())
     createdAt = db.Column(db.DateTime, default=db.func.now())
-    updatedAt = db.Column(db.DateTime, default=db.func.now(), server_onupdate=db.func.now())
+    updatedAt = db.Column(db.DateTime, default=db.func.now(),
+                          server_onupdate=db.func.now())
 
-
-    def __init__(self, farmerId, createdBy, source, surveyDate, id=None):
+    def __init__(self, farmId, createdBy, source, surveyDate, id=None):
         self.id = id
-        self.farmerId = farmerId
+        self.farmId = farmId
         self.createdBy = createdBy
         self.source = source
         self.surveyDate = surveyDate
