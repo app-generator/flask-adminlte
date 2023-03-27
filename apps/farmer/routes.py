@@ -140,10 +140,12 @@ def edit_farmer_profile(id):
                                 for village in db.session.query(Village).all()]
         form.groupement.choices = [(groupement.id, groupement.code)
                                    for groupement in db.session.query(Groupement).all()]
-
         form.village.default = content.villageId
         form.groupement.default = content.groupementId
-        form.genre.default = content.gender
+        form.gender.default = content.gender.name
+        form.registrationStatus.default = content.registrationStatus
+        form.status.default = content.status.name
+        form.statusComment.default = content.statusComment
         form.process()
         return render_template('farmer/edit-farmer.html', segment='producteur-view', content=content, form=form)
     except Exception as e:
@@ -154,26 +156,25 @@ def edit_farmer_profile(id):
 @ login_required
 def save_farmer_profile(id):
     try:
-        nom = request.args.get('nom')
-        prenom = request.args.get('prenom')
-        genre = request.args.get('genre')
-        date = request.args.get('date')
-        cni = request.args.get('cni')
-        groupement = request.args.get('groupement')
-        village = request.args.get('village')
-        poincon = request.args.get('poincon')
-        ancienCode = request.args.get('ancienCode')
 
         content = db.session.query(Farmer).get(id)
-        content.firstName = nom
-        content.lastName = prenom
-        content.gender = genre
-        content.birthdate = date
-        content.idNumber = cni
-        content.groupementId = groupement
-        content.villageId = village
-        content.stamp = poincon
-        content.ancienCode = ancienCode
+        content.firstName = request.args.get('firstName')
+        content.lastName = request.args.get('lastName')
+        content.gender = request.args.get('gender')
+        content.birthdate = request.args.get('birthdate')
+        content.idNumber = request.args.get('idNumber')
+        content.groupementId = request.args.get('groupement')
+        content.villageId = request.args.get('village')
+        content.stamp = request.args.get('stamp')
+        content.ancienCode = request.args.get('ancienCode')
+        content.certification = request.args.get('certification')
+        content.status = request.args.get('status')
+        content.tempManpower = request.args.get('tempManpower')
+        content.permanentManpower = request.args.get('permanentManpower')
+        content.grpMembershipDate = request.args.get('grpMembershipDate')
+        content.registrationStatus = request.args.get('registrationStatus')
+        content.statusComment = request.args.get('statusComment')
+
         db.session.commit()
         flash(f'Farmer Profile updated successfully', 'success')
         return redirect('/farmer/view/'+str(id))

@@ -80,7 +80,7 @@ class Farmer(db.Model):
         "Farm", backref=db.backref("farm"), lazy=True)
 
     season = db.relationship(
-        "Season", secondary=season_farmer, backref=db.backref("season"), lazy=True)
+        "Season", secondary=season_farmer, backref=db.backref("season"), lazy=True, uselist=False)
 
     createdAt = db.Column(db.DateTime, default=db.func.now())
     updatedAt = db.Column(db.DateTime, default=db.func.now(),
@@ -91,7 +91,7 @@ class Farmer(db.Model):
                             'idNumber', 'groupementId'),
     )
 
-    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, groupementId, villageId, inCollaboration=False, nonCollaboarationReason=None, certification=None, grpMembership=None, grpMembershipDate=None, hhMembers=None, xsaison_last=None, xsaison_last_but_one=None, xsaison_last_but_two=None, farmCount=None, status=FarmerStatus.PENDING, statusComment=None, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, statusEnregistrement='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
+    def __init__(self, firstName, lastName, code, gender, birthdate, idNumber, groupementId, villageId, inCollaboration=False, nonCollaboarationReason=None, certification=None, grpMembership=None, grpMembershipDate=None, hhMembers=None, xsaison_last=None, xsaison_last_but_one=None, xsaison_last_but_two=None, farmCount=None, status=FarmerStatus.PENDING, statusComment=None, picture=None, idNumberPicture=None, stamp=None, coopMembersip=None, registrationStatus='Nouveau', tempManpower=None, permanentManpower=None, ancienCode=None, id=None):
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
@@ -119,7 +119,7 @@ class Farmer(db.Model):
         self.groupementId = groupementId
         self.villageId = villageId
         self.coopMembersip = coopMembersip
-        self.statusEnregistrement = statusEnregistrement
+        self.registrationStatus = registrationStatus
         self.ancienCode = ancienCode
 
 

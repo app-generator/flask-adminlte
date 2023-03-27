@@ -98,6 +98,7 @@
                                             <th>Fokontany</th>
                                             <th>Commune</th>
                                             <th>District</th>
+                                            <th>Status</th>
                                             <th style="width: 10%">
                                         </tr>
                                     </thead>
@@ -120,6 +121,8 @@
                                                 {{c.village.fokontany.commune.name}}</td>
                                             <td data-name="" class="" data-type="text" data-pk="">
                                                 {{c.village.fokontany.commune.district.name}}</td>
+                                            <td data-name="" class="" data-type="text" data-pk="">
+                                                {{c.status.name}}</td>
                                             <td class="project-actions text-right">
                                                 <a class="btn btn-primary btn-sm" href="/farmer/view/{{c.id}}">
                                                     <i class="fas fa-folder">

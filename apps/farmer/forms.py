@@ -4,21 +4,50 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, SubmitField, DateField, FileField
+from wtforms import StringField, SelectField, SubmitField, DateField, FileField, TextAreaField
 from wtforms.validators import DataRequired
+from apps.farmer.models import *
 
 
 class EditFarmerForm(FlaskForm):
-    nom = StringField('Nom', validators=[DataRequired()], id='nom')
-    prenom = StringField('Prenon', id='prenon')
-    genre = SelectField('Commune', id='genre', choices=[
-                        ('male', 'Male'), ('female', 'FEMALE')])
-    date = DateField('Date de Naissance', id='date')
-    cni = StringField('CNI', id='cni')
+    lastName = StringField('Surname', validators=[DataRequired()], id='lastName')
+    firstName = StringField('Firstname', id='firstName')
+    gender = SelectField('Gender', id='gender', choices=[
+                        Gender.MALE.name, Gender.FEMALE.name])
+    birthdate = DateField('Date of Birth', id='birthdate', format='%d/%m/%Y')
+    idNumber = StringField('ID Number', id='idNumber')
     groupement = SelectField('Groupement', id='groupement')
     village = SelectField('Village', id='village')
-    poincon = StringField('Poincon', id='poincon')
+    stamp = StringField('Poincon', id='stamp')
     ancienCode = StringField('Ancien Code', id='ancienCode')
+
+    certification = StringField('Certification', id='certification')
+
+    tempManpower = StringField('Temporary Manpower', id='tempManpower')
+    permanentManpower = StringField('Permanent Manpower', id='permanentManpower')
+
+    grpMembershipDate = DateField('Membership Date', id='grpMembershipDate', format='%d/%m/%Y')
+
+    registrationStatus = SelectField('Registration Status', id='registrationStatus', choices=[
+                        'Ancien', 'Nouveau'])
+    status = SelectField('Status', id='status', choices=[
+                        FarmerStatus.PENDING.name, FarmerStatus.EXCLUDED.name, FarmerStatus.APPROVED.name])
+
+    statusComment = TextAreaField('Comment', id='statusComment')
+
+    # inCollaboration = db.Column(db.Boolean, default=False)
+    # nonCollaboarationReason = db.Column(db.String(250))
+
+    # grpMembership = db.Column(db.String(20))
+    # grpMembershipDate = db.Column(db.Date)
+
+    # hhMembers = db.Column(db.Integer)
+
+
+
+
+    # season = db.relationship(
+    #     "Season", secondary=season_farmer, backref=db.backref("season"), lazy=True, uselist=False)
 
     submit = SubmitField('Save', id='save_farmer_profile')
 

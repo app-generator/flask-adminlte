@@ -77,7 +77,7 @@
                   <b>Genre</b> <a class="float-right">{{content.gender.name}}</a>
                 </li>
                 <li class="list-group-item">
-                  <b>Date de Naissance</b> <a class="float-right">{{content.birthdate.strftime('%Y-%m-%d')}}</a>
+                  <b>Date de Naissance</b> <a class="float-right">{{content.birthdate}}</a>
                 </li>
                 <li class="list-group-item">
                   <b>CNI</b> <a class="float-right">{{content.idNumber}}</a>
@@ -94,13 +94,150 @@
                 <li class="list-group-item">
                   <b>Ancien Code</b> <a class="float-right">{{content.ancienCode}}</a>
                 </li>
+                <li class="list-group-item">
+                  <b>Registration Status</b> <a class="float-right">{{content.registrationStatus}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Survey Date</b> <a class="float-right">{{content.farmerMetadata.surveyDate}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Creation Mode</b> <a class="float-right">{{content.farmerMetadata.source}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Status</b> <a class="float-right">{{content.status.name}}</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Comments</b> <a class="float-right">{{content.statusComment}}</a>
+                </li>
               </ul>
             </div>
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
 
-        </div>
+          <!-- Farms Details -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Farms Details</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+              <strong></i>Plot Count</strong>
+              <p class="text-muted">
+                {{content.farms | count}}   
+              </p>
+
+              <strong></i>Overall Size</strong>
+              <p class="text-muted">
+                {{content.farms | sum(attribute='overallSize')}} Ha
+              </p>
+
+              <strong></i>Temporary Manpower</strong>
+              <p class="text-muted">
+                {{content.tempManpower}}   
+              </p>
+
+              <strong></i>Permanent Menpower</strong>
+              <p class="text-muted">
+                {{content.permanentManpower}}   
+              </p>
+
+              <strong></i>HhMembers</strong>
+              <p class="text-muted">
+                {{content.hhMembers}}   
+              </p>
+
+              <strong></i>Solde_n-1</strong>
+              <p class="text-muted">
+                {{content.xsaison_last}}   
+              </p>
+
+              <strong></i>Solde_n-2</strong>
+              <p class="text-muted">
+                {{content.xsaison_last_but_one}}   
+              </p>
+
+              <strong></i>Solde_n-3</strong>
+              <p class="text-muted">
+                {{content.xsaison_last_but_two}}   
+              </p>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <!-- More Details -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">More Details</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+              <strong></i>Location</strong>
+              <p class="text-muted">
+                {{content.village.fokontany.commune.district.name.capitalize()}} | 
+                {{content.village.fokontany.commune.name.capitalize()}} | 
+                {{content.village.fokontany.name.capitalize()}} | 
+                {{content.village.name.capitalize()}}   
+              </p>
+              <hr>
+
+              <strong>Season</strong>
+              <p class="text-muted">
+                {{content.season.name}}
+              </p>
+              <hr>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+          <!-- Details Certifications -->
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Certification Details</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+
+              <strong></i>Certification</strong>
+              <p class="text-muted">
+                {{content.certification}}   
+              </p>
+              <hr>
+
+              <strong></i>Groupement Membership</strong>
+              <p class="text-muted">
+                {{content.GrpMembersip}}   
+              </p>
+              <hr>
+
+              <strong></i>Date Membership</strong>
+              <p class="text-muted">
+                {{content.grpMembershipDate}}   
+              </p>
+              <hr>
+
+              <strong></i>Keeping Collaboration</strong>
+              <p class="text-muted">
+                {{content.inCollaboration}}   
+              </p>
+              <hr>
+
+              <strong></i>Registration Status</strong>
+              <p class="text-muted">
+                {{content.nonCollaboarationReason}}   
+              </p>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+
+
+      </div>
+
         <!-- /.col -->
         <div class="col-md-9">
           <div class="card">

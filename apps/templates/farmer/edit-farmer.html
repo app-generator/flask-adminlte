@@ -62,40 +62,68 @@
                     <form action="/farmer/edit/save/{{content.id}}">
                         {{form.hidden_tag()}}
                         <div class="form-group">
-                            {{form.nom.label(for='nom')}}
-                            {{form.nom(class="form-control",value=content.firstName)}}
+                            {{form.firstName.label(for='firstName')}}
+                            {{form.firstName(class="form-control", value=content.firstName)}}
                         </div>
                         <div class="form-group">
-                            {{form.prenom.label(for='prenom')}}
-                            {{form.prenom(class="form-control",value=content.lastName)}}
+                            {{form.lastName.label(for='lastName')}}
+                            {{form.lastName(class="form-control", value=content.lastName)}}
                         </div>
                         <div class="form-group col-md-4">
-                            {{form.genre.label(for='genre')}}
-                            {{form.genre(class="form-control")}}
+                            {{form.gender.label(for='gender')}}
+                            {{form.gender(class="form-control", value=content.gender)}}
                         </div>
                         <div class="form-group">
-                            {{form.date.label(for='date')}}
-                            {{form.date(class="form-control",value=content.birthdate.strftime('%Y-%m-%d'))}}
+                            {{form.birthdate.label(for='birthdate')}}
+                            {{form.birthdate(class="form-control", value=content.birthdate)}}
                         </div>
                         <div class="form-group">
-                            {{form.cni.label(for='cni')}}
-                            {{form.cni(class="form-control",value=content.idNumber)}}
+                            {{form.idNumber.label(for='idNumber')}}
+                            {{form.idNumber(class="form-control", value=content.idNumber)}}
                         </div>
                         <div class="form-group col-md-4">
-                            {{form.groupement.label(for='village')}}
-                            {{form.groupement(class="form-control")}}
+                            {{form.groupement.label(for='groupement')}}
+                            {{form.groupement(class="form-control", value=content.groupement)}}
                         </div>
                         <div class="form-group col-md-4">
                             {{form.village.label(for='village')}}
-                            {{form.village(class="form-control")}}
+                            {{form.village(class="form-control", value=content.village)}}
                         </div>
                         <div class="form-group">
-                            {{form.poincon.label(for='poincon')}}
-                            {{form.poincon(class="form-control",value=content.stamp)}}
+                            {{form.stamp.label(for='stamp')}}
+                            {{form.stamp(class="form-control", value=content.stamp)}}
                         </div>
                         <div class="form-group">
                             {{form.ancienCode.label(for='ancienCode')}}
-                            {{form.ancienCode(class="form-control",value=content.ancienCode)}}
+                            {{form.ancienCode(class="form-control", value=content.ancienCode)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.certification.label(for='certification')}}
+                            {{form.certification(class="form-control", value=content.certification,)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.tempManpower.label(for='tempManpower')}}
+                            {{form.tempManpower(class="form-control", value=content.tempManpower)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.permanentManpower.label(for='permanentManpower')}}
+                            {{form.permanentManpower(class="form-control", value=content.permanentManpower)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.grpMembershipDate.label(for='grpMembershipDate')}}
+                            {{form.grpMembershipDate(class="form-control", value=content.grpMembershipDate)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.registrationStatus.label(for='registrationStatus')}}
+                            {{form.registrationStatus(class="form-control", value=content.registrationStatus)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.status.label(for='status')}}
+                            {{form.status(class="form-control", value=content.status, default=content.status)}}
+                        </div>
+                        <div class="form-group">
+                            {{form.statusComment.label(for='statusComment')}}
+                            {{form.statusComment(class="form-control", value=content.statusComment, data=content.statusComment)}}
                         </div>
 
                         <div class="d-flex mb-4">
