@@ -1,5 +1,11 @@
 # Change Log
 
+## [1.0.13] 2023-10-07
+### Changes
+
+- Update Dependencies
+- Codebase Improvements
+
 ## [1.0.12] 2022-12-28
 ### Changes
 
