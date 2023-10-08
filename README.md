@@ -4,7 +4,6 @@ Open-source **[Flask Dashboard](https://appseed.us/admin-dashboards/flask/)** ge
 
 - 👉 [AdminLTE Flask](https://appseed.us/product/adminlte/flask/) - product page
 - 👉 [AdminLTE Flask](https://adminlte-flask.appseed-srv1.com/) - LIVE Deployment
-- 🚀 Free [Support](https://appseed.us/support/) via `Email` & `Discord`
 
 <br />
 
