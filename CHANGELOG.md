@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.15] 2025-03-06
+### Changes
+
+- Update RM Links
+  - [Flask AdminLTE](https://app-generator.dev/product/adminlte/flask/) - Product Page
+  - [Flask AdminLTE](https://app-generator.dev/docs/products/flask/adminlte/index.html) - Documentation
+
 ## [1.0.14] 2024-03-06
 ### Changes
 
