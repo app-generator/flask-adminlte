@@ -42,4 +42,4 @@ The product is designed to deliver the best possible user experience with highly
 <br /> 
 
 ---
-[Flask AdminLTE](https://app-generator.dev/product/adminlte/flask/) - Open-Source **Django** Starter provided by [App Generator](https://app-generator.dev)
+[Flask AdminLTE](https://app-generator.dev/product/adminlte/flask/) - Open-Source **Flask** Starter provided by [App Generator](https://app-generator.dev)
