@@ -19,7 +19,7 @@ The product is designed to deliver the best possible user experience with highly
 
 <br />
 
-### Customize with [Flask App Generator - AdminLTE Design](https://app-generator.dev/tools/flask-generator/)
+### Customize with [Flask App Generator](https://app-generator.dev/tools/flask-generator/)
 
 - Access the [App Generator](https://app-generator.dev/tools/flask-generator/) page
 - Select the preferred design
