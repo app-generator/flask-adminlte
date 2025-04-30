@@ -1,0 +1,628 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} {% if page_title %} {{page_title}} {% else %} Dynamic DataTables {% endif %} {% endblock title %} 
+
+
+{% block stylesheets %}
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fullcalendar/main.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fullcalendar-daygrid/main.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fullcalendar-timegrid/main.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/plugins/fullcalendar-bootstrap/main.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/adminlte.min.css') }}">
+
+
+    <style>
+        .hide-show-dropdown {
+            max-height: 350px;
+            overflow-y: scroll;
+        }
+        .page-size .export-csv-img {
+            width: 35px;
+            cursor: pointer;
+        }
+        .export-img {
+            width: 30px;
+        }
+        .modal-header {
+            display: block !important;
+        }
+        .height{
+            height: 40px !important;
+        }
+        .table-row {
+            position: relative;
+        }
+        .action-td {
+            position: absolute;
+            left: 50%;
+            right: 50%;
+            bottom: -10px;
+        }
+        .table-row:hover .data-td {
+            opacity: 0.1;
+        }
+        .table-row:hover .action-td {
+            display: flex !important;
+            gap:3px !important;
+            
+        }
+    </style>
+
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Dynamic DT</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ url_for('table_blueprint.dynamic_dt') }}">Dynamic DT</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ url_for('table_blueprint.model_dt', aPath=link) }}">{{ link|upper }}</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- [ Typography ] start -->
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+
+
+                            <div class="d-flex justify-content-between my-4">
+                                <form class="search">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="mr-3">
+                                            <input type="text" placeholder="Search for items" name="search" id="" class="form-control">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="">
+                                    <form method="post">
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                                Hide / Show Column
+                                            </button>
+                                            <div id="dropdownDefaultCheckbox">
+                                                <ul class="dropdown-menu hide-show-dropdown px-3">
+                                                    {% for field_name in field_names %}
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" {% if field_name.value %} checked {% endif %} type="checkbox" data-target="{{ field_name.key }}" value="" id="checkbox-item-{{ field_name.id }}">
+                                                            <label class="form-check-label" for="checkbox-item-{{ field_name.id }}">
+                                                                {{ field_name.key }}
+                                                            </label>
+                                                        </div>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="page-size form-group">
+                                    <div class="d-flex gap-2">
+                                        <form method="post" class="">
+                                            <select onchange="getPageItems(this)" name="" id="" class="form-control">
+                                                <option {% if page_items == 5 %} selected {% endif %} value="5">5 Items</option>
+                                                <option {% if page_items == 10 %} selected {% endif %} value="10">10 Items</option>
+                                                <option {% if page_items == 15 %} selected {% endif %} value="15">15 Items</option>
+                                                <option {% if page_items == 25 %} selected {% endif %} value="25">25 Items</option>
+                                                <option {% if page_items == 50 %} selected {% endif %} value="50">50 Items</option>
+                                                <option {% if page_items == 100 %} selected {% endif %} value="100">100 Items</option>
+                                            </select>
+                                        </form>
+                                        <div class="d-flex ">
+                                            <a data-toggle="modal" data-target="#exportCSV">
+                                                <img class="export-csv-img" style="width: 40px" src="{{ url_for('static', filename="assets/img/csv.png") }}" alt="img">
+                                            </a>
+                                        </div>
+                                        {% if current_user.is_authenticated %}
+                                        <div>
+                                            <button data-toggle="modal" data-target="#addSales" type="button" class="btn btn-primary p-0 px-3 py-2 ">
+                                                Add
+                                            </button>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <form action="{{ url_for('table_blueprint.create_filter', model_name=link) }}" method="post">
+                        
+                                    <div class="d-flex align-items-center mb-3">
+                                        <h3 class="">Filters</h3>
+                                        <button id="addButton" type="button" class="btn btn-primary ml-2">Add</button>
+                                    </div>
+
+                                    <div class="mb-3" id="inputContainer">
+                                        {% if filter_instance %}
+                                            {% for filter_data in filter_instance %}
+                                            <div class="d-flex mb-3">
+                                                <div class="d-flex">
+                                                    <select name="key" id="" class="form-control w-50">
+                                                        {% for field in db_field_names %}
+                                                            <option {% if filter_data.key == field %}selected{% endif %} value="{{ field }}">{{ field }}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <input type="text" value="{{ filter_data.value }}" placeholder="Enter value" name="value" id="" class="form-control ml-2">
+                                                </div>
+                                                <a href="{{ url_for('table_blueprint.delete_filter', model_name=link, id=filter_data.id) }}" class="remove-button btn btn-danger ml-2">X</a>
+                                            </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <button id="submitButton" type="submit" {% if not filter_instance %} style="display: none;" {% endif %} class="btn btn-success">Submit</button>
+                                </form>
+
+
+
+                                <div class="card-body">
+                                    <div class="dt-responsive table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                            <tr>
+                                                {% for field in db_field_names %}
+                                                    <th id="th_{{ field }}" scope="col">{{ field }}</th>
+                                                {% endfor %}
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in items %}
+                                                <tr class="align-middle table-row">
+                                                    {% for field_name in db_field_names %}
+                                                        {% if field_name in choices_dict %}
+                                                        <td class="td_{{ field_name }} data-td">{{ item|getenumattribute(field_name) }}</td>
+                                                        {% else %}
+                                                        <td class="td_{{ field_name }} data-td">{{ item|getattribute(field_name) }}</td>
+                                                        {% endif %}
+                                                    {% endfor %}
+                        
+                                                    {% if current_user.is_authenticated %}
+                                                    <td class="d-none action-td" >
+                                                        <a data-toggle="modal" data-target="#editSales-{{item.id}}" class="btn btn-primary btn-sm p-2" href="#">
+                                                            <i class="fas fa-edit"></i>                                                         
+                                                        </a>
+                                                        <a data-toggle="modal" data-target="#deleteSales-{{item.id}}" class="btn btn-danger btn-sm p-2" href="#">
+                                                            <i class="fas fa-trash"></i>                                                       
+                                                        </a>
+                                                    </td>
+                                                    {% else %}
+                                                    <td class="d-none action-td">
+                                                        <a data-toggle="modal" data-target="#viewSales-{{item.id}}" class="btn btn-primary btn-sm p-2" href="#">
+                                                            <i class="fas fa-eye"></i>                                                       
+                                                        </a>
+                                                    </td>
+                                                    {% endif %}
+                                                </tr>
+                        
+                                                <!-- Edit Sales -->
+                                                <div class="modal fade" id="editSales-{{item.id}}" tabindex="-1" aria-labelledby="editSalesLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <h5 class="modal-title" id="editSalesLabel">Edit {{ link }}</h5>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="{{ url_for('table_blueprint.update', aPath=link, id=item.id ) }}" method="post" class="">
+                                                                    
+                                                                    <div class="row">
+                                                                        <!-- FKs -->
+                                                                        {% for key, values in fk_fields.items() %}
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="id_{{ key }}" class="form-label">{{ key }}</label>
+                                                                                <select class="form-control" name="{{ key }}" id="id_{{ key }}">
+                                                                                    {% for i in values %}
+                                                                                        <option value="{{ i.id }}">{{ i }}</option>
+                                                                                    {% endfor %}
+                                                                                </select>                                                    
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endfor %}
+
+                                                                        {% for field_name in db_field_names %}
+                                                                            {% if field_name not in read_only_fields and field_name not in fk_fields_keys and field_name not in exclude_auto_gen_fields %}
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group mb-3">                                                                    
+                                                                                    <label for="id_{{ field_name }}" class="form-label">{{ field_name|title }}</label>
+                                                                                    {% if field_name in choices_dict %}
+                                                                                        <select name="{{ field_name }}" id="id_{{ field_name }}" class="form-control">
+                                                                                            <option value="">Select {{ field_name }}</option>
+                                                                                            {% for key, value in choices_dict|get(field_name) %}
+                                                                                                <option {% if item|getenumattribute(field_name) == value %}selected{% endif %} value="{{ value }}">{{ key }}</option>
+                                                                                            {% endfor %}
+                                                                                        </select>
+                                                                                    {% else %}
+                                                                                        {% if field_name in integer_fields %}
+                                                                                        <input type="number" name="{{ field_name }}" value="{{ item|getattribute(field_name) }}" class="form-control" placeholder="{{ field_name }}" id="id_{{ field_name }}">
+                                                                                        {% elif field_name in date_time_fields %}
+                                                                                        <input type="datetime-local" name="{{ field_name }}" value="{{ item|getattribute(field_name) }}" class="form-control" placeholder="{{ field_name }}" id="id_{{ field_name }}">
+                                                                                        {% elif field_name in email_fields %}
+                                                                                        <input type="email" name="{{ field_name }}" value="{{ item|getattribute(field_name) }}" class="form-control" placeholder="{{ field_name }}" id="id_{{ field_name }}">
+                                                                                        {% elif field_name in text_fields %}
+                                                                                        <input type="text" name="{{ field_name }}" value="{{ item|getattribute(field_name) }}" class="form-control" placeholder="{{ field_name }}" id="id_{{ field_name }}">
+                                                                                        {% else %}
+                                                                                        <input type="text" name="{{ field_name }}" value="{{ item|getattribute(field_name) }}" class="form-control" placeholder="{{ field_name }}" id="id_{{ field_name }}">
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                            {% endif %}
+                                                                        {% endfor %}
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <!-- Delete Sales -->
+                                                <div class="modal fade" id="deleteSales-{{item.id}}" tabindex="-1" aria-labelledby="deleteSalesLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div>
+                                                                <h5 class="modal-title" id="deleteSalesLabel">Delete Item</h5>
+                                                            </div>
+                                                            <div>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h5>Are you sure you want to delete this item?</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            <a href="{{ url_for('table_blueprint.delete', aPath=link, id=item.id ) }}" class="btn btn-danger">Delete</a>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- View Sales -->
+                                                <div class="modal fade" id="viewSales-{{item.id}}" tabindex="-1" aria-labelledby="viweSalesLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>
+                                                                        <h5 class="modal-title" id="viewSalesLabel">View {{ link }}</h5>
+                                                                    </div>
+                                                                    <div>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="#" method="post">
+                                                                    
+                                                                    <div class="row">
+                                                                        {% for field_name in db_field_names %}
+                                                                        <div class="col-md-6">
+                                                                            <div class="form-group mb-3">
+                                                                                <label for="{{ field_name }}" class="form-label">{{ field_name|title }}</label>
+                                                                                <input readonly type="text" value="{{ item|getattribute(field_name) }}" name="{{ field_name }}" id="{{ field_name }}" class="form-control">
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                                {% if pagination.has_prev or pagination.has_next %}
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination justify-content-center">
+                                            {% if pagination.has_prev %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ pagination.prev_num }}" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                        <span class="sr-only">Previous</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                            {% for n in range(1, pagination.pages + 1) %}
+                                                {% if pagination.page == n %}
+                                                    <li class="page-item active"><a class="page-link">{{ n }}</a></li>
+                                                {% elif n > pagination.page - 3 and n < pagination.page + 3 %}
+                                                    <li class="page-item"><a class="page-link" href="?page={{ n }}">{{ n }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if pagination.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ pagination.next_num }}" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                        <span class="sr-only">Next</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Export as CSV -->
+                        <div class="modal fade" id="exportCSV" tabindex="-1" aria-labelledby="exportCSVLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="d-flex justify-content-between">
+                                            <div>
+                                                <h5 class="modal-title" id="exportCSVLabel">Export as CSV</h5>
+                                            </div>
+                                            <div>
+                                                <a href="{{ url_for('table_blueprint.export_csv', aPath=link) }}">
+                                                    <img style="width: 30px" class="export-img" src="{{ url_for('static', filename='assets/img/export.png') }}" alt="">
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                    {% include "includes/items-table.html" %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Sales -->
+                        <div class="modal fade" id="addSales" tabindex="-1" aria-labelledby="addSalesLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="d-flex justify-content-between">
+                                            <h5 class="modal-title">Add {{ link }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="post" action="{{ url_for('table_blueprint.create', aPath=link) }}" class="row">
+
+                                            <!-- FKs -->
+                                            {% for field, values in fk_fields.items() %}
+                                            <div class="col-md-6">
+                                                <div class="form-group mb-3">
+                                                    <label for="id_{{ field }}" class="form-label">{{ field|title }}</label>
+                                                    <select class="form-control" name="{{ field }}" id="id_{{ field }}">
+                                                        {% for i in values %}
+                                                            <option value="{{ i.id }}">{{ i }}</option>
+                                                        {% endfor %}
+                                                    </select>                                                    
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+
+                                            {% for field_name in db_field_names %}
+                                                {% if field_name not in read_only_fields and field_name not in fk_fields_keys and field_name not in exclude_auto_gen_fields %}
+                                                <div class="col-md-6">
+                                                    <div class="form-group mb-3">
+                                                        <label for="id_{{ field_name }}" class="form-label">{{ field_name|title }}</label>
+                                                        {% if field_name in choices_dict %}
+                                                            <select name="{{ field_name }}" id="id_{{ field_name }}" class="form-control">
+                                                                <option value="">Select {{ field_name }}</option>
+                                                                {% for key, value in choices_dict|get(field_name) %}
+                                                                    <option value="{{ key }}">{{ key }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        {% else %}
+                                                            {% if field_name in integer_fields %}
+                                                            <input type="number" name="{{ field_name }}" class="form-control" placeholder="{{ field_name|title }}" id="id_{{ field_name }}">
+                                                            {% elif field_name in date_time_fields %}
+                                                            <input type="datetime-local" name="{{ field_name }}" class="form-control" placeholder="{{ field_name|title }}" id="id_{{ field_name }}">
+                                                            {% elif field_name in email_fields %}
+                                                            <input type="email" name="{{ field_name }}" class="form-control" placeholder="{{ field_name|title }}" id="id_{{ field_name }}">
+                                                            {% else %}
+                                                            <input type="text" name="{{ field_name }}" class="form-control" placeholder="{{ field_name|title }}" id="id_{{ field_name }}">
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            
+                                            <div>
+                                                <button type="submit" class="btn btn-primary">Add</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='assets/plugins//jquery/jquery.min.js') }}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{{ url_for('static', filename='assets/plugins//bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- AdminLTE App -->
+    <script src="{{ url_for('static', filename='assets/js/adminlte.min.js') }}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{ url_for('static', filename='assets/js/demo.js') }}"></script>
+
+    <script>
+        const link = '{{ link }}';
+        const hideShowLink = "{{ url_for('table_blueprint.create_hide_show_filter', model_name=link) }}"
+        const pageItemsLink = "{{ url_for('table_blueprint.create_page_items', model_name=link) }}"
+
+        document.addEventListener('DOMContentLoaded', function () {
+        var checkboxes = document.querySelectorAll('#dropdownDefaultCheckbox input[type="checkbox"]');
+        
+        checkboxes.forEach(function (checkbox) {
+
+    
+            var targetColumnId = checkbox.getAttribute('data-target');
+            var targetColumn = document.getElementById('th_' + targetColumnId);
+            var exportTargetColumn = document.getElementById('th_' + targetColumnId + '_export');
+            var targetDataCells = document.querySelectorAll('.td_' + targetColumnId);
+    
+            if (checkbox.checked) {
+            targetColumn.style.display = 'none';
+            exportTargetColumn.style.display = 'none';
+            targetDataCells.forEach(function (dataCell) {
+                dataCell.style.display = 'none';
+            });
+            }
+    
+            checkbox.addEventListener('change', function () {
+            var targetColumnId = this.getAttribute('data-target');
+            var targetColumn = document.getElementById('th_' + targetColumnId);
+            var exportTargetColumn = document.getElementById('th_' + targetColumnId + '_export');
+            var targetDataCells = document.querySelectorAll('.td_' + targetColumnId);
+            
+            if (this.checked) {
+                targetColumn.style.display = 'none';
+                exportTargetColumn.style.display = 'none';
+                targetDataCells.forEach(function (dataCell) {
+                dataCell.style.display = 'none';
+                });
+            } else {
+                targetColumn.style.display = '';
+                exportTargetColumn.style.display = '';
+                targetDataCells.forEach(function (dataCell) {
+                dataCell.style.display = '';
+                });
+            }
+    
+            fetch(hideShowLink, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({
+                key: targetColumnId,
+                value: this.checked
+                })
+            })
+    
+            });
+        });
+        });
+    </script>
+
+    <script>
+        function getPageItems(selectObject) {
+        var value = selectObject.value;
+        
+        fetch(pageItemsLink, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `items=${value}`
+        })
+        .then(response => {
+            location.reload()
+        })
+        }
+    </script>
+
+    <script>
+        document.getElementById('addButton').addEventListener('click', function() {
+        var fieldNames = {{ db_filters|safe }};
+    
+        var template = `
+            <div class="input-container d-flex align-items-center mb-3">
+            <div class="d-flex">
+                <select name="key" class="form-control w-50">
+                ${fieldNames.map(option => `<option value="${option}">${option}</option>`).join('')}
+                </select>
+                <input name="value" class="form-control ml-2" type="text" placeholder="Enter value">
+            </div>
+            <button class="remove-button btn btn-danger ml-2" onclick="removeInputContainer(this)">X</button>
+            </div>
+        `;
+    
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = template;
+    
+        document.getElementById('inputContainer').appendChild(tempDiv);
+    
+        document.getElementById('submitButton').style.display = 'inline-block';
+        });
+    
+        function removeInputContainer(element) {
+        var inputContainer = element.closest('.input-container');
+    
+        inputContainer.remove();
+        
+        var inputContainers = document.getElementsByClassName('input-container');
+        if (inputContainers.length === 0) {
+            document.getElementById('submitButton').style.display = 'none';
+        }
+        }
+    
+    </script>
+
+{% endblock javascripts %}

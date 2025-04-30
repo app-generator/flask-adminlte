@@ -1,0 +1,25 @@
+
+<div class="dt-responsive table-responsive">
+    <table class="table">
+        <thead>
+          <tr>
+            {% for field in db_field_names %}
+                <th id="th_{{ field }}_export" scope="col">{{ field }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                {% for field_name in db_field_names %}
+                    {% if field_name in choices_dict %}
+                    <td class="td_{{ field_name }}">{{ item|getenumattribute(field_name) }}</td>
+                    {% else %}
+                    <td class="td_{{ field_name }}">{{ item|getattribute(field_name) }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+             {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -1,19 +1,35 @@
-flask==2.2.5
-Werkzeug==2.3.7
-jinja2==3.1.2
-flask-login==0.6.2
-flask_migrate==4.0.4
-WTForms==3.0.1
-flask_wtf==1.2.1
-flask-sqlalchemy==3.0.5
-sqlalchemy==2.0.21
-email_validator==2.0.0
-flask-restx==1.1.0
+# core
+flask==3.1.0
+Werkzeug==3.1.3
+jinja2==3.1.6
+WTForms==3.2.1
+flask_wtf==1.2.2
 
-python-dotenv==0.19.2
+# DB
+flask_migrate==4.1.0
+flask_sqlalchemy==3.1.1
+sqlalchemy==2.0.38
 
-gunicorn==20.1.0
-Flask-Minify==0.37
+# tools
+flask_login==0.6.3
+flask-dance==7.1.0
+celery==5.4.0
+redis==5.2.1
+colorama==0.4.6
+PyJWT~=2.10.1
+WTForms-Alchemy==0.19.0
+
+# utils
+email_validator==2.2.0
+blinker==1.9.0
+
+# env
+python-dotenv==1.0.1
+
+# deployment
+gunicorn==23.0.0
+Flask-Minify==0.49
+Flask-CDN==1.5.3
 
 # flask_mysqldb
 # psycopg2-binary
