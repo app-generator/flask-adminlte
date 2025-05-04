@@ -1,7 +1,7 @@
 # Change Log
 
 ## [1.0.18] 2025-05-01
-### Changes
+### [Flask AdminLTE](https://app-generator.dev/product/adminlte/flask/) Changes
 
 - Added Dynamic Services
 - Update [AdminLTE Demo](https://flask-adminlte-demo.onrender.com/) Link
