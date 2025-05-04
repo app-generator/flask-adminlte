@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.19] 2025-05-01
+### [Flask AdminLTE](https://app-generator.dev/product/adminlte/flask/) Changes
+
+- Update PRO Section
+  - [Flask AdminLTE PRO](https://app-generator.dev/product/adminlte-pro/flask/) - Release
+  - [Flask AdminLTE PRO](https://flask-adminlte-pro.onrender.com/dynamic-dt/product) - LIVE Demo
+
 ## [1.0.18] 2025-05-01
 ### [Flask AdminLTE](https://app-generator.dev/product/adminlte/flask/) Changes
 
