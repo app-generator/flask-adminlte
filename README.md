@@ -48,8 +48,7 @@ The product is designed to deliver the best possible user experience with highly
 - Session-based Authentication, Password recovery
 - OAuth GitHub, Google
 - DB Persistence: SQLite (default), can be used with MySql, PgSql
-- Session-based Authentication, Password recovery
-- DB Persistence: SQLite (default), can be used with MySql, PgSql
+- Session-based Authentication
 - Docker, CI/CD for Render
 
 ![Flask AdminLTE - The premium version: API, Charts, React Intergration, Dynamic DT, and Docker Support.](https://github.com/user-attachments/assets/892dd62b-2127-4a8c-ba44-932999fdddbc)
